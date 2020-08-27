@@ -151,6 +151,7 @@ class AreaDefPanel(object):
         self.txt_name.setText("")
         self.txt_name.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.txt_name.setObjectName("txt_name")
+        self.txt_name.setToolTip("Bölge Adı")
         self.horizontalLayout_3.addWidget(self.txt_name)
         self.verticalLayout_4.addWidget(self.frame)
         self.frame_2 = QtWidgets.QFrame(self.title_frame_2)
