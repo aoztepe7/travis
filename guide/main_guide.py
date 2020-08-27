@@ -58,11 +58,12 @@ class GuideWindow(QMainWindow):
 
     def fill_table(self):
         guide_list =  database.guide_db.getGuideList()
-        self.ui.tableWidget.setRowCount(0)
-        for row, item in enumerate(guide_list):
-            self.ui.tableWidget.insertRow(row)
-            for column, item in enumerate(item):
-                self.ui.tableWidget.setItem(row,column, QTableWidgetItem(str(item)))
+        if(guide_list):
+            self.ui.tableWidget.setRowCount(0)
+            for row, item in enumerate(guide_list):
+                self.ui.tableWidget.insertRow(row)
+                for column, item in enumerate(item):
+                    self.ui.tableWidget.setItem(row,column, QTableWidgetItem(str(item)))
     def __init__(self):
         QMainWindow.__init__(self)
         self.ui = guide.ui_guide.GuidePanel()

@@ -66,11 +66,12 @@ class AreaWindow(QMainWindow):
 
     def fill_table(self):
         area_list =  database.db.getAreaList()
-        self.ui.tableWidget.setRowCount(0)
-        for row, item in enumerate(area_list):
-            self.ui.tableWidget.insertRow(row)
-            for column, item in enumerate(item):
-                self.ui.tableWidget.setItem(row,column, QTableWidgetItem(str(item)))
+        if(area_list):
+            self.ui.tableWidget.setRowCount(0)
+            for row, item in enumerate(area_list):
+                self.ui.tableWidget.insertRow(row)
+                for column, item in enumerate(item):
+                    self.ui.tableWidget.setItem(row,column, QTableWidgetItem(str(item)))
     def __init__(self):
         QMainWindow.__init__(self)
         self.ui = area.ui_area.AreaPanel()

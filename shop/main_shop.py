@@ -7,7 +7,7 @@ from PyQt5.QtGui import QColor
 from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsDropShadowEffect, QSizeGrip, QTableWidgetItem
 
 import shop.ui_shop
-#import guide.main_guide_def
+import shop.main_shop_def
 import home.panel
 import database.shop_db
 import pyautogui
@@ -18,10 +18,10 @@ GLOBAL_OBJECT_SHOP = None
 GLOBAL_UPDATE = 0
 
 class ShopWindow(QMainWindow):
-    """def openGuideDefPanel(self):
-        self.window = guide.main_guide_def.GuideDefWindow()
+    def openShopDefPanel(self):
+        self.window = shop.main_shop_def.ShopDefWindow()
         self.window.show()
-        self.hide()"""
+        self.hide()
 
     def updateShop(self):
         if(len(self.ui.tableWidget.selectedItems())==0):
@@ -36,13 +36,13 @@ class ShopWindow(QMainWindow):
             global GLOBAL_OBJECT_SHOP
             global GLOBAL_UPDATE
             GLOBAL_UPDATE = 1
-            GLOBAL_OBJECT_SHOP = shop.obj_shop.Shop(item[0].text(), item[1].text(),item[2].text(),item[3].text(),item[4].text(),item[5].text(),item[6].text(),item[7].text(),item[8].text(),item[9].text(),item[10].text())
+            GLOBAL_OBJECT_SHOP = shop.obj_shop.Shop(item[0].text(), item[1].text(),item[3].text(),item[2].text(),item[4].text(),item[5].text(),item[6].text(),item[7].text(),item[8].text(),item[9].text(),item[10].text())
             self.ui.tableWidget.setColumnHidden(0, True)
             self.ui.tableWidget.setColumnHidden(1, True)
             self.ui.tableWidget.setColumnHidden(4, True)
             self.ui.tableWidget.setColumnHidden(5, True)
             self.ui.tableWidget.setColumnHidden(6, True)
-            #self.window = guide.main_guide_def.GuideDefWindow()
+            self.window = shop.main_shop_def.ShopDefWindow()
             self.window.show()
             self.hide()
 
@@ -65,11 +65,12 @@ class ShopWindow(QMainWindow):
 
     def fill_table(self):
         shop_list =  database.shop_db.getShopList()
-        self.ui.tableWidget.setRowCount(0)
-        for row, item in enumerate(shop_list):
-            self.ui.tableWidget.insertRow(row)
-            for column, item in enumerate(item):
-                self.ui.tableWidget.setItem(row,column, QTableWidgetItem(str(item)))
+        if(shop_list):
+            self.ui.tableWidget.setRowCount(0)
+            for row, item in enumerate(shop_list):
+                self.ui.tableWidget.insertRow(row)
+                for column, item in enumerate(item):
+                    self.ui.tableWidget.setItem(row,column, QTableWidgetItem(str(item)))
     def __init__(self):
         QMainWindow.__init__(self)
         self.ui = shop.ui_shop.ShopPanel()
@@ -165,7 +166,7 @@ class ShopWindow(QMainWindow):
         self.ui.tableWidget.setColumnHidden(6, True)
 
         # OPEN ADD NEW AREA PANEL
-        #self.ui.btn_add.clicked.connect(lambda : self.openGuideDefPanel())
+        self.ui.btn_add.clicked.connect(lambda : self.openShopDefPanel())
 
     def mousePressEvent(self, event):
         self.dragPos = event.globalPos()

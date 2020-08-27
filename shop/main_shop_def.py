@@ -1,65 +1,106 @@
 import sys
 # GUI FILE
-from PyQt5 import QtCore
+from PyQt5 import QtCore, QtSql, QtGui
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QColor
 from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsDropShadowEffect, QSizeGrip, QTableWidgetItem
 
-import guide.ui_guide_def
-import guide.main_guide
-import database.guide_db
+import shop.ui_shop_def
+import shop.main_shop
+import database.shop_db
+import database.db
 import pyautogui
-import guide.obj_guide
+import shop.obj_shop
 import utils.helper
 
 GLOBAL_STATE = 0
 GLOBAL_UPDATE = 0
 
-class GuideDefWindow(QMainWindow):
-    def backToGuidePanel(self):
-        self.window = guide.main_guide.GuideWindow()
+class ShopDefWindow(QMainWindow):
+    def backToShopPanel(self):
+        self.window = shop.main_shop.ShopWindow()
         self.window.show()
         self.hide()
 
+    def getAreaList(self):
+        return database.db.getAreaList()
+
+    def printCurrentCmb(self):
+        print(self.model.data(self.model.index(self.ui.cmb_area.currentIndex(), 0)))
+
     def saveToDb(self):
-        if (utils.helper.fieldCheck(self.ui.txt_fullname.text()) != True or self.ui.cmb_type.currentIndex() == 0):
-            pyautogui.alert("Rehber Adı-Soyadı ve Rehberlik Türü Boş Olamaz!")
+        if (utils.helper.fieldCheck(self.ui.txt_name.text()) != True or self.ui.cmb_area.currentIndex() == 0):
+            pyautogui.alert("Mağaza Adı ve Bölgesi Boş Olamaz!")
         else:
-            if(guide.main_guide.GLOBAL_UPDATE == 1):
-                Guide = guide.main_guide.GLOBAL_OBJECT_GUIDE
-                Guide.fullname = self.ui.txt_fullname.text()
-                Guide.phone = self.ui.txt_phone.text()
-                Guide.mail = self.ui.txt_mail.text()
-                Guide.type = self.ui.cmb_type.currentText()
-                result = pyautogui.confirm("Rehber Güncellenecek. Onaylıyor Musunuz?")
+            if (utils.helper.fieldCheck(self.ui.txt_landing.text()) != True):
+                self.ui.txt_landing.setText(str(0.0))
+
+            if (utils.helper.fieldCheck(self.ui.txt_vip_comp.text()) != True):
+                self.ui.txt_vip_comp.setText(str(0.0))
+
+            if (utils.helper.fieldCheck(self.ui.txt_vip_rep.text()) != True):
+                self.ui.txt_vip_rep.setText(str(0.0))
+
+            if(shop.main_shop.GLOBAL_UPDATE == 1):
+                Shop = shop.main_shop.GLOBAL_OBJECT_SHOP
+                Shop.name = self.ui.txt_name.text()
+                Shop.mail = self.ui.txt_mail.text()
+                Shop.phone = self.ui.txt_phone.text()
+                Shop.commercialName = self.ui.txt_commercial.text()
+                Shop.areaId = self.model.data(self.model.index(self.ui.cmb_area.currentIndex(), 0))
+                Shop.currency = self.ui.cmb_currency.currentText()
+                Shop.landingFee = self.ui.txt_landing.text()
+                Shop.vipCommissionRep = self.ui.txt_vip_rep.text()
+                Shop.vipCommission = self.ui.txt_vip_comp.text()
+                result = pyautogui.confirm("Mağaza Güncellenecek. Onaylıyor Musunuz?")
                 if (result == "OK"):
-                    db_result = database.guide_db.updateGuide(Guide)
+                    db_result = database.shop_db.updateShop(Shop)
                     if(db_result):
-                        pyautogui.alert("Rehber Güncellendi!")
-                        self.backToGuidePanel()
+                        pyautogui.alert("Mağaza Güncellendi!")
+                        self.backToShopPanel()
                     else:pyautogui.alert("Kayıt Sırasında Bir Hata Oluştu \n *Veritabanı Bağlantısı Kopmuş Olabilir \n *Aynı İsimde Veri Daha Önce Eklenmiş Olabilir")
             else:
-                Guide = guide.obj_guide.Guide(None,self.ui.txt_fullname.text(),self.ui.txt_phone.text(),self.ui.txt_mail.text(),self.ui.cmb_type.currentText())
-                result = pyautogui.confirm(Guide.fullname + " Rehberi Eklenecek. Onaylıyor Musunuz?")
+                Shop = shop.obj_shop.Shop(None,self.model.data(self.model.index(self.ui.cmb_area.currentIndex(), 0)),self.ui.cmb_area.currentText(),
+                                          self.ui.txt_name.text(),self.ui.txt_commercial.text(),self.ui.txt_mail.text(),
+                                          self.ui.txt_phone.text(),self.ui.txt_vip_comp.text(),self.ui.txt_landing.text(),
+                                          self.ui.cmb_currency.currentText(),self.ui.txt_vip_rep.text())
+                result = pyautogui.confirm(Shop.name + " Mağazası Eklenecek. Onaylıyor Musunuz?")
                 if (result == "OK"):
-                    db_result = database.guide_db.addGuide(Guide)
+                    db_result = database.shop_db.addShop(Shop)
                     if (db_result):
-                        pyautogui.alert("Rehber Eklendi!")
-                        self.backToGuidePanel()
+                        pyautogui.alert("Mağaza Eklendi!")
+                        self.backToShopPanel()
                     else:
                         pyautogui.alert(
                             "Kayıt Sırasında Bir Hata Oluştu \n *Veritabanı Bağlantısı Kopmuş Olabilir \n *Aynı İsimde Veri Daha Önce Eklenmiş Olabilir")
 
     def __init__(self):
         QMainWindow.__init__(self)
-        self.ui = guide.ui_guide_def.GuideDefPanel()
+        self.ui = shop.ui_shop_def.ShopDefPanel()
         self.ui.setupUi(self)
         self.ui.txt_phone.setInputMask("(000)-000-00-00")
-        if (guide.main_guide.GLOBAL_UPDATE == 1):
-            self.ui.txt_fullname.setText(guide.main_guide.GLOBAL_OBJECT_GUIDE.fullname)
-            self.ui.txt_phone.setText(guide.main_guide.GLOBAL_OBJECT_GUIDE.phone)
-            self.ui.txt_mail.setText(guide.main_guide.GLOBAL_OBJECT_GUIDE.mail)
-            self.ui.cmb_type.setCurrentText(guide.main_guide.GLOBAL_OBJECT_GUIDE.type)
+        self.model = self.ui.cmb_area.model()
+        area_list = self.getAreaList()
+        for i in area_list:
+            it1 = QtGui.QStandardItem(str(i[0]))
+            it2 = QtGui.QStandardItem(str(i[1]))
+            self.model.appendRow((it1,it2))
+
+        self.ui.cmb_area.setModel(self.model)
+        self.ui.cmb_area.setModelColumn(1)
+
+
+        if (shop.main_shop.GLOBAL_UPDATE == 1):
+            print(shop.main_shop.GLOBAL_OBJECT_SHOP.areaName)
+            self.ui.cmb_area.setCurrentText(shop.main_shop.GLOBAL_OBJECT_SHOP.areaName)
+            self.ui.txt_name.setText(shop.main_shop.GLOBAL_OBJECT_SHOP.name)
+            self.ui.txt_commercial.setText(shop.main_shop.GLOBAL_OBJECT_SHOP.commercialName)
+            self.ui.txt_mail.setText(shop.main_shop.GLOBAL_OBJECT_SHOP.mail)
+            self.ui.txt_phone.setText(shop.main_shop.GLOBAL_OBJECT_SHOP.phone)
+            self.ui.txt_vip_comp.setText(shop.main_shop.GLOBAL_OBJECT_SHOP.vipCommission)
+            self.ui.txt_vip_rep.setText(shop.main_shop.GLOBAL_OBJECT_SHOP.vipCommissionRep)
+            self.ui.txt_landing.setText(shop.main_shop.GLOBAL_OBJECT_SHOP.landingFee)
+            self.ui.cmb_currency.setCurrentText(shop.main_shop.GLOBAL_OBJECT_SHOP.currency)
 
         def moveWindow(event):
             # RESTORE BEFORE MOVE
@@ -122,7 +163,7 @@ class GuideDefWindow(QMainWindow):
         self.ui.btn_maximize.clicked.connect(lambda: self.maximize_restore())
 
         # BACK TO HOME PANEL
-        self.ui.btn_back.clicked.connect(lambda: self.backToGuidePanel())
+        self.ui.btn_back.clicked.connect(lambda: self.backToShopPanel())
 
         # MINIMIZE
         self.ui.btn_minimize.clicked.connect(lambda: self.showMinimized())
@@ -136,7 +177,7 @@ class GuideDefWindow(QMainWindow):
             "QSizeGrip { width: 10px; height: 10px; margin: 5px } QSizeGrip:hover { background-color: rgb(50, 42, 94) }")
         self.sizegrip.setToolTip("Resize Window")
 
-        # ADD AREA
+        # ADD SHOP
         self.ui.btn_save.clicked.connect(lambda : self.saveToDb())
 
 
@@ -148,5 +189,5 @@ class GuideDefWindow(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = GuideDefWindow()
+    window = ShopDefWindow()
     sys.exit(app.exec_())

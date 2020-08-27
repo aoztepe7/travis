@@ -57,11 +57,12 @@ class OperatorWindow(QMainWindow):
 
     def fill_table(self):
         operator_list =  database.operator_db.getOperatorList()
-        self.ui.tableWidget.setRowCount(0)
-        for row, item in enumerate(operator_list):
-            self.ui.tableWidget.insertRow(row)
-            for column, item in enumerate(item):
-                self.ui.tableWidget.setItem(row,column, QTableWidgetItem(str(item)))
+        if(operator_list):
+            self.ui.tableWidget.setRowCount(0)
+            for row, item in enumerate(operator_list):
+                self.ui.tableWidget.insertRow(row)
+                for column, item in enumerate(item):
+                    self.ui.tableWidget.setItem(row,column, QTableWidgetItem(str(item)))
 
     def __init__(self):
         QMainWindow.__init__(self)
