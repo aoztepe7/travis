@@ -165,6 +165,7 @@ class ShopWindow(QMainWindow):
         self.ui.tableWidget.setColumnHidden(5, True)
         self.ui.tableWidget.setColumnHidden(6, True)
 
+
         # OPEN ADD NEW AREA PANEL
         self.ui.btn_add.clicked.connect(lambda : self.openShopDefPanel())
 

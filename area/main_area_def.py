@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsDropShadowEffect
 
 import area.ui_area_def
 import area.main_area
-import database.db
+import database.area_db
 import pyautogui
 import area.obj_area
 import utils.helper
@@ -31,7 +31,7 @@ class AreaDefWindow(QMainWindow):
                 Area.name = self.ui.txt_name.text()
                 result = pyautogui.confirm("Bölge Adı "+ Area.name + " Olarak Güncellenecek. Onaylıyor Musunuz?")
                 if (result == "OK"):
-                    db_result = database.db.updateArea(Area)
+                    db_result = database.area_db.updateArea(Area)
                     if(db_result):
                         pyautogui.alert("Bölge Güncellendi!")
                         self.backToAreaPanel()
@@ -40,7 +40,7 @@ class AreaDefWindow(QMainWindow):
                 Area = area.obj_area.Area(None,self.ui.txt_name.text())
                 result = pyautogui.confirm(Area.name + " Bölgesi Eklenecek. Onaylıyor Musunuz?")
                 if (result == "OK"):
-                    db_result = database.db.addArea(Area)
+                    db_result = database.area_db.addArea(Area)
                     if (db_result):
                         pyautogui.alert("Bölge Eklendi!")
                         self.backToAreaPanel()

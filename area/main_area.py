@@ -10,7 +10,7 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsDropShadowEffect
 import area.ui_area
 import area.main_area_def
 import home.panel
-import database.db
+import database.area_db
 import pyautogui
 import area.obj_area
 GLOBAL_STATE = 0
@@ -48,16 +48,9 @@ class AreaWindow(QMainWindow):
         self.ui.tableWidget.setColumnHidden(0, True)
         result = pyautogui.confirm("Seçilen Bölge Silinecek. Onaylıyor Musunuz?")
         if(result == "OK"):
-            database.db.deleteArea(GLOBAL_SELECTED_AREA)
+            database.area_db.deleteArea(GLOBAL_SELECTED_AREA)
             self.fill_table()
             pyautogui.alert("Bölge Silindi!")
-
-    def passObjectTest(self):
-        self.ui.tableWidget.setColumnHidden(0,False)
-        item = self.ui.tableWidget.selectedItems()
-        global GLOBAL_OBJECT_AREA
-        GLOBAL_OBJECT_AREA = area.obj_area.Area(item[0].text(),item[1].text(),True)
-        self.ui.tableWidget.setColumnHidden(0, True)
 
     def backToMainPanel(self):
         self.window = home.panel.Panel()
@@ -65,7 +58,7 @@ class AreaWindow(QMainWindow):
         self.hide()
 
     def fill_table(self):
-        area_list =  database.db.getAreaList()
+        area_list =  database.area_db.getAreaList()
         if(area_list):
             self.ui.tableWidget.setRowCount(0)
             for row, item in enumerate(area_list):

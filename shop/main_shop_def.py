@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsDropShadowEffect
 import shop.ui_shop_def
 import shop.main_shop
 import database.shop_db
-import database.db
+import database.area_db
 import pyautogui
 import shop.obj_shop
 import utils.helper
@@ -23,7 +23,7 @@ class ShopDefWindow(QMainWindow):
         self.hide()
 
     def getAreaList(self):
-        return database.db.getAreaList()
+        return database.area_db.getAreaList()
 
     def printCurrentCmb(self):
         print(self.model.data(self.model.index(self.ui.cmb_area.currentIndex(), 0)))
@@ -179,6 +179,10 @@ class ShopDefWindow(QMainWindow):
 
         # ADD SHOP
         self.ui.btn_save.clicked.connect(lambda : self.saveToDb())
+
+        self.ui.txt_landing.setValidator(QtGui.QDoubleValidator())
+        self.ui.txt_vip_rep.setValidator(QtGui.QDoubleValidator())
+        self.ui.txt_vip_comp.setValidator(QtGui.QDoubleValidator())
 
 
     def mousePressEvent(self, event):
