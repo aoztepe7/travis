@@ -8,8 +8,8 @@ def getUser():
     return "root"
 
 def getPassword():
-    return "Revival2019"
-    #return "123ali123"
+    #return "Revival2019"
+    return "123ali123"
 
 def getDatabase():
     return "shop_takip"

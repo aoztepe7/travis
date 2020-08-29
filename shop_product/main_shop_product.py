@@ -39,7 +39,7 @@ class ShopProductWindow(QMainWindow):
             global GLOBAL_OBJECT_SHOP_PRODUCT
             global GLOBAL_UPDATE
             GLOBAL_UPDATE = 1
-            GLOBAL_OBJECT_SHOP_PRODUCT = shop_product.obj_shop_product.ShopProduct(item[0].text(), item[1].text(),item[3].text(),item[2].text(),item[4].text(),item[5].text(),item[6].text(),item[7].text(),item[8].text(),item[9].text(),item[10].text(),item[11].text(),item[12].text(),item[13].text())
+            GLOBAL_OBJECT_SHOP_PRODUCT = shop_product.obj_shop_product.ShopProduct(item[0].text(), item[1].text(),item[3].text(),item[2].text(),item[4].text(),item[5].text(),item[6].text(),item[7].text(),item[8].text(),item[9].text(),item[10].text(),item[11].text(),item[12].text() ,item[13].text())
             self.ui.tableWidget.setColumnHidden(0, False)
             self.ui.tableWidget.setColumnHidden(1, False)
             self.ui.tableWidget.setColumnHidden(2, False)

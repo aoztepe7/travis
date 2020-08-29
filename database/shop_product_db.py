@@ -3,6 +3,56 @@ import datetime
 import mysql.connector
 import database.db_connection
 
+def getExistingShopProduct(start_date,finish_date):
+    my_db = None
+    try:
+        my_db = mysql.connector.connect(host=database.db_connection.getHost(),
+                                        username=database.db_connection.getUser(),
+                                        password=database.db_connection.getPassword(),
+                                        database=database.db_connection.getDatabase())
+        cursor = my_db.cursor()
+        start_date_formatted = datetime.datetime.strptime(start_date, "%d-%m-%Y %H:%M:%S")
+        finish_date_formatted = datetime.datetime.strptime(finish_date, "%d-%m-%Y %H:%M:%S")
+        formatted_start_date = start_date_formatted.strftime('%Y-%m-%d %H:%M:%S')
+        formatted_finish_date = finish_date_formatted.strftime('%Y-%m-%d %H:%M:%S')
+        query = """SELECT * FROM shop_takip.shop_product where shop_id = 2 and product_id = 1 and finish_date > CAST(%s as datetime) and start_date < CAST(%s as datetime) and status = true"""
+        query_tuple = (formatted_start_date,formatted_finish_date)
+        cursor.execute(query, query_tuple)
+        result = cursor.fetchall()
+        if (result):
+            return result
+        else:
+            return None
+    except Exception as e:
+        print(e)
+    finally:
+        my_db.close()
+
+def getExistingShopProductUpdate(start_date,finish_date,id):
+    my_db = None
+    try:
+        my_db = mysql.connector.connect(host=database.db_connection.getHost(),
+                                        username=database.db_connection.getUser(),
+                                        password=database.db_connection.getPassword(),
+                                        database=database.db_connection.getDatabase())
+        cursor = my_db.cursor()
+        start_date_formatted = datetime.datetime.strptime(start_date, "%d-%m-%Y %H:%M:%S")
+        finish_date_formatted = datetime.datetime.strptime(finish_date, "%d-%m-%Y %H:%M:%S")
+        formatted_start_date = start_date_formatted.strftime('%Y-%m-%d %H:%M:%S')
+        formatted_finish_date = finish_date_formatted.strftime('%Y-%m-%d %H:%M:%S')
+        query = """SELECT * FROM shop_takip.shop_product where shop_id = 2 and product_id = 1 and finish_date > CAST(%s as datetime) and start_date < CAST(%s as datetime) and status = true and id not = %s"""
+        query_tuple = (formatted_start_date,formatted_finish_date,id)
+        cursor.execute(query, query_tuple)
+        result = cursor.fetchall()
+        if (result):
+            return result
+        else:
+            return None
+    except Exception as e:
+        print(e)
+    finally:
+        my_db.close()
+
 def getShopProductList():
     my_db = None
     try:

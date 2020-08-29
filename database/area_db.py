@@ -1,5 +1,6 @@
 import mysql.connector
 import database
+import area.obj_area
 
 def getAreaList():
     my_db = None

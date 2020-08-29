@@ -26,6 +26,20 @@ GLOBAL_DRIVER_COM = 0
 GLOBAL_GUIDE_COM = 0
 
 class ShopProductDefWindow(QMainWindow):
+    def isExistInDb(self):
+        result = database.shop_product_db.getExistingShopProduct(self.ui.dtp_start.date().toString("dd-MM-yyyy")+ " 00:01:00",self.ui.dtp_finish.date().toString("dd-MM-yyyy")+" 00:01:00")
+        if(result):
+            return True
+        else:
+            return False
+
+    def isExistInDbUpdate(self):
+        result = database.shop_product_db.getExistingShopProduct(self.ui.dtp_start.date().toString("dd-MM-yyyy")+ " 00:01:00",self.ui.dtp_finish.date().toString("dd-MM-yyyy")+" 00:01:00")
+        if(result):
+            return True
+        else:
+            return False
+
     def setTotalComToGlobal(self,text):
         global GLOBAL_TOTAL_COMMISSION
         if (text != ""):
@@ -84,6 +98,9 @@ class ShopProductDefWindow(QMainWindow):
         entered_rep_total = abs(GLOBAL_OPR_COM) + abs(GLOBAL_DRIVER_COM) + abs(GLOBAL_REP_COM) + abs(GLOBAL_COMP_COM_REP)
         if (total != entered_guide_total or total != entered_rep_total):
             pyautogui.alert("Toplam Komisyon Oranı İle Girmiş Olduğunuz Komisyon Oranları Birbirini Tutmuyor!")
+            return
+        if (self.isExistInDb()):
+            pyautogui.alert("Belirtilen Tarih Aralığında Aynı Mağaza ve Ürüne Ait Komisyon Zaten Tanımlı!")
             return
         else:
             if (utils.helper.fieldCheck(self.ui.txt_total_com_rate.text()) != True):
@@ -176,11 +193,11 @@ class ShopProductDefWindow(QMainWindow):
 
         self.product_model.appendRow((itdef0,itdef2))
         self.shop_model.appendRow((itdef0,itdef1))
-
-        for i in product_list:
-            it1 = QtGui.QStandardItem(str(i[0]))
-            it2 = QtGui.QStandardItem(str(i[1]))
-            self.product_model.appendRow((it1, it2))
+        if(product_list):
+            for i in product_list:
+                it1 = QtGui.QStandardItem(str(i[0]))
+                it2 = QtGui.QStandardItem(str(i[1]))
+                self.product_model.appendRow((it1, it2))
 
         self.ui.cmb_shop.setModel(self.shop_model)
         self.ui.cmb_shop.setModelColumn(1)
@@ -216,8 +233,8 @@ class ShopProductDefWindow(QMainWindow):
             self.ui.txt_rep_com_rate.setText(shop_product.main_shop_product.GLOBAL_OBJECT_SHOP_PRODUCT.hotelRepCommission)
             self.ui.txt_comp_rate_guide.setText(shop_product.main_shop_product.GLOBAL_OBJECT_SHOP_PRODUCT.companyCommissionWithGuide)
             self.ui.txt_comp_rate_rep.setText(shop_product.main_shop_product.GLOBAL_OBJECT_SHOP_PRODUCT.companyCommissionWithHotel)
-            self.ui.dtp_start.setDate(datetime.datetime.strptime(shop_product.main_shop_product.GLOBAL_OBJECT_SHOP_PRODUCT.startDate,"%d-%m-%Y"))
-            self.ui.dtp_finish.setDate(datetime.datetime.strptime(shop_product.main_shop_product.GLOBAL_OBJECT_SHOP_PRODUCT.finishDate,"%d-%m-%Y"))
+            self.ui.dtp_start.setDate(datetime.datetime.strptime(shop_product.main_shop_product.GLOBAL_OBJECT_SHOP_PRODUCT.startDate,"%d-%m-%Y %H:%M:%S"))
+            self.ui.dtp_finish.setDate(datetime.datetime.strptime(shop_product.main_shop_product.GLOBAL_OBJECT_SHOP_PRODUCT.finishDate,"%d-%m-%Y %H:%M:%S"))
 
         def moveWindow(event):
             # RESTORE BEFORE MOVE
@@ -297,7 +314,7 @@ class ShopProductDefWindow(QMainWindow):
             "QSizeGrip { width: 10px; height: 10px; margin: 5px } QSizeGrip:hover { background-color: rgb(50, 42, 94) }")
         self.sizegrip.setToolTip("Resize Window")
 
-        # ADD SHOP
+        # ADD SHOP PRODUCT
         self.ui.btn_save.clicked.connect(lambda : self.saveToDb())
 
         self.ui.txt_comp_rate_rep.setValidator(QtGui.QDoubleValidator())
