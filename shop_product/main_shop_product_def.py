@@ -94,6 +94,13 @@ class ShopProductDefWindow(QMainWindow):
             pyautogui.alert("Bitiş Tarihi Başlangıç Tarihinden Küçük Olamaz!")
             return
         total = GLOBAL_TOTAL_COMMISSION
+        self.setDriverComToGlobal(self.ui.txt_driver_com_rate.text())
+        self.setGuideComToGlobal(self.ui.txt_guide_com_rate.text())
+        self.setOperatorComToGlobal(self.ui.txt_operator_com_rate.text())
+        self.setHotelRepComToGlobal(self.ui.txt_rep_com_rate.text())
+        self.setTotalComToGlobal(self.ui.txt_total_com_rate.text())
+        self.calculateCompGuideCommission()
+        self.calculateCompRepCommission()
         entered_guide_total = abs(GLOBAL_OPR_COM) + abs(GLOBAL_DRIVER_COM) + abs(GLOBAL_GUIDE_COM) + abs(GLOBAL_COMP_COM_GUIDE)
         entered_rep_total = abs(GLOBAL_OPR_COM) + abs(GLOBAL_DRIVER_COM) + abs(GLOBAL_REP_COM) + abs(GLOBAL_COMP_COM_REP)
         if (total != entered_guide_total or total != entered_rep_total):
@@ -128,9 +135,9 @@ class ShopProductDefWindow(QMainWindow):
             if(shop_product.main_shop_product.GLOBAL_UPDATE == 1):
                 ShopProduct = shop_product.main_shop_product.GLOBAL_OBJECT_SHOP_PRODUCT
                 ShopProduct.shopId = self.shop_model.data(self.shop_model.index(self.ui.cmb_shop.currentIndex(), 0))
-                ShopProduct.shopName = self.ui.cmb_shop.currentIndex()
+                ShopProduct.shopName = self.ui.cmb_shop.currentText()
                 ShopProduct.productId = self.product_model.data(self.product_model.index(self.ui.cmb_product.currentIndex(), 0))
-                ShopProduct.productName = self.ui.cmb_product.currentIndex()
+                ShopProduct.productName = self.ui.cmb_product.currentText()
                 ShopProduct.totalCommission = self.ui.txt_total_com_rate.text()
                 ShopProduct.guideCommission = self.ui.txt_guide_com_rate.text()
                 ShopProduct.driverCommission = self.ui.txt_driver_com_rate.text()
@@ -138,8 +145,8 @@ class ShopProductDefWindow(QMainWindow):
                 ShopProduct.hotelRepCommission = self.ui.txt_rep_com_rate.text()
                 ShopProduct.companyCommissionWithGuide = self.ui.txt_comp_rate_guide.text()
                 ShopProduct.companyCommissionWithHotel = self.ui.txt_comp_rate_rep.text()
-                ShopProduct.startDate = self.ui.dtp_start.date()
-                ShopProduct.finishDate = self.ui.dtp_finish.date()
+                ShopProduct.startDate = self.ui.dtp_start.date().toString("dd-MM-yyyy") + " 01:00:00"
+                ShopProduct.finishDate = self.ui.dtp_finish.date().toString("dd-MM-yyyy") + " 01:00:00"
 
                 result = pyautogui.confirm("Mağaza Ürünü Güncellenecek. Onaylıyor Musunuz?")
                 if (result == "OK"):
@@ -153,7 +160,7 @@ class ShopProductDefWindow(QMainWindow):
                                                                         self.product_model.data(self.product_model.index(self.ui.cmb_product.currentIndex(), 0)),self.ui.cmb_product.currentText(),
                                                                         self.ui.txt_total_com_rate.text(),self.ui.txt_guide_com_rate.text(),self.ui.txt_driver_com_rate.text(),
                                                                         self.ui.txt_comp_rate_guide.text(),self.ui.txt_operator_com_rate.text(),self.ui.txt_rep_com_rate.text(),
-                                                                        self.ui.txt_comp_rate_rep.text(),self.ui.dtp_start.date().toString("dd-MM-yyyy"),str(self.ui.dtp_finish.date().toString("dd-MM-yyyy")))
+                                                                        self.ui.txt_comp_rate_rep.text(),self.ui.dtp_start.date().toString("dd-MM-yyyy"),self.ui.dtp_finish.date().toString("dd-MM-yyyy"))
                 result = pyautogui.confirm(ShopProduct.shopName + " Mağazasına " + ShopProduct.productName + "Ürünü Eklenecek. Komisyon Bilgileri : \n"
                                                                                                              "* Rehber Komisyon Tutarı   : " + ShopProduct.guideCommission+"\n"
                                                                                                              "* Şoför Komisyon Tutarı    : " + ShopProduct.driverCommission+"\n"

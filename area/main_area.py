@@ -1,5 +1,4 @@
 import sys
-import platform
 
 # GUI FILE
 from PyQt5 import QtCore
@@ -65,6 +64,8 @@ class AreaWindow(QMainWindow):
                 self.ui.tableWidget.insertRow(row)
                 for column, item in enumerate(item):
                     self.ui.tableWidget.setItem(row,column, QTableWidgetItem(str(item)))
+                    align = self.ui.tableWidget.item(row, column)
+                    align.setTextAlignment(QtCore.Qt.AlignCenter)
     def __init__(self):
         QMainWindow.__init__(self)
         self.ui = area.ui_area.AreaPanel()

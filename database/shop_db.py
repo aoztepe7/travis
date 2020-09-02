@@ -19,6 +19,26 @@ def getShopList():
     finally:
         my_db.close()
 
+
+def getShopCommissionRates(id,):
+    my_db = None
+    try:
+        my_db = mysql.connector.connect(host=database.db_connection.getHost(),username = database.db_connection.getUser(),password = database.db_connection.getPassword(),database=database.db_connection.getDatabase())
+        cursor = my_db.cursor()
+        query = """SELECT shop.id,shop.vip_commission,shop.landing_fee,
+        shop.vip_commission_rep,shop.currency from shop where shop.status = true and shop.id = %s"""
+        query_tuple = (id,)
+        cursor.execute(query, query_tuple)
+        result = cursor.fetchall()
+        if(result):
+            return result
+        else:
+            return None
+    except Exception as e:
+        print(e)
+    finally:
+        my_db.close()
+
 def deleteShop(id):
     my_db = None
     try:

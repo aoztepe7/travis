@@ -14,9 +14,14 @@ import guide.main_guide
 import shop.main_shop
 import product.main_product
 import shop_product.main_shop_product
+import shop_sale.main_shop_sale
 GLOBAL_STATE = 0
 
 class Panel(QMainWindow):
+    def openShopSalePanel(self):
+        self.window = shop_sale.main_shop_sale.ShopSaleWindow()
+        self.window.show()
+        self.hide()
     def openAreaPanel(self):
         self.window = area.main_area.AreaWindow()
         self.window.show()
@@ -132,6 +137,9 @@ class Panel(QMainWindow):
 
         # SHOP PRODUCT PANEL
         self.ui.btn_shop_product.clicked.connect(lambda: self.openShopProductPanel())
+
+        # SHOP SALE PANEL
+        self.ui.btn_sale.clicked.connect(lambda: self.openShopSalePanel())
 
         self.ui.btn_maximize.setEnabled(False)
         # CLOSE

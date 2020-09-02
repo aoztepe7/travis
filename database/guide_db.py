@@ -6,7 +6,7 @@ def getGuideList():
     try:
         my_db = mysql.connector.connect(host=database.db_connection.getHost(),username = database.db_connection.getUser(),password = database.db_connection.getPassword(),database=database.db_connection.getDatabase())
         cursor = my_db.cursor()
-        query = """SELECT * from guide where status = true"""
+        query = """SELECT id,full_name,phone,mail,type from guide where status = true"""
         cursor.execute(query)
         result = cursor.fetchall()
         if(result):

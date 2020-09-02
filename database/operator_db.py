@@ -1,6 +1,27 @@
 import mysql.connector
 import database.db_connection
 
+def getChiefCommission(id):
+    my_db = None
+    try:
+        my_db = mysql.connector.connect(host=database.db_connection.getHost(),
+                                        username=database.db_connection.getUser(),
+                                        password=database.db_connection.getPassword(),
+                                        database=database.db_connection.getDatabase())
+        cursor = my_db.cursor()
+        query = """SELECT chief_commission_amount from operator where status = true and id=%s"""
+        query_tuple = (id,)
+        cursor.execute(query, query_tuple)
+        result = cursor.fetchall()
+        if (result):
+            return result
+        else:
+            return None
+    except Exception as e:
+        print(e)
+    finally:
+        my_db.close()
+
 def getOperatorList():
     my_db = None
     try:

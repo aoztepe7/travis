@@ -64,6 +64,8 @@ class GuideWindow(QMainWindow):
                 self.ui.tableWidget.insertRow(row)
                 for column, item in enumerate(item):
                     self.ui.tableWidget.setItem(row,column, QTableWidgetItem(str(item)))
+                    align = self.ui.tableWidget.item(row, column)
+                    align.setTextAlignment(QtCore.Qt.AlignCenter)
     def __init__(self):
         QMainWindow.__init__(self)
         self.ui = guide.ui_guide.GuidePanel()
@@ -154,7 +156,7 @@ class GuideWindow(QMainWindow):
         #HIDE FIRST COLUMN
         self.ui.tableWidget.setColumnHidden(0,True)
 
-        # OPEN ADD NEW AREA PANEL
+        # OPEN ADD NEW GUIDE PANEL
         self.ui.btn_add.clicked.connect(lambda : self.openGuideDefPanel())
 
     def mousePressEvent(self, event):

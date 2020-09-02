@@ -7,7 +7,7 @@ from PyQt5.QtGui import QColor
 from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsDropShadowEffect, QSizeGrip, QTableWidgetItem
 
 import shop_sale.ui_shop_sale
-#import guide.main_guide_def
+import shop_sale.main_shop_sale_def
 import home.panel
 import database.shop_sale_db
 import pyautogui
@@ -18,10 +18,10 @@ GLOBAL_OBJECT_SHOP_SALE = None
 GLOBAL_UPDATE = 0
 
 class ShopSaleWindow(QMainWindow):
-    """def openGuideDefPanel(self):
-        self.window = guide.main_guide_def.GuideDefWindow()
+    def openShopSaleDefPanel(self):
+        self.window = shop_sale.main_shop_sale_def.ShopSaleDefWindow()
         self.window.show()
-        self.hide()"""
+        self.hide()
 
     def updateShopSale(self):
         if(len(self.ui.tableWidget.selectedItems())==0):
@@ -36,9 +36,22 @@ class ShopSaleWindow(QMainWindow):
             global GLOBAL_OBJECT_SHOP_SALE
             global GLOBAL_UPDATE
             GLOBAL_UPDATE = 1
-            GLOBAL_OBJECT_SHOP_SALE = database.shop_sale_db.getById(item[0].text())
-            self.ui.tableWidget.setColumnHidden(0, True)
-            #self.window = guide.main_guide_def.GuideDefWindow()
+            result = database.shop_sale_db.getById(item[0].text())
+            for i in result:
+                print(i)
+            GLOBAL_OBJECT_SHOP_SALE = shop_sale.obj_shop_sale.ShopSale(
+                result[0][0],result[0][1],result[0][2],result[0][3],result[0][4],result[0][5],result[0][6],
+                result[0][7],result[0][8],result[0][9],result[0][10],result[0][11],result[0][12],result[0][13],
+                result[0][14],result[0][15],result[0][16],result[0][17],result[0][18],result[0][19],result[0][20],result[0][21],
+                result[0][22],result[0][23],result[0][24],result[0][25],result[0][26],result[0][27],
+                result[0][28],result[0][29],result[0][30],result[0][31],result[0][32],result[0][33],result[0][34],
+                result[0][35],result[0][36],result[0][37],result[0][38],result[0][39],result[0][40],result[0][41],result[0][42],result[0][43],result[0][44],result[0][45])
+            self.ui.tableWidget.setColumnHidden(0, False)
+            self.ui.tableWidget.setColumnHidden(2, False)
+            self.ui.tableWidget.setColumnHidden(5, False)
+            self.ui.tableWidget.setColumnHidden(7, False)
+            self.ui.tableWidget.setColumnHidden(8, False)
+            self.window = shop_sale.main_shop_sale_def.ShopSaleDefWindow()
             self.window.show()
             self.hide()
 
@@ -67,6 +80,8 @@ class ShopSaleWindow(QMainWindow):
                 self.ui.tableWidget.insertRow(row)
                 for column, item in enumerate(item):
                     self.ui.tableWidget.setItem(row,column, QTableWidgetItem(str(item)))
+                    align = self.ui.tableWidget.item(row, column)
+                    align.setTextAlignment(QtCore.Qt.AlignCenter)
     def __init__(self):
         QMainWindow.__init__(self)
         self.ui = shop_sale.ui_shop_sale.ShopSalePanel()
@@ -162,7 +177,7 @@ class ShopSaleWindow(QMainWindow):
         self.ui.tableWidget.setColumnHidden(8, True)
 
         # OPEN ADD NEW SHOP SALE
-        #self.ui.btn_add.clicked.connect(lambda : self.openGuideDefPanel())
+        self.ui.btn_add.clicked.connect(lambda : self.openShopSaleDefPanel())
 
     def mousePressEvent(self, event):
         self.dragPos = event.globalPos()

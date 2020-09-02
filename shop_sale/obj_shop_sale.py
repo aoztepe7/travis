@@ -4,7 +4,7 @@ class ShopSale():
                  operatorCommissionAmount,driverCommissionAmount,chiefCommissionAmount,totalLandingFeeAmount,totalVipCommissionAmount,moneyOnGuide,moneyReceived,isForwardedSale
                  ,saleDate,forwardDate,shopCurrency,convertCurrency,rate,convertedTotalSale,convertedTotalCommissionAmount,convertedGuideCommissionAmount,convertedOperatorCommissionAmount,
                  convertedDriverCommissionAmount,convertedChiefCommissionAmount,convertedTotalLandingFeeAmount,convertedTotalVipCommissionAmount,totalCompanyIncome,convertedCompanyIncome,
-                 addVip,addLanding,addChief,productName,guideSelection,vipCommissionAmountRep,convertedVipCommissionAmountRep):
+                 addVip,addLanding,addChief,productName,guideSelection,vipCommissionAmountRep,convertedVipCommissionAmountRep,guideName,operatorName,shopName):
         self.id = id
         self.guideId = guideId
         self.tourName = tourName
@@ -26,8 +26,8 @@ class ShopSale():
         self.moneyOnGuide = moneyOnGuide
         self.moneyReceived = moneyReceived
         self.isForwardedSale = isForwardedSale
-        self.saleDate = saleDate
-        self.forwardDate = forwardDate
+        self.saleDate = saleDate + " 01:00:00"
+        self.forwardDate = forwardDate + " 01:00:00"
         self.shopCurrency = shopCurrency
         self.convertCurrency = convertCurrency
         self.rate = rate
@@ -48,4 +48,7 @@ class ShopSale():
         self.guideSelection = guideSelection
         self.vipCommissionAmountRep = vipCommissionAmountRep
         self.convertedVipCommissionAmountRep = convertedVipCommissionAmountRep
+        self.guideName = guideName
+        self.operatorName = operatorName
+        self.shopName = shopName
         self.status = 1
