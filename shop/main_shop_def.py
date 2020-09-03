@@ -25,9 +25,6 @@ class ShopDefWindow(QMainWindow):
     def getAreaList(self):
         return database.area_db.getAreaList()
 
-    def printCurrentCmb(self):
-        print(self.model.data(self.model.index(self.ui.cmb_area.currentIndex(), 0)))
-
     def saveToDb(self):
         if (utils.helper.fieldCheck(self.ui.txt_name.text()) != True or self.ui.cmb_area.currentIndex() == 0):
             pyautogui.alert("Mağaza Adı ve Bölgesi Boş Olamaz!")
@@ -52,6 +49,11 @@ class ShopDefWindow(QMainWindow):
                 Shop.landingFee = self.ui.txt_landing.text()
                 Shop.vipCommissionRep = self.ui.txt_vip_rep.text()
                 Shop.vipCommission = self.ui.txt_vip_comp.text()
+                if (self.ui.cmb_pay_on_point.currentText() == "MAĞAZADA ÖDEME"):
+                    Shop.guideCommPayOnPoint = 1
+                else:
+                    Shop.guideCommPayOnPoint = 0
+
                 result = pyautogui.confirm("Mağaza Güncellenecek. Onaylıyor Musunuz?")
                 if (result == "OK"):
                     db_result = database.shop_db.updateShop(Shop)
@@ -60,10 +62,15 @@ class ShopDefWindow(QMainWindow):
                         self.backToShopPanel()
                     else:pyautogui.alert("Kayıt Sırasında Bir Hata Oluştu \n *Veritabanı Bağlantısı Kopmuş Olabilir \n *Aynı İsimde Veri Daha Önce Eklenmiş Olabilir")
             else:
+                paymentSelection = 0
+                if (self.ui.cmb_pay_on_point.currentText() == "MAĞAZADA ÖDEME"):
+                    paymentSelection = 1
+                else:
+                    paymentSelection = 0
                 Shop = shop.obj_shop.Shop(None,self.model.data(self.model.index(self.ui.cmb_area.currentIndex(), 0)),self.ui.cmb_area.currentText(),
                                           self.ui.txt_name.text(),self.ui.txt_commercial.text(),self.ui.txt_mail.text(),
                                           self.ui.txt_phone.text(),self.ui.txt_vip_comp.text(),self.ui.txt_landing.text(),
-                                          self.ui.cmb_currency.currentText(),self.ui.txt_vip_rep.text())
+                                          self.ui.cmb_currency.currentText(),self.ui.txt_vip_rep.text(),paymentSelection)
                 result = pyautogui.confirm(Shop.name + " Mağazası Eklenecek. Onaylıyor Musunuz?")
                 if (result == "OK"):
                     db_result = database.shop_db.addShop(Shop)
@@ -91,7 +98,6 @@ class ShopDefWindow(QMainWindow):
 
 
         if (shop.main_shop.GLOBAL_UPDATE == 1):
-            print(shop.main_shop.GLOBAL_OBJECT_SHOP.areaName)
             self.ui.cmb_area.setCurrentText(shop.main_shop.GLOBAL_OBJECT_SHOP.areaName)
             self.ui.txt_name.setText(shop.main_shop.GLOBAL_OBJECT_SHOP.name)
             self.ui.txt_commercial.setText(shop.main_shop.GLOBAL_OBJECT_SHOP.commercialName)
@@ -101,6 +107,11 @@ class ShopDefWindow(QMainWindow):
             self.ui.txt_vip_rep.setText(shop.main_shop.GLOBAL_OBJECT_SHOP.vipCommissionRep)
             self.ui.txt_landing.setText(shop.main_shop.GLOBAL_OBJECT_SHOP.landingFee)
             self.ui.cmb_currency.setCurrentText(shop.main_shop.GLOBAL_OBJECT_SHOP.currency)
+
+            if(shop.main_shop.GLOBAL_OBJECT_SHOP.guideCommPayOnPoint == str(1)):
+                self.ui.cmb_pay_on_point.setCurrentText("MAĞAZADA ÖDEME")
+            else:
+                self.ui.cmb_pay_on_point.setCurrentText("CARİ TOPLAM ÖDEME")
 
         def moveWindow(event):
             # RESTORE BEFORE MOVE
@@ -172,7 +183,7 @@ class ShopDefWindow(QMainWindow):
         self.ui.btn_close.clicked.connect(lambda: self.close())
 
         ## ==> CREATE SIZE GRIP TO RESIZE WINDOW
-        self.sizegrip = QSizeGrip(self.ui.frame_grip)
+        self.sizegrip = QSizeGrip(self.ui.frame_gro)
         self.sizegrip.setStyleSheet(
             "QSizeGrip { width: 10px; height: 10px; margin: 5px } QSizeGrip:hover { background-color: rgb(50, 42, 94) }")
         self.sizegrip.setToolTip("Resize Window")

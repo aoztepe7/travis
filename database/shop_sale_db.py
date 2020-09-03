@@ -3,6 +3,27 @@ import datetime
 import mysql.connector
 import database.db_connection
 
+
+def getSearchQueryResult(query):
+    my_db = None
+    try:
+        my_db = mysql.connector.connect(host=database.db_connection.getHost(),
+                                        username=database.db_connection.getUser(),
+                                        password=database.db_connection.getPassword(),
+                                        database=database.db_connection.getDatabase())
+        cursor = my_db.cursor()
+        query = query
+        cursor.execute(query)
+        result = cursor.fetchall()
+        if (result):
+            return result
+        else:
+            return None
+    except Exception as e:
+        print(e)
+    finally:
+        my_db.close()
+
 def getById(id):
     my_db = None
     try:
@@ -22,7 +43,7 @@ def getById(id):
         shop_sale.converted_operator_commission_amount, shop_sale.converted_driver_commission_amount, shop_sale.converted_chief_commission_amount,
         shop_sale.converted_total_landing_fee_amount, shop_sale.converted_total_vip_commission_amount,
         shop_sale.total_company_income, shop_sale.converted_company_income,shop_sale.add_vip,shop_sale.add_landing,shop_sale.add_chief ,shop_sale.product_name , shop_sale.guide_selection ,
-        shop_sale.vip_commission_amount_rep , shop_sale.converted_vip_commission_amount_rep , guide.full_name,operator.name ,shop.name
+        shop_sale.vip_commission_amount_rep , shop_sale.converted_vip_commission_amount_rep , guide.full_name,operator.name ,shop.name , total_comp_receive, converted_total_comp_receive
         from shop_takip.shop_sale inner join shop_takip.shop on shop_sale.shop_id = shop.id
         inner join shop_takip.operator on shop_sale.operator_id = operator.id
         inner join shop_takip.guide on shop_sale.guide_id = guide.id where shop_sale.status = true and shop_sale.id = %s"""
@@ -90,14 +111,14 @@ def addShopSale(ShopSale):
         sale_date,forward_date,shop_currency,convert_currency,rate,converted_total_sale,converted_total_commission_amount,converted_guide_commission_amount,converted_operator_commission_amount,
         converted_driver_commission_amount,converted_chief_commission_amount,converted_total_landing_fee_amount,converted_total_vip_commission_amount,
         total_company_income,converted_company_income,status,add_vip,add_landing,add_chief,product_name,guide_selection,vip_commission_amount_rep,
-        converted_vip_commission_amount_rep) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+        converted_vip_commission_amount_rep,total_comp_receive,converted_total_comp_receive) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
         query_tuple= (ShopSale.guideId,ShopSale.tourName,ShopSale.tourType,ShopSale.hotel,ShopSale.note,ShopSale.operatorId,ShopSale.shopId,ShopSale.shopProductId,ShopSale.totalPax,
                       ShopSale.totalSale,ShopSale.totalCommissionAmount,ShopSale.guideCommissionAmount,ShopSale.operatorCommissionAmount,ShopSale.driverCommissionAmount,ShopSale.chiefCommissionAmount,
                       ShopSale.totalLandingFeeAmount,ShopSale.totalVipCommissionAmount,ShopSale.moneyOnGuide,ShopSale.moneyReceived,ShopSale.isForwardedSale,ShopSale.saleDate,ShopSale.forwardDate,
                       ShopSale.shopCurrency,ShopSale.convertCurrency,ShopSale.rate,ShopSale.convertedTotalSale,ShopSale.convertedTotalCommissionAmount,ShopSale.convertedGuideCommissionAmount,
                       ShopSale.convertedOperatorCommissionAmount,ShopSale.convertedDriverCommissionAmount,ShopSale.convertedChiefCommissionAmount,ShopSale.convertedTotalLandingFeeAmount,
                       ShopSale.convertedTotalVipCommissionAmount,ShopSale.totalCompanyIncome,ShopSale.convertedCompanyIncome,int(ShopSale.status),ShopSale.addVip,ShopSale.addLanding,ShopSale.addChief,
-                      ShopSale.productName,ShopSale.guideSelection,ShopSale.vipCommissionAmountRep,ShopSale.convertedVipCommissionAmountRep)
+                      ShopSale.productName,ShopSale.guideSelection,ShopSale.vipCommissionAmountRep,ShopSale.convertedVipCommissionAmountRep,ShopSale.totalCompReceive,ShopSale.convertedTotalCompReceive)
         cursor.execute(query,query_tuple)
         my_db.commit()
         return True
@@ -121,14 +142,14 @@ def updateShopSale(ShopSale):
         sale_date= %s,forward_date= %s,shop_currency= %s,convert_currency = %s,rate= %s,converted_total_sale= %s,converted_total_commission_amount= %s,converted_guide_commission_amount= %s,converted_operator_commission_amount= %s,
         converted_driver_commission_amount= %s,converted_chief_commission_amount= %s,converted_total_landing_fee_amount= %s,converted_total_vip_commission_amount= %s,
         total_company_income= %s,converted_company_income= %s,add_vip= %s,add_landing= %s,add_chief= %s,product_name= %s,guide_selection= %s,vip_commission_amount_rep= %s,
-        converted_vip_commission_amount_rep= %s WHERE id=%s"""
+        converted_vip_commission_amount_rep= %s total_comp_receive = %s, converted_total_comp_receive = %s WHERE id=%s"""
         query_tuple= (ShopSale.guideId,ShopSale.tourName,ShopSale.tourType,ShopSale.hotel,ShopSale.note,ShopSale.operatorId,ShopSale.shopId,ShopSale.shopProductId,ShopSale.totalPax,
                       ShopSale.totalSale,ShopSale.totalCommissionAmount,ShopSale.guideCommissionAmount,ShopSale.operatorCommissionAmount,ShopSale.driverCommissionAmount,ShopSale.chiefCommissionAmount,
                       ShopSale.totalLandingFeeAmount,ShopSale.totalVipCommissionAmount,ShopSale.moneyOnGuide,ShopSale.moneyReceived,ShopSale.isForwardedSale,ShopSale.saleDate,ShopSale.forwardDate,
                       ShopSale.shopCurrency,ShopSale.convertCurrency,ShopSale.rate,ShopSale.convertedTotalSale,ShopSale.convertedTotalCommissionAmount,ShopSale.convertedGuideCommissionAmount,
                       ShopSale.convertedOperatorCommissionAmount,ShopSale.convertedDriverCommissionAmount,ShopSale.convertedChiefCommissionAmount,ShopSale.convertedTotalLandingFeeAmount,
                       ShopSale.convertedTotalVipCommissionAmount,ShopSale.totalCompanyIncome,ShopSale.convertedCompanyIncome,ShopSale.addVip,ShopSale.addLanding,ShopSale.addChief,
-                      ShopSale.productName,ShopSale.guideSelection,ShopSale.vipCommissionAmountRep,ShopSale.convertedVipCommissionAmountRep,int(ShopSale.id))
+                      ShopSale.productName,ShopSale.guideSelection,ShopSale.vipCommissionAmountRep,ShopSale.convertedVipCommissionAmountRep,ShopSale.totalCompReceive,ShopSale.convertedTotalCompReceive,int(ShopSale.id))
         cursor.execute(query,query_tuple)
         my_db.commit()
         return True

@@ -1,7 +1,8 @@
+import datetime
 import sys
 
 # GUI FILE
-from PyQt5 import QtCore
+from PyQt5 import QtCore, QtGui
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QColor
 from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsDropShadowEffect, QSizeGrip, QTableWidgetItem
@@ -10,6 +11,8 @@ import shop_sale.ui_shop_sale
 import shop_sale.main_shop_sale_def
 import home.panel
 import database.shop_sale_db
+import database.shop_db
+import database.guide_db
 import pyautogui
 import shop_sale.obj_shop_sale
 GLOBAL_STATE = 0
@@ -37,15 +40,13 @@ class ShopSaleWindow(QMainWindow):
             global GLOBAL_UPDATE
             GLOBAL_UPDATE = 1
             result = database.shop_sale_db.getById(item[0].text())
-            for i in result:
-                print(i)
             GLOBAL_OBJECT_SHOP_SALE = shop_sale.obj_shop_sale.ShopSale(
                 result[0][0],result[0][1],result[0][2],result[0][3],result[0][4],result[0][5],result[0][6],
                 result[0][7],result[0][8],result[0][9],result[0][10],result[0][11],result[0][12],result[0][13],
                 result[0][14],result[0][15],result[0][16],result[0][17],result[0][18],result[0][19],result[0][20],result[0][21],
                 result[0][22],result[0][23],result[0][24],result[0][25],result[0][26],result[0][27],
                 result[0][28],result[0][29],result[0][30],result[0][31],result[0][32],result[0][33],result[0][34],
-                result[0][35],result[0][36],result[0][37],result[0][38],result[0][39],result[0][40],result[0][41],result[0][42],result[0][43],result[0][44],result[0][45])
+                result[0][35],result[0][36],result[0][37],result[0][38],result[0][39],result[0][40],result[0][41],result[0][42],result[0][43],result[0][44],result[0][45],result[0][46],result[0][47])
             self.ui.tableWidget.setColumnHidden(0, False)
             self.ui.tableWidget.setColumnHidden(2, False)
             self.ui.tableWidget.setColumnHidden(5, False)
@@ -82,11 +83,57 @@ class ShopSaleWindow(QMainWindow):
                     self.ui.tableWidget.setItem(row,column, QTableWidgetItem(str(item)))
                     align = self.ui.tableWidget.item(row, column)
                     align.setTextAlignment(QtCore.Qt.AlignCenter)
+
+    def getShopList(self):
+        return database.shop_db.getShopList()
+
+    def getGuideList(self):
+        return database.guide_db.getGuideList()
+
+    def search(self):
+        self.ui.tableWidget.setRowCount(0)
+        start_date = self.ui.dtp_start.date().toString("dd-MM-yyyy") + " 01:00:00"
+        finish_date = self.ui.dtp_finish.date().toString("dd-MM-yyyy") + " 01:00:00"
+        start_date_formatted = datetime.datetime.strptime(start_date, "%d-%m-%Y %H:%M:%S")
+        formatted_start_date = start_date_formatted.strftime('%Y-%m-%d %H:%M:%S')
+        finish_date_formatted = datetime.datetime.strptime(finish_date, "%d-%m-%Y %H:%M:%S")
+        formatted_finish_date = finish_date_formatted.strftime('%Y-%m-%d %H:%M:%S')
+        base_query = """SELECT shop_sale.id,DATE_FORMAT(shop_sale.sale_date,'%d-%m-%Y'),shop_sale.guide_id,guide.full_name,shop_sale.tour_type,shop_sale.shop_id,shop.name,shop_sale.shop_product_id,shop_product.product_id,product.name,shop_sale.total_sale,shop_sale.shop_currency 
+        from shop_sale inner join guide on shop_sale.guide_id = guide.id 
+        inner join shop on shop_sale.shop_id = shop.id
+        inner join shop_product on shop_sale.shop_product_id = shop_product.id
+        inner join product on shop_product.product_id = product.id where shop_sale.status = true"""
+        continues_query =""
+        if(self.ui.cmb_shop.currentIndex() != -1 and self.ui.cmb_shop.currentIndex() != 0):
+            continues_query = continues_query + " and shop_sale.shop_id ="+self.shop_model.data(self.shop_model.index(self.ui.cmb_shop.currentIndex(), 0))
+        if (self.ui.cmb_guide.currentIndex() != -1 and self.ui.cmb_guide.currentIndex() != 0):
+            continues_query =continues_query + " and shop_sale.guide_id =" + self.guide_model.data(
+                self.guide_model.index(self.ui.cmb_guide.currentIndex(), 0))
+        if (self.ui.cmb_tour_type.currentIndex() != -1 and self.ui.cmb_tour_type.currentIndex() != 0):
+            continues_query = continues_query + " and shop_sale.tour_type ='"+self.ui.cmb_tour_type.currentText()+"'"
+        continues_query = continues_query + " and sale_date between CAST('"+formatted_start_date+"' as datetime) and CAST('"+formatted_finish_date+"' as datetime)"
+        complete_query = base_query + continues_query
+        result = database.shop_sale_db.getSearchQueryResult(complete_query)
+        print(complete_query)
+        if (result):
+            self.ui.tableWidget.setRowCount(0)
+            for row, item in enumerate(result):
+                self.ui.tableWidget.insertRow(row)
+                for column, item in enumerate(item):
+                    self.ui.tableWidget.setItem(row, column, QTableWidgetItem(str(item)))
+                    align = self.ui.tableWidget.item(row, column)
+                    align.setTextAlignment(QtCore.Qt.AlignCenter)
+
+
     def __init__(self):
         QMainWindow.__init__(self)
         self.ui = shop_sale.ui_shop_sale.ShopSalePanel()
         self.ui.setupUi(self)
         self.fill_table()
+        self.ui.dtp_start.setDate(datetime.date.today())
+        self.ui.dtp_start.setDisplayFormat("dd-MM-yyyy")
+        self.ui.dtp_finish.setDate(datetime.date.today())
+        self.ui.dtp_finish.setDisplayFormat("dd-MM-yyyy")
         global GLOBAL_UPDATE
         GLOBAL_UPDATE = 0
         def moveWindow(event):
@@ -104,6 +151,34 @@ class ShopSaleWindow(QMainWindow):
         self.ui.frame_move.mouseMoveEvent = moveWindow
         self.uiDefinitions()
         self.show()
+
+        self.shop_model = self.ui.cmb_shop.model()
+        self.guide_model = self.ui.cmb_guide.model()
+
+        shop_list = self.getShopList()
+        it_def_0 = QtGui.QStandardItem(str(0))
+        it_def_1 = QtGui.QStandardItem(str(""))
+        self.shop_model.appendRow((it_def_0,it_def_1))
+        self.guide_model.appendRow((it_def_0,it_def_1))
+        for i in shop_list:
+            it0 = QtGui.QStandardItem(str(i[0]))
+            it1 = QtGui.QStandardItem(str(i[2]))
+            self.shop_model.appendRow((it0, it1))
+
+        self.ui.cmb_shop.setModel(self.shop_model)
+        self.ui.cmb_shop.setModelColumn(1)
+        self.ui.cmb_shop.setCurrentIndex(-1)
+
+        guide_list = self.getGuideList()
+
+        for i in guide_list:
+            it2 = QtGui.QStandardItem(str(i[0]))
+            it3 = QtGui.QStandardItem(str(i[1]))
+            self.guide_model.appendRow((it2, it3))
+
+        self.ui.cmb_guide.setModel(self.guide_model)
+        self.ui.cmb_guide.setModelColumn(1)
+        self.ui.cmb_guide.setCurrentIndex(-1)
 
     def maximize_restore(self):
         global GLOBAL_STATE
@@ -162,6 +237,10 @@ class ShopSaleWindow(QMainWindow):
         self.ui.btn_delete.clicked.connect(lambda: self.deleteSelectedShopSale())
 
         self.ui.btn_update.clicked.connect(lambda: self.updateShopSale())
+
+        self.ui.btn_search.clicked.connect(lambda: self.search())
+
+        self.ui.btn_clear.clicked.connect(lambda: self.fill_table())
 
         ## ==> CREATE SIZE GRIP TO RESIZE WINDOW
         self.sizegrip = QSizeGrip(self.ui.frame_grip)

@@ -33,6 +33,8 @@ GLOBAL_SELECTED_GUIDE = 0
 GLOBAL_INTERNAL_RATE = None
 GLOBAL_IS_CALCULATED = False
 
+GLOBAL_SELECTED_SHOP_PAYMENT_TYPE = 0
+
 class ShopSaleDefWindow(QMainWindow):
     def changeGuideEvent(self):
         if(self.ui.cmb_guide.currentIndex() != -1):
@@ -41,6 +43,8 @@ class ShopSaleDefWindow(QMainWindow):
 
     def fillShopProducts(self,date):
         self.ui.cmb_product.clear()
+        global GLOBAL_SELECTED_SHOP_PAYMENT_TYPE
+        GLOBAL_SELECTED_SHOP_PAYMENT_TYPE = self.shop_model.data(self.shop_model.index(self.ui.cmb_shop.currentIndex(), 2))
         if(self.ui.cmb_shop.currentIndex() != -1):
             product_list = database.shop_product_db.getShopProductsByShopIdAndDate(self.shop_model.data(self.shop_model.index(self.ui.cmb_shop.currentIndex(), 0)),self.ui.dtp_sale.date().toString("dd-MM-yyyy"))
             if (product_list):
@@ -144,10 +148,32 @@ class ShopSaleDefWindow(QMainWindow):
         self.ui.txt_calc_org_total.setText(str(companyIncomeDict["originalCompanyIncome"]))
         self.ui.txt_calc_eur_total.setText(str(companyIncomeDict["convertedCompanyIncome"]))
 
+        # Company Receive Calculations
+        companyReceiveDict = self.calculateMustReceive(GLOBAL_SELECTED_GUIDE)
+        self.ui.txt_calc_org_comp_receive.setText(str(companyReceiveDict["totalOrginalReceive"]))
+        self.ui.txt_calc_eur_comp_receive.setText(str(companyReceiveDict["totalConvertedReceive"]))
+
         global GLOBAL_IS_CALCULATED
         GLOBAL_IS_CALCULATED = True
 
         pyautogui.alert("Hesaplama Tamamlandı!")
+
+    def calculateMustReceive(self,guideSelection):
+        totalOrginalReceive = 0
+        totalConvertedReceive = 0
+        rate = float(self.ui.txt_rate.text())
+        if(GLOBAL_SELECTED_SHOP_PAYMENT_TYPE == 0):
+            totalOrginalReceive = (float(self.ui.txt_calc_org_guide.text()) + float(self.ui.txt_calc_org_driver.text())+ float(self.ui.txt_calc_org_operator.text()) + float(self.ui.txt_calc_org_chief.text()) + float(self.ui.txt_calc_org_landing.text())+ float(self.ui.txt_calc_org_vip_rep.text()) + float(self.ui.txt_calc_org_vip_comp.text()) + float(self.ui.txt_calc_org_total.text()))
+            totalConvertedReceive = totalOrginalReceive * rate
+        else:
+            totalOrginalReceive = (float(self.ui.txt_calc_org_driver.text())+ float(self.ui.txt_calc_org_operator.text()) + float(self.ui.txt_calc_org_chief.text()) + float(self.ui.txt_calc_org_landing.text())+ float(self.ui.txt_calc_org_vip_rep.text()) + float(self.ui.txt_calc_org_vip_comp.text())+float(self.ui.txt_calc_org_total.text()))
+            totalConvertedReceive = totalOrginalReceive * rate
+
+        totalCompanyReceiveDict = {"totalOrginalReceive": "{:.2f}".format(float(totalOrginalReceive)),
+                                      "totalConvertedReceive": "{:.2f}".format(
+                                          float(totalConvertedReceive))}
+        return totalCompanyReceiveDict
+
 
     def calculateCompanyIncome(self,chiefCommissionAmount,guideSelection):
         companyCommissionRate = float(0)
@@ -170,7 +196,6 @@ class ShopSaleDefWindow(QMainWindow):
         totalSale = float(self.ui.txt_total_sale.text())
         totalCommissionRate = float(self.ui.txt_def_guide_rate_2.text())
         rate =  float(self.ui.txt_rate.text())
-
         originalTotalCommission = ((totalSale * totalCommissionRate) /100) + float(self.ui.txt_calc_org_vip_comp.text()) + float(self.ui.txt_calc_org_vip_rep.text()) + float(self.ui.txt_calc_org_landing.text())
         convertedTotalCommission = originalTotalCommission * rate
 
@@ -383,6 +408,8 @@ class ShopSaleDefWindow(QMainWindow):
                 ShopSale.vipCommissionAmountRep = self.ui.txt_calc_org_vip_rep.text()
                 ShopSale.convertedVipCommissionAmountRep = self.ui.txt_calc_eur_vip_rep.text()
                 ShopSale.shopName = self.ui.cmb_shop.currentText()
+                ShopSale.totalCompReceive = self.ui.txt_calc_org_comp_receive.text()
+                ShopSale.convertedTotalCompReceive = self.ui.txt_calc_eur_comp_receive.text()
 
                 result = pyautogui.confirm("Satış Güncellenecek. Onaylıyor Musunuz?")
                 if (result == "OK"):
@@ -440,6 +467,8 @@ class ShopSaleDefWindow(QMainWindow):
                 ShopSale.convertedVipCommissionAmountRep = self.ui.txt_calc_eur_vip_rep.text()
                 ShopSale.shopName = self.ui.cmb_shop.currentText()
                 ShopSale.status = 1
+                ShopSale.totalCompReceive = self.ui.txt_calc_org_comp_receive.text()
+                ShopSale.convertedTotalCompReceive = self.ui.txt_calc_eur_comp_receive.text()
                 result = pyautogui.confirm("Yeni Satış Eklenecek.Onaylıyor Musunuz ?")
                 if (result == "OK"):
                     db_result = database.shop_sale_db.addShopSale(ShopSale)
@@ -498,7 +527,8 @@ class ShopSaleDefWindow(QMainWindow):
         for i in shop_list:
             it3 = QtGui.QStandardItem(str(i[0]))
             it4 = QtGui.QStandardItem(str(i[2]))
-            self.shop_model.appendRow((it3,it4))
+            it11 = QtGui.QStandardItem(str(i[11]))
+            self.shop_model.appendRow((it3,it4,it11))
 
         self.ui.cmb_shop.setModel(self.shop_model)
         self.ui.cmb_shop.setModelColumn(1)
@@ -563,6 +593,9 @@ class ShopSaleDefWindow(QMainWindow):
 
             self.ui.txt_calc_org_total.setText(str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.totalCompanyIncome))
             self.ui.txt_calc_eur_total.setText(str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.convertedCompanyIncome))
+
+            self.ui.txt_calc_org_comp_receive.setText(str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.totalCompReceive))
+            self.ui.txt_calc_eur_comp_receive.setText(str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.convertedTotalCompReceive))
         else:
             """if (self.ui.cmb_shop.currentIndex() != 0):
                 self.ui.cmb_shop.currentIndexChanged(self.fillShopProducts(self.product_model.data(self.product_model.index(self.ui.cmb_product.currentIndex(), 0)),self.ui.dtp_sale.date().toString("dd-MM-yyyy")))
@@ -636,7 +669,7 @@ class ShopSaleDefWindow(QMainWindow):
         # REMOVE TITLE BAR
         self.setWindowFlag(QtCore.Qt.FramelessWindowHint)
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
-
+        self.showMaximized()
         # SET DROPSHADOW WINDOW
         self.shadow = QGraphicsDropShadowEffect(self)
         self.shadow.setBlurRadius(20)

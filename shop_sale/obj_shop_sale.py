@@ -4,7 +4,7 @@ class ShopSale():
                  operatorCommissionAmount,driverCommissionAmount,chiefCommissionAmount,totalLandingFeeAmount,totalVipCommissionAmount,moneyOnGuide,moneyReceived,isForwardedSale
                  ,saleDate,forwardDate,shopCurrency,convertCurrency,rate,convertedTotalSale,convertedTotalCommissionAmount,convertedGuideCommissionAmount,convertedOperatorCommissionAmount,
                  convertedDriverCommissionAmount,convertedChiefCommissionAmount,convertedTotalLandingFeeAmount,convertedTotalVipCommissionAmount,totalCompanyIncome,convertedCompanyIncome,
-                 addVip,addLanding,addChief,productName,guideSelection,vipCommissionAmountRep,convertedVipCommissionAmountRep,guideName,operatorName,shopName):
+                 addVip,addLanding,addChief,productName,guideSelection,vipCommissionAmountRep,convertedVipCommissionAmountRep,guideName,operatorName,shopName,totalCompReceive,convertedTotalCompReceive):
         self.id = id
         self.guideId = guideId
         self.tourName = tourName
@@ -51,4 +51,6 @@ class ShopSale():
         self.guideName = guideName
         self.operatorName = operatorName
         self.shopName = shopName
+        self.totalCompReceive = totalCompReceive
+        self.convertedTotalCompReceive = convertedTotalCompReceive
         self.status = 1

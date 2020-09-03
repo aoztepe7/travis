@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class ShopSaleEntryPanel(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1179, 980)
+        MainWindow.resize(1274, 980)
         font = QtGui.QFont()
         font.setFamily("Segoe UI")
         font.setPointSize(11)
@@ -129,6 +129,8 @@ class ShopSaleEntryPanel(object):
         self.frame_4.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_4.setObjectName("frame_4")
         self.horizontalLayout_49 = QtWidgets.QHBoxLayout(self.frame_4)
+        self.horizontalLayout_49.setContentsMargins(7, 0, 7, 10)
+        self.horizontalLayout_49.setSpacing(0)
         self.horizontalLayout_49.setObjectName("horizontalLayout_49")
         self.frame_9 = QtWidgets.QFrame(self.frame_4)
         self.frame_9.setMaximumSize(QtCore.QSize(850, 16777215))
@@ -161,7 +163,7 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(11)
         self.label_38.setFont(font)
-        self.label_38.setStyleSheet("color: white;")
+        self.label_38.setStyleSheet("color: black;")
         self.label_38.setObjectName("label_38")
         self.verticalLayout_47.addWidget(self.label_38)
         self.horizontalLayout_3.addWidget(self.frame)
@@ -181,8 +183,7 @@ class ShopSaleEntryPanel(object):
         self.cmb_guide.setStyleSheet("QComboBox{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    \n"
-"    color: white;\n"
+"    color: black;\n"
 "    border-bottom:1px solid #717072\n"
 "}")
         self.cmb_guide.setCurrentText("")
@@ -213,7 +214,7 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(11)
         self.label_39.setFont(font)
-        self.label_39.setStyleSheet("color: white;")
+        self.label_39.setStyleSheet("color: black;")
         self.label_39.setObjectName("label_39")
         self.verticalLayout_49.addWidget(self.label_39)
         self.horizontalLayout_5.addWidget(self.frame_98)
@@ -233,8 +234,7 @@ class ShopSaleEntryPanel(object):
         self.cmb_shop.setStyleSheet("QComboBox{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    \n"
-"    color: white;\n"
+"    color: black;\n"
 "    border-bottom:1px solid #717072\n"
 "}")
         self.cmb_shop.setCurrentText("")
@@ -257,14 +257,14 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(11)
         self.label.setFont(font)
-        self.label.setStyleSheet("color: white;")
+        self.label.setStyleSheet("color: black;")
         self.label.setObjectName("label")
         self.horizontalLayout_6.addWidget(self.label)
         self.dtp_sale = QtWidgets.QDateEdit(self.frame_7)
         self.dtp_sale.setStyleSheet("QDateEdit{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    color: white;\n"
+"    color: black;\n"
 "    border-bottom:1px solid #717072\n"
 "}")
         self.dtp_sale.setObjectName("dtp_sale")
@@ -292,7 +292,7 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(11)
         self.label_40.setFont(font)
-        self.label_40.setStyleSheet("color: white;")
+        self.label_40.setStyleSheet("color: black;")
         self.label_40.setObjectName("label_40")
         self.verticalLayout_51.addWidget(self.label_40)
         self.horizontalLayout_15.addWidget(self.frame_100)
@@ -312,8 +312,7 @@ class ShopSaleEntryPanel(object):
         self.cmb_product.setStyleSheet("QComboBox{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    \n"
-"    color: white;\n"
+"    color: black;\n"
 "    border-bottom:1px solid #717072\n"
 "}")
         self.cmb_product.setCurrentText("")
@@ -661,7 +660,7 @@ class ShopSaleEntryPanel(object):
         self.txt_tour_name.setStyleSheet("QLineEdit{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    color:white;\n"
+"    color: black;\n"
 "    border-bottom:1px solid #717072\n"
 "}")
         self.txt_tour_name.setText("")
@@ -690,7 +689,7 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(11)
         self.label_41.setFont(font)
-        self.label_41.setStyleSheet("color: white;")
+        self.label_41.setStyleSheet("color: black;")
         self.label_41.setObjectName("label_41")
         self.verticalLayout_54.addWidget(self.label_41)
         self.horizontalLayout_8.addWidget(self.frame_102)
@@ -710,8 +709,7 @@ class ShopSaleEntryPanel(object):
         self.cmb_tour_type.setStyleSheet("QComboBox{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    \n"
-"    color: white;\n"
+"    color: black;\n"
 "    border-bottom:1px solid #717072\n"
 "}")
         self.cmb_tour_type.setCurrentText("")
@@ -743,7 +741,7 @@ class ShopSaleEntryPanel(object):
         self.txt_hotel.setStyleSheet("QLineEdit{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    color:white;\n"
+"    color: black;\n"
 "    border-bottom:1px solid #717072\n"
 "}")
         self.txt_hotel.setText("")
@@ -772,7 +770,7 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(11)
         self.label_42.setFont(font)
-        self.label_42.setStyleSheet("color: white;")
+        self.label_42.setStyleSheet("color: black;")
         self.label_42.setObjectName("label_42")
         self.verticalLayout_55.addWidget(self.label_42)
         self.horizontalLayout_11.addWidget(self.frame_103)
@@ -792,8 +790,7 @@ class ShopSaleEntryPanel(object):
         self.cmb_operator.setStyleSheet("QComboBox{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    \n"
-"    color: white;\n"
+"    color: black;\n"
 "    border-bottom:1px solid #717072\n"
 "}")
         self.cmb_operator.setCurrentText("")
@@ -820,7 +817,7 @@ class ShopSaleEntryPanel(object):
         self.txt_pax.setStyleSheet("QLineEdit{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    color:white;\n"
+"    color: black;\n"
 "    border-bottom:1px solid #717072\n"
 "}")
         self.txt_pax.setText("")
@@ -845,7 +842,7 @@ class ShopSaleEntryPanel(object):
         self.txt_total_sale.setStyleSheet("QLineEdit{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    color:white;\n"
+"    color: black;\n"
 "    border-bottom:1px solid #717072\n"
 "}")
         self.txt_total_sale.setText("")
@@ -874,7 +871,7 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(11)
         self.label_43.setFont(font)
-        self.label_43.setStyleSheet("color: white;")
+        self.label_43.setStyleSheet("color: black;")
         self.label_43.setObjectName("label_43")
         self.verticalLayout_57.addWidget(self.label_43)
         self.horizontalLayout_14.addWidget(self.frame_105)
@@ -894,8 +891,7 @@ class ShopSaleEntryPanel(object):
         self.cmb_currency.setStyleSheet("QComboBox{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    \n"
-"    color: white;\n"
+"    color: black;\n"
 "    border-bottom:1px solid #717072\n"
 "}")
         self.cmb_currency.setCurrentText("")
@@ -923,7 +919,7 @@ class ShopSaleEntryPanel(object):
         self.check_forward.setStyleSheet("QCheckBox{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    color: white;\n"
+"    color: black;\n"
 "}")
         self.check_forward.setObjectName("check_forward")
         self.horizontalLayout_17.addWidget(self.check_forward)
@@ -948,7 +944,7 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(11)
         self.label_2.setFont(font)
-        self.label_2.setStyleSheet("color: white;")
+        self.label_2.setStyleSheet("color: black;")
         self.label_2.setObjectName("label_2")
         self.verticalLayout_4.addWidget(self.label_2)
         self.horizontalLayout_18.addWidget(self.frame_22)
@@ -964,7 +960,7 @@ class ShopSaleEntryPanel(object):
         self.dtp_forward.setStyleSheet("QDateEdit{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    color: white;\n"
+"    color: black;\n"
 "    border-bottom:1px solid #717072\n"
 "}")
         self.dtp_forward.setObjectName("dtp_forward")
@@ -985,7 +981,7 @@ class ShopSaleEntryPanel(object):
         self.check_vip.setStyleSheet("QCheckBox{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    color: white;\n"
+"    color: black;\n"
 "}")
         self.check_vip.setObjectName("check_vip")
         self.horizontalLayout_19.addWidget(self.check_vip)
@@ -993,7 +989,7 @@ class ShopSaleEntryPanel(object):
         self.check_landing.setStyleSheet("QCheckBox{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    color: white;\n"
+"    color: black;\n"
 "}")
         self.check_landing.setObjectName("check_landing")
         self.horizontalLayout_19.addWidget(self.check_landing)
@@ -1001,7 +997,7 @@ class ShopSaleEntryPanel(object):
         self.check_chief.setStyleSheet("QCheckBox{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    color: white;\n"
+"    color: black;\n"
 "}")
         self.check_chief.setObjectName("check_chief")
         self.horizontalLayout_19.addWidget(self.check_chief)
@@ -1009,7 +1005,7 @@ class ShopSaleEntryPanel(object):
         self.check_received.setStyleSheet("QCheckBox{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    color: white;\n"
+"    color: black;\n"
 "}")
         self.check_received.setObjectName("check_received")
         self.horizontalLayout_19.addWidget(self.check_received)
@@ -1017,7 +1013,7 @@ class ShopSaleEntryPanel(object):
         self.check_money_on_guide.setStyleSheet("QCheckBox{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    color: white;\n"
+"    color: black;\n"
 "}")
         self.check_money_on_guide.setObjectName("check_money_on_guide")
         self.horizontalLayout_19.addWidget(self.check_money_on_guide)
@@ -1040,7 +1036,7 @@ class ShopSaleEntryPanel(object):
         self.txt_rate.setStyleSheet("QLineEdit{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    color:white;\n"
+"    color: black;\n"
 "    border-bottom:1px solid #717072\n"
 "}")
         self.txt_rate.setText("")
@@ -1065,7 +1061,7 @@ class ShopSaleEntryPanel(object):
         self.txt_note.setStyleSheet("QTextEdit{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    color:white;\n"
+"    color: black;\n"
 "    border-bottom:1px solid #717072\n"
 "}")
         self.txt_note.setFrameShape(QtWidgets.QFrame.NoFrame)
@@ -1078,10 +1074,8 @@ class ShopSaleEntryPanel(object):
         self.frame_10.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_10.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_10.setObjectName("frame_10")
-        self.verticalLayout_29 = QtWidgets.QVBoxLayout(self.frame_10)
-        self.verticalLayout_29.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_29.setSpacing(0)
-        self.verticalLayout_29.setObjectName("verticalLayout_29")
+        self.verticalLayout_59 = QtWidgets.QVBoxLayout(self.frame_10)
+        self.verticalLayout_59.setObjectName("verticalLayout_59")
         self.frame_27 = QtWidgets.QFrame(self.frame_10)
         self.frame_27.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_27.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -1107,7 +1101,7 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(12)
         self.label_3.setFont(font)
-        self.label_3.setStyleSheet("color: rgb(112, 114, 158);")
+        self.label_3.setStyleSheet("color: black;")
         self.label_3.setAlignment(QtCore.Qt.AlignCenter)
         self.label_3.setObjectName("label_3")
         self.verticalLayout_9.addWidget(self.label_3)
@@ -1133,7 +1127,7 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(8)
         self.label_4.setFont(font)
-        self.label_4.setStyleSheet("color: rgb(112, 114, 158);")
+        self.label_4.setStyleSheet("color: black;")
         self.label_4.setAlignment(QtCore.Qt.AlignCenter)
         self.label_4.setObjectName("label_4")
         self.verticalLayout_11.addWidget(self.label_4)
@@ -1157,7 +1151,7 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(8)
         self.label_5.setFont(font)
-        self.label_5.setStyleSheet("color: rgb(112, 114, 158);")
+        self.label_5.setStyleSheet("color: black;")
         self.label_5.setAlignment(QtCore.Qt.AlignCenter)
         self.label_5.setObjectName("label_5")
         self.horizontalLayout_22.addWidget(self.label_5)
@@ -1170,7 +1164,7 @@ class ShopSaleEntryPanel(object):
         self.txt_calc_org_guide.setStyleSheet("QLineEdit{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    color:white;\n"
+"    color:black;\n"
 "    border-bottom:1px solid #717072\n"
 "}")
         self.txt_calc_org_guide.setText("")
@@ -1189,7 +1183,7 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(8)
         self.label_6.setFont(font)
-        self.label_6.setStyleSheet("color: rgb(112, 114, 158);")
+        self.label_6.setStyleSheet("color: black;")
         self.label_6.setAlignment(QtCore.Qt.AlignCenter)
         self.label_6.setObjectName("label_6")
         self.horizontalLayout_21.addWidget(self.label_6)
@@ -1202,7 +1196,7 @@ class ShopSaleEntryPanel(object):
         self.txt_calc_eur_guide.setStyleSheet("QLineEdit{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    color:white;\n"
+"    color:black;\n"
 "    border-bottom:1px solid #717072\n"
 "}")
         self.txt_calc_eur_guide.setText("")
@@ -1233,7 +1227,7 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(8)
         self.label_7.setFont(font)
-        self.label_7.setStyleSheet("color: rgb(112, 114, 158);")
+        self.label_7.setStyleSheet("color: black;")
         self.label_7.setAlignment(QtCore.Qt.AlignCenter)
         self.label_7.setObjectName("label_7")
         self.verticalLayout_13.addWidget(self.label_7)
@@ -1257,7 +1251,7 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(8)
         self.label_8.setFont(font)
-        self.label_8.setStyleSheet("color: rgb(112, 114, 158);")
+        self.label_8.setStyleSheet("color: black;")
         self.label_8.setAlignment(QtCore.Qt.AlignCenter)
         self.label_8.setObjectName("label_8")
         self.horizontalLayout_24.addWidget(self.label_8)
@@ -1270,7 +1264,7 @@ class ShopSaleEntryPanel(object):
         self.txt_calc_org_driver.setStyleSheet("QLineEdit{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    color:white;\n"
+"    color:black;\n"
 "    border-bottom:1px solid #717072\n"
 "}")
         self.txt_calc_org_driver.setText("")
@@ -1289,7 +1283,7 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(8)
         self.label_9.setFont(font)
-        self.label_9.setStyleSheet("color: rgb(112, 114, 158);")
+        self.label_9.setStyleSheet("color: black;")
         self.label_9.setAlignment(QtCore.Qt.AlignCenter)
         self.label_9.setObjectName("label_9")
         self.horizontalLayout_25.addWidget(self.label_9)
@@ -1302,7 +1296,7 @@ class ShopSaleEntryPanel(object):
         self.txt_calc_eur_driver.setStyleSheet("QLineEdit{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    color:white;\n"
+"    color:black;\n"
 "    border-bottom:1px solid #717072\n"
 "}")
         self.txt_calc_eur_driver.setText("")
@@ -1333,7 +1327,7 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(8)
         self.label_10.setFont(font)
-        self.label_10.setStyleSheet("color: rgb(112, 114, 158);")
+        self.label_10.setStyleSheet("color: black;")
         self.label_10.setAlignment(QtCore.Qt.AlignCenter)
         self.label_10.setObjectName("label_10")
         self.verticalLayout_15.addWidget(self.label_10)
@@ -1357,7 +1351,7 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(8)
         self.label_11.setFont(font)
-        self.label_11.setStyleSheet("color: rgb(112, 114, 158);")
+        self.label_11.setStyleSheet("color: black;")
         self.label_11.setAlignment(QtCore.Qt.AlignCenter)
         self.label_11.setObjectName("label_11")
         self.horizontalLayout_27.addWidget(self.label_11)
@@ -1370,7 +1364,7 @@ class ShopSaleEntryPanel(object):
         self.txt_calc_org_operator.setStyleSheet("QLineEdit{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    color:white;\n"
+"    color:black;\n"
 "    border-bottom:1px solid #717072\n"
 "}")
         self.txt_calc_org_operator.setText("")
@@ -1389,7 +1383,7 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(8)
         self.label_12.setFont(font)
-        self.label_12.setStyleSheet("color: rgb(112, 114, 158);")
+        self.label_12.setStyleSheet("color: black;")
         self.label_12.setAlignment(QtCore.Qt.AlignCenter)
         self.label_12.setObjectName("label_12")
         self.horizontalLayout_28.addWidget(self.label_12)
@@ -1402,7 +1396,7 @@ class ShopSaleEntryPanel(object):
         self.txt_calc_eur_operator.setStyleSheet("QLineEdit{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    color:white;\n"
+"    color:black;\n"
 "    border-bottom:1px solid #717072\n"
 "}")
         self.txt_calc_eur_operator.setText("")
@@ -1433,7 +1427,7 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(8)
         self.label_13.setFont(font)
-        self.label_13.setStyleSheet("color: rgb(112, 114, 158);")
+        self.label_13.setStyleSheet("color: black;")
         self.label_13.setAlignment(QtCore.Qt.AlignCenter)
         self.label_13.setObjectName("label_13")
         self.verticalLayout_17.addWidget(self.label_13)
@@ -1457,7 +1451,7 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(8)
         self.label_14.setFont(font)
-        self.label_14.setStyleSheet("color: rgb(112, 114, 158);")
+        self.label_14.setStyleSheet("color: black;")
         self.label_14.setAlignment(QtCore.Qt.AlignCenter)
         self.label_14.setObjectName("label_14")
         self.horizontalLayout_30.addWidget(self.label_14)
@@ -1470,7 +1464,7 @@ class ShopSaleEntryPanel(object):
         self.txt_calc_org_chief.setStyleSheet("QLineEdit{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    color:white;\n"
+"    color:black;\n"
 "    border-bottom:1px solid #717072\n"
 "}")
         self.txt_calc_org_chief.setText("")
@@ -1489,7 +1483,7 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(8)
         self.label_15.setFont(font)
-        self.label_15.setStyleSheet("color: rgb(112, 114, 158);")
+        self.label_15.setStyleSheet("color: black;")
         self.label_15.setAlignment(QtCore.Qt.AlignCenter)
         self.label_15.setObjectName("label_15")
         self.horizontalLayout_31.addWidget(self.label_15)
@@ -1502,7 +1496,7 @@ class ShopSaleEntryPanel(object):
         self.txt_calc_eur_chief.setStyleSheet("QLineEdit{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    color:white;\n"
+"    color:black;\n"
 "    border-bottom:1px solid #717072\n"
 "}")
         self.txt_calc_eur_chief.setText("")
@@ -1533,7 +1527,7 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(8)
         self.label_16.setFont(font)
-        self.label_16.setStyleSheet("color: rgb(112, 114, 158);")
+        self.label_16.setStyleSheet("color: black;")
         self.label_16.setAlignment(QtCore.Qt.AlignCenter)
         self.label_16.setObjectName("label_16")
         self.verticalLayout_19.addWidget(self.label_16)
@@ -1557,7 +1551,7 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(8)
         self.label_17.setFont(font)
-        self.label_17.setStyleSheet("color: rgb(112, 114, 158);")
+        self.label_17.setStyleSheet("color: black;")
         self.label_17.setAlignment(QtCore.Qt.AlignCenter)
         self.label_17.setObjectName("label_17")
         self.horizontalLayout_33.addWidget(self.label_17)
@@ -1570,7 +1564,7 @@ class ShopSaleEntryPanel(object):
         self.txt_calc_org_landing.setStyleSheet("QLineEdit{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    color:white;\n"
+"    color:black;\n"
 "    border-bottom:1px solid #717072\n"
 "}")
         self.txt_calc_org_landing.setText("")
@@ -1589,7 +1583,7 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(8)
         self.label_18.setFont(font)
-        self.label_18.setStyleSheet("color: rgb(112, 114, 158);")
+        self.label_18.setStyleSheet("color: black;")
         self.label_18.setAlignment(QtCore.Qt.AlignCenter)
         self.label_18.setObjectName("label_18")
         self.horizontalLayout_34.addWidget(self.label_18)
@@ -1602,7 +1596,7 @@ class ShopSaleEntryPanel(object):
         self.txt_calc_eur_landing.setStyleSheet("QLineEdit{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    color:white;\n"
+"    color:black;\n"
 "    border-bottom:1px solid #717072\n"
 "}")
         self.txt_calc_eur_landing.setText("")
@@ -1633,7 +1627,7 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(8)
         self.label_19.setFont(font)
-        self.label_19.setStyleSheet("color: rgb(112, 114, 158);")
+        self.label_19.setStyleSheet("color: black;")
         self.label_19.setAlignment(QtCore.Qt.AlignCenter)
         self.label_19.setObjectName("label_19")
         self.verticalLayout_21.addWidget(self.label_19)
@@ -1657,7 +1651,7 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(8)
         self.label_20.setFont(font)
-        self.label_20.setStyleSheet("color: rgb(112, 114, 158);")
+        self.label_20.setStyleSheet("color: black;")
         self.label_20.setAlignment(QtCore.Qt.AlignCenter)
         self.label_20.setObjectName("label_20")
         self.horizontalLayout_36.addWidget(self.label_20)
@@ -1670,7 +1664,7 @@ class ShopSaleEntryPanel(object):
         self.txt_calc_org_vip_rep.setStyleSheet("QLineEdit{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    color:white;\n"
+"    color:black;\n"
 "    border-bottom:1px solid #717072\n"
 "}")
         self.txt_calc_org_vip_rep.setText("")
@@ -1689,7 +1683,7 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(8)
         self.label_21.setFont(font)
-        self.label_21.setStyleSheet("color: rgb(112, 114, 158);")
+        self.label_21.setStyleSheet("color: black;")
         self.label_21.setAlignment(QtCore.Qt.AlignCenter)
         self.label_21.setObjectName("label_21")
         self.horizontalLayout_37.addWidget(self.label_21)
@@ -1702,7 +1696,7 @@ class ShopSaleEntryPanel(object):
         self.txt_calc_eur_vip_rep.setStyleSheet("QLineEdit{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    color:white;\n"
+"    color:black;\n"
 "    border-bottom:1px solid #717072\n"
 "}")
         self.txt_calc_eur_vip_rep.setText("")
@@ -1733,7 +1727,7 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(8)
         self.label_22.setFont(font)
-        self.label_22.setStyleSheet("color: rgb(112, 114, 158);")
+        self.label_22.setStyleSheet("color: black;")
         self.label_22.setAlignment(QtCore.Qt.AlignCenter)
         self.label_22.setObjectName("label_22")
         self.verticalLayout_23.addWidget(self.label_22)
@@ -1757,7 +1751,7 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(8)
         self.label_23.setFont(font)
-        self.label_23.setStyleSheet("color: rgb(112, 114, 158);")
+        self.label_23.setStyleSheet("color: black;")
         self.label_23.setAlignment(QtCore.Qt.AlignCenter)
         self.label_23.setObjectName("label_23")
         self.horizontalLayout_39.addWidget(self.label_23)
@@ -1770,7 +1764,7 @@ class ShopSaleEntryPanel(object):
         self.txt_calc_org_vip_comp.setStyleSheet("QLineEdit{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    color:white;\n"
+"    color:black;\n"
 "    border-bottom:1px solid #717072\n"
 "}")
         self.txt_calc_org_vip_comp.setText("")
@@ -1789,7 +1783,7 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(8)
         self.label_24.setFont(font)
-        self.label_24.setStyleSheet("color: rgb(112, 114, 158);")
+        self.label_24.setStyleSheet("color: black;")
         self.label_24.setAlignment(QtCore.Qt.AlignCenter)
         self.label_24.setObjectName("label_24")
         self.horizontalLayout_40.addWidget(self.label_24)
@@ -1802,7 +1796,7 @@ class ShopSaleEntryPanel(object):
         self.txt_calc_eur_vip_comp.setStyleSheet("QLineEdit{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    color:white;\n"
+"    color:black;\n"
 "    border-bottom:1px solid #717072\n"
 "}")
         self.txt_calc_eur_vip_comp.setText("")
@@ -1833,7 +1827,7 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(8)
         self.label_25.setFont(font)
-        self.label_25.setStyleSheet("color: rgb(112, 114, 158);")
+        self.label_25.setStyleSheet("color: black;")
         self.label_25.setAlignment(QtCore.Qt.AlignCenter)
         self.label_25.setObjectName("label_25")
         self.verticalLayout_25.addWidget(self.label_25)
@@ -1857,7 +1851,7 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(8)
         self.label_26.setFont(font)
-        self.label_26.setStyleSheet("color: rgb(112, 114, 158);")
+        self.label_26.setStyleSheet("color: black;")
         self.label_26.setAlignment(QtCore.Qt.AlignCenter)
         self.label_26.setObjectName("label_26")
         self.horizontalLayout_42.addWidget(self.label_26)
@@ -1870,7 +1864,7 @@ class ShopSaleEntryPanel(object):
         self.txt_calc_org_comp.setStyleSheet("QLineEdit{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    color:white;\n"
+"    color:black;\n"
 "    border-bottom:1px solid #717072\n"
 "}")
         self.txt_calc_org_comp.setText("")
@@ -1889,7 +1883,7 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(8)
         self.label_27.setFont(font)
-        self.label_27.setStyleSheet("color: rgb(112, 114, 158);")
+        self.label_27.setStyleSheet("color: black;")
         self.label_27.setAlignment(QtCore.Qt.AlignCenter)
         self.label_27.setObjectName("label_27")
         self.horizontalLayout_43.addWidget(self.label_27)
@@ -1902,7 +1896,7 @@ class ShopSaleEntryPanel(object):
         self.txt_calc_eur_comp.setStyleSheet("QLineEdit{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    color:white;\n"
+"    color:black;\n"
 "    border-bottom:1px solid #717072\n"
 "}")
         self.txt_calc_eur_comp.setText("")
@@ -1933,7 +1927,7 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(8)
         self.label_28.setFont(font)
-        self.label_28.setStyleSheet("color: rgb(112, 114, 158);")
+        self.label_28.setStyleSheet("color: black;")
         self.label_28.setAlignment(QtCore.Qt.AlignCenter)
         self.label_28.setObjectName("label_28")
         self.verticalLayout_27.addWidget(self.label_28)
@@ -1957,7 +1951,7 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(8)
         self.label_29.setFont(font)
-        self.label_29.setStyleSheet("color: rgb(112, 114, 158);")
+        self.label_29.setStyleSheet("color: black;")
         self.label_29.setAlignment(QtCore.Qt.AlignCenter)
         self.label_29.setObjectName("label_29")
         self.horizontalLayout_45.addWidget(self.label_29)
@@ -1970,7 +1964,7 @@ class ShopSaleEntryPanel(object):
         self.txt_calc_org_total.setStyleSheet("QLineEdit{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    color:white;\n"
+"    color:black;\n"
 "    border-bottom:1px solid #717072\n"
 "}")
         self.txt_calc_org_total.setText("")
@@ -1989,7 +1983,7 @@ class ShopSaleEntryPanel(object):
         font.setFamily("Segoe UI")
         font.setPointSize(8)
         self.label_30.setFont(font)
-        self.label_30.setStyleSheet("color: rgb(112, 114, 158);")
+        self.label_30.setStyleSheet("color: black;")
         self.label_30.setAlignment(QtCore.Qt.AlignCenter)
         self.label_30.setObjectName("label_30")
         self.horizontalLayout_46.addWidget(self.label_30)
@@ -2002,7 +1996,7 @@ class ShopSaleEntryPanel(object):
         self.txt_calc_eur_total.setStyleSheet("QLineEdit{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    color:white;\n"
+"    color:black;\n"
 "    border-bottom:1px solid #717072\n"
 "}")
         self.txt_calc_eur_total.setText("")
@@ -2012,7 +2006,112 @@ class ShopSaleEntryPanel(object):
         self.horizontalLayout_44.addWidget(self.frame_73)
         self.verticalLayout_26.addWidget(self.frame_71)
         self.verticalLayout_28.addWidget(self.frame_69)
-        self.verticalLayout_29.addWidget(self.frame_27)
+        self.verticalLayout_59.addWidget(self.frame_27)
+        self.frame_112 = QtWidgets.QFrame(self.frame_10)
+        self.frame_112.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.frame_112.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_112.setObjectName("frame_112")
+        self.verticalLayout_29 = QtWidgets.QVBoxLayout(self.frame_112)
+        self.verticalLayout_29.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_29.setSpacing(0)
+        self.verticalLayout_29.setObjectName("verticalLayout_29")
+        self.frame_113 = QtWidgets.QFrame(self.frame_112)
+        self.frame_113.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.frame_113.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_113.setObjectName("frame_113")
+        self.verticalLayout_60 = QtWidgets.QVBoxLayout(self.frame_113)
+        self.verticalLayout_60.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_60.setSpacing(0)
+        self.verticalLayout_60.setObjectName("verticalLayout_60")
+        self.label_50 = QtWidgets.QLabel(self.frame_113)
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(8)
+        self.label_50.setFont(font)
+        self.label_50.setStyleSheet("color: black;")
+        self.label_50.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_50.setObjectName("label_50")
+        self.verticalLayout_60.addWidget(self.label_50)
+        self.verticalLayout_29.addWidget(self.frame_113)
+        self.frame_116 = QtWidgets.QFrame(self.frame_112)
+        self.frame_116.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.frame_116.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_116.setObjectName("frame_116")
+        self.horizontalLayout_59 = QtWidgets.QHBoxLayout(self.frame_116)
+        self.horizontalLayout_59.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_59.setSpacing(0)
+        self.horizontalLayout_59.setObjectName("horizontalLayout_59")
+        self.frame_117 = QtWidgets.QFrame(self.frame_116)
+        self.frame_117.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_117.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_117.setObjectName("frame_117")
+        self.horizontalLayout_60 = QtWidgets.QHBoxLayout(self.frame_117)
+        self.horizontalLayout_60.setObjectName("horizontalLayout_60")
+        self.label_51 = QtWidgets.QLabel(self.frame_117)
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(8)
+        self.label_51.setFont(font)
+        self.label_51.setStyleSheet("color: black;")
+        self.label_51.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_51.setObjectName("label_51")
+        self.horizontalLayout_60.addWidget(self.label_51)
+        self.txt_calc_org_comp_receive = QtWidgets.QLineEdit(self.frame_117)
+        self.txt_calc_org_comp_receive.setMinimumSize(QtCore.QSize(150, 0))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(11)
+        self.txt_calc_org_comp_receive.setFont(font)
+        self.txt_calc_org_comp_receive.setStyleSheet("QLineEdit{\n"
+"    background:transparent;\n"
+"    border:none;\n"
+"    color:black;\n"
+"    border-bottom:1px solid #717072\n"
+"}")
+        self.txt_calc_org_comp_receive.setText("")
+        self.txt_calc_org_comp_receive.setPlaceholderText("")
+        self.txt_calc_org_comp_receive.setObjectName("txt_calc_org_comp_receive")
+        self.horizontalLayout_60.addWidget(self.txt_calc_org_comp_receive)
+        self.horizontalLayout_59.addWidget(self.frame_117)
+        self.frame_118 = QtWidgets.QFrame(self.frame_116)
+        self.frame_118.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_118.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_118.setObjectName("frame_118")
+        self.horizontalLayout_61 = QtWidgets.QHBoxLayout(self.frame_118)
+        self.horizontalLayout_61.setObjectName("horizontalLayout_61")
+        self.label_52 = QtWidgets.QLabel(self.frame_118)
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(8)
+        self.label_52.setFont(font)
+        self.label_52.setStyleSheet("color: black;")
+        self.label_52.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_52.setObjectName("label_52")
+        self.horizontalLayout_61.addWidget(self.label_52)
+        self.txt_calc_eur_comp_receive = QtWidgets.QLineEdit(self.frame_118)
+        self.txt_calc_eur_comp_receive.setMinimumSize(QtCore.QSize(150, 0))
+        font = QtGui.QFont()
+        font.setFamily("Segoe UI")
+        font.setPointSize(11)
+        self.txt_calc_eur_comp_receive.setFont(font)
+        self.txt_calc_eur_comp_receive.setStyleSheet("QLineEdit{\n"
+"    background:transparent;\n"
+"    border:none;\n"
+"    color:black;\n"
+"    border-bottom:1px solid #717072\n"
+"}")
+        self.txt_calc_eur_comp_receive.setText("")
+        self.txt_calc_eur_comp_receive.setPlaceholderText("")
+        self.txt_calc_eur_comp_receive.setObjectName("txt_calc_eur_comp_receive")
+        self.horizontalLayout_61.addWidget(self.txt_calc_eur_comp_receive)
+        self.horizontalLayout_59.addWidget(self.frame_118)
+        self.verticalLayout_29.addWidget(self.frame_116)
+        self.verticalLayout_59.addWidget(self.frame_112)
+        self.frame_107 = QtWidgets.QFrame(self.frame_10)
+        self.frame_107.setFrameShape(QtWidgets.QFrame.NoFrame)
+        self.frame_107.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_107.setObjectName("frame_107")
+        self.verticalLayout_59.addWidget(self.frame_107)
         self.horizontalLayout_49.addWidget(self.frame_10)
         self.drop_shadow_layout.addWidget(self.frame_4)
         self.frame_2 = QtWidgets.QFrame(self.drop_shadow_frame)
@@ -2023,7 +2122,7 @@ class ShopSaleEntryPanel(object):
         self.frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_2.setObjectName("frame_2")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.frame_2)
-        self.horizontalLayout_2.setContentsMargins(6, 0, 0, 0)
+        self.horizontalLayout_2.setContentsMargins(6, 0, 0, 6)
         self.horizontalLayout_2.setSpacing(7)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
         self.btn_calculate = QtWidgets.QPushButton(self.frame_2)
@@ -2130,7 +2229,7 @@ class ShopSaleEntryPanel(object):
         self.cmb_currency.setItemText(3, _translate("MainWindow", "TRY"))
         self.cmb_currency.setItemText(4, _translate("MainWindow", "GBP"))
         self.check_forward.setText(_translate("MainWindow", "VADELİ SATIŞ"))
-        self.label_2.setText(_translate("MainWindow", "VADE TARİHİ :"))
+        self.label_2.setText(_translate("MainWindow", "VADE TARİHİ "))
         self.check_vip.setText(_translate("MainWindow", "VİP KOM"))
         self.check_landing.setText(_translate("MainWindow", "AYAK BASTI"))
         self.check_chief.setText(_translate("MainWindow", "ŞEF KOM"))
@@ -2166,6 +2265,9 @@ class ShopSaleEntryPanel(object):
         self.label_28.setText(_translate("MainWindow", "TOPLAM ŞİRKET GİRDİSİ"))
         self.label_29.setText(_translate("MainWindow", "ORJ. P.BİRİMİ :"))
         self.label_30.setText(_translate("MainWindow", "EURO :"))
+        self.label_50.setText(_translate("MainWindow", "TOPLAM TAHSİL EDİLECEK TUTAR"))
+        self.label_51.setText(_translate("MainWindow", "ORJ. P.BİRİMİ :"))
+        self.label_52.setText(_translate("MainWindow", "EURO :"))
         self.btn_calculate.setText(_translate("MainWindow", "Hesapla"))
         self.btn_save.setText(_translate("MainWindow", "Kaydet"))
         self.btn_back.setText(_translate("MainWindow", "Geri"))

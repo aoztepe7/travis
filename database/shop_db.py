@@ -7,7 +7,7 @@ def getShopList():
         my_db = mysql.connector.connect(host=database.db_connection.getHost(),username = database.db_connection.getUser(),password = database.db_connection.getPassword(),database=database.db_connection.getDatabase())
         cursor = my_db.cursor()
         query = """SELECT shop.id,shop.area_id,shop.name,area.name,shop.commercial_name,shop.mail,shop.phone,shop.vip_commission,shop.landing_fee,
-        shop.currency,shop.vip_commission_rep from shop join area on shop.area_id = area.id where shop.status = true"""
+        shop.currency,shop.vip_commission_rep,guide_com_pay_on_point from shop join area on shop.area_id = area.id where shop.status = true"""
         cursor.execute(query)
         result = cursor.fetchall()
         if(result):
@@ -26,7 +26,7 @@ def getShopCommissionRates(id,):
         my_db = mysql.connector.connect(host=database.db_connection.getHost(),username = database.db_connection.getUser(),password = database.db_connection.getPassword(),database=database.db_connection.getDatabase())
         cursor = my_db.cursor()
         query = """SELECT shop.id,shop.vip_commission,shop.landing_fee,
-        shop.vip_commission_rep,shop.currency from shop where shop.status = true and shop.id = %s"""
+        shop.vip_commission_rep,shop.currency,guide_com_pay_on_point from shop where shop.status = true and shop.id = %s"""
         query_tuple = (id,)
         cursor.execute(query, query_tuple)
         result = cursor.fetchall()
@@ -60,8 +60,8 @@ def addShop(Shop):
     try:
         my_db = mysql.connector.connect(host=database.db_connection.getHost(),username = database.db_connection.getUser(),password = database.db_connection.getPassword(),database=database.db_connection.getDatabase())
         cursor = my_db.cursor()
-        query = """INSERT INTO shop (name,area_id,commercial_name,mail,phone,vip_commission,landing_fee,currency,vip_commission_rep,status) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
-        query_tuple= (Shop.name,Shop.areaId,Shop.commercialName,Shop.mail,Shop.phone,Shop.vipCommission,Shop.landingFee,Shop.currency,Shop.vipCommissionRep,int(Shop.status))
+        query = """INSERT INTO shop (name,area_id,commercial_name,mail,phone,vip_commission,landing_fee,currency,vip_commission_rep,status,guide_com_pay_on_point) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"""
+        query_tuple= (Shop.name,Shop.areaId,Shop.commercialName,Shop.mail,Shop.phone,Shop.vipCommission,Shop.landingFee,Shop.currency,Shop.vipCommissionRep,int(Shop.status),int(Shop.guideCommPayOnPoint))
         cursor.execute(query,query_tuple)
         my_db.commit()
         return True
@@ -76,8 +76,8 @@ def updateShop(Shop):
     try:
         my_db = mysql.connector.connect(host=database.db_connection.getHost(),username = database.db_connection.getUser(),password = database.db_connection.getPassword(),database=database.db_connection.getDatabase())
         cursor = my_db.cursor()
-        query = """UPDATE shop set name = %s,area_id = %s,commercial_name = %s, mail = %s, phone = %s, vip_commission = %s,landing_fee = %s, currency = %s, vip_commission_rep = %s WHERE id=%s"""
-        query_tuple= (Shop.name,Shop.areaId,Shop.commercialName,Shop.mail,Shop.phone,Shop.vipCommission,Shop.landingFee,Shop.currency,Shop.vipCommissionRep,int(Shop.id))
+        query = """UPDATE shop set name = %s,area_id = %s,commercial_name = %s, mail = %s, phone = %s, vip_commission = %s,landing_fee = %s, currency = %s, vip_commission_rep = %s, guide_com_pay_on_point=%s WHERE id=%s"""
+        query_tuple= (Shop.name,Shop.areaId,Shop.commercialName,Shop.mail,Shop.phone,Shop.vipCommission,Shop.landingFee,Shop.currency,Shop.vipCommissionRep,int(Shop.id),int(Shop.guideCommPayOnPoint))
         cursor.execute(query,query_tuple)
         my_db.commit()
         return True

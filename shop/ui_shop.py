@@ -248,7 +248,7 @@ class ShopPanel(object):
         self.tableWidget.setShowGrid(False)
         self.tableWidget.setGridStyle(QtCore.Qt.NoPen)
         self.tableWidget.setObjectName("tableWidget")
-        self.tableWidget.setColumnCount(11)
+        self.tableWidget.setColumnCount(12)
         self.tableWidget.setRowCount(0)
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
@@ -282,6 +282,8 @@ class ShopPanel(object):
         self.tableWidget.setHorizontalHeaderItem(9, item)
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(10, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(11, item)
         self.tableWidget.horizontalHeader().setVisible(True)
         self.tableWidget.horizontalHeader().setCascadingSectionResizes(True)
         self.tableWidget.horizontalHeader().setStretchLastSection(True)
@@ -351,6 +353,8 @@ class ShopPanel(object):
         item.setText(_translate("MainWindow", "PARA BİRİMİ"))
         item = self.tableWidget.horizontalHeaderItem(10)
         item.setText(_translate("MainWindow", "VIP KOMİSYON (REP)"))
+        item = self.tableWidget.horizontalHeaderItem(11)
+        item.setText(_translate("MainWindow", "GUIDE COM PAY ON POINT"))
 
 
 if __name__ == "__main__":

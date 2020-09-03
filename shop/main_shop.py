@@ -32,16 +32,19 @@ class ShopWindow(QMainWindow):
             self.ui.tableWidget.setColumnHidden(4, False)
             self.ui.tableWidget.setColumnHidden(5, False)
             self.ui.tableWidget.setColumnHidden(6, False)
+            self.ui.tableWidget.setColumnHidden(11, False)
             item = self.ui.tableWidget.selectedItems()
             global GLOBAL_OBJECT_SHOP
             global GLOBAL_UPDATE
             GLOBAL_UPDATE = 1
-            GLOBAL_OBJECT_SHOP = shop.obj_shop.Shop(item[0].text(), item[1].text(),item[3].text(),item[2].text(),item[4].text(),item[5].text(),item[6].text(),item[7].text(),item[8].text(),item[9].text(),item[10].text())
+
+            GLOBAL_OBJECT_SHOP = shop.obj_shop.Shop(item[0].text(), item[1].text(),item[3].text(),item[2].text(),item[4].text(),item[5].text(),item[6].text(),item[7].text(),item[8].text(),item[9].text(),item[10].text(),item[11].text())
             self.ui.tableWidget.setColumnHidden(0, True)
             self.ui.tableWidget.setColumnHidden(1, True)
             self.ui.tableWidget.setColumnHidden(4, True)
             self.ui.tableWidget.setColumnHidden(5, True)
             self.ui.tableWidget.setColumnHidden(6, True)
+            self.ui.tableWidget.setColumnHidden(11, True)
             self.window = shop.main_shop_def.ShopDefWindow()
             self.window.show()
             self.hide()
@@ -166,6 +169,7 @@ class ShopWindow(QMainWindow):
         self.ui.tableWidget.setColumnHidden(4, True)
         self.ui.tableWidget.setColumnHidden(5, True)
         self.ui.tableWidget.setColumnHidden(6, True)
+        self.ui.tableWidget.setColumnHidden(11, True)
 
 
         # OPEN ADD NEW AREA PANEL
