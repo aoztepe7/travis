@@ -97,77 +97,97 @@ class ShopSaleDefWindow(QMainWindow):
 
     def calculate(self):
         if(self.checkNessessarySelections() == False):
-            pyautogui.alert("Rehber-Mağaza ve Ürün Seçimi Boş Olamaz!")
+            pyautogui.alert("Lütfen Aşağıda Belirtilen Tüm Alanları Doldurunuz!\n"
+                            "*Mağaza\n"
+                            "*Ürün\n"
+                            "*Satış Tarihi\n"
+                            "*Rehber\n"
+                            "*Tur Adı\n"
+                            "*Tur Türü\n"
+                            "*Operatör\n"
+                            "*Pax\n"
+                            "*Toplam Satış\n"
+                            "*Para Birimi\n"
+                            "*EUR Kuru")
             return
-
-        self.getShopCommissionRates(self.shop_model.data(self.shop_model.index(self.ui.cmb_shop.currentIndex(), 0)))
-        self.setChiefCommission(self.operator_model.data(self.operator_model.index(self.ui.cmb_operator.currentIndex(), 0)))
+        else:
+            self.getShopCommissionRates(self.shop_model.data(self.shop_model.index(self.ui.cmb_shop.currentIndex(), 0)))
+            self.setChiefCommission(self.operator_model.data(self.operator_model.index(self.ui.cmb_operator.currentIndex(), 0)))
 
         #Guide Calculations
-        guideDict = self.calculateGuideCommissionAmounts()
-        self.ui.txt_calc_org_guide.setText(str(guideDict["originalGuideComm"]))
-        self.ui.txt_calc_eur_guide.setText(str(guideDict["convertedGuideComm"]))
+            guideDict = self.calculateGuideCommissionAmounts()
+            self.ui.txt_calc_org_guide.setText(str(guideDict["originalGuideComm"]))
+            self.ui.txt_calc_eur_guide.setText(str(guideDict["convertedGuideComm"]))
 
         # Driver Calculations
-        driverDict = self.calculateDriverCommissionAmounts()
-        self.ui.txt_calc_org_driver.setText(str(driverDict["originalDriverComm"]))
-        self.ui.txt_calc_eur_driver.setText(str(driverDict["convertedDriverComm"]))
+            driverDict = self.calculateDriverCommissionAmounts()
+            self.ui.txt_calc_org_driver.setText(str(driverDict["originalDriverComm"]))
+            self.ui.txt_calc_eur_driver.setText(str(driverDict["convertedDriverComm"]))
 
         # Operator Calculations
-        operatorDict = self.calculateOperatorCommissionAmounts()
-        self.ui.txt_calc_org_operator.setText(str(operatorDict["originalOperatorComm"]))
-        self.ui.txt_calc_eur_operator.setText(str(operatorDict["convertedOperatorComm"]))
+            operatorDict = self.calculateOperatorCommissionAmounts()
+            self.ui.txt_calc_org_operator.setText(str(operatorDict["originalOperatorComm"]))
+            self.ui.txt_calc_eur_operator.setText(str(operatorDict["convertedOperatorComm"]))
 
         # Chief Calculations
-        chiefDict = self.calculateChiefRepCommissionAmounts()
-        chiefCommAmount = chiefDict["originalChiefComm"]
-        self.ui.txt_calc_org_chief.setText(str(chiefDict["originalChiefComm"]))
-        self.ui.txt_calc_eur_chief.setText(str(chiefDict["convertedChiefComm"]))
+            chiefDict = self.calculateChiefRepCommissionAmounts()
+            chiefCommAmount = chiefDict["originalChiefComm"]
+            self.ui.txt_calc_org_chief.setText(str(chiefDict["originalChiefComm"]))
+            self.ui.txt_calc_eur_chief.setText(str(chiefDict["convertedChiefComm"]))
 
         # Landing Fee Calculations
-        landingDict = self.calculateLandingFeeAmounts()
-        self.ui.txt_calc_org_landing.setText(str(landingDict["originalLandingFeeAmount"]))
-        self.ui.txt_calc_eur_landing.setText(str(landingDict["convertedLandingFeeAmount"]))
+            landingDict = self.calculateLandingFeeAmounts()
+            self.ui.txt_calc_org_landing.setText(str(landingDict["originalLandingFeeAmount"]))
+            self.ui.txt_calc_eur_landing.setText(str(landingDict["convertedLandingFeeAmount"]))
 
         # Vip Rep Calculations
-        vipDict = self.calculateVipCommissionAmounts()
-        self.ui.txt_calc_org_vip_rep.setText(str(vipDict["originalVipRep"]))
-        self.ui.txt_calc_eur_vip_rep.setText(str(vipDict["convertedVipRep"]))
+            vipDict = self.calculateVipCommissionAmounts()
+            self.ui.txt_calc_org_vip_rep.setText(str(vipDict["originalVipRep"]))
+            self.ui.txt_calc_eur_vip_rep.setText(str(vipDict["convertedVipRep"]))
 
         # Vip Company Calculations
-        self.ui.txt_calc_org_vip_comp.setText(str(vipDict["originalVipCompany"]))
-        self.ui.txt_calc_eur_vip_comp.setText(str(vipDict["convertedVipCompany"]))
+            self.ui.txt_calc_org_vip_comp.setText(str(vipDict["originalVipCompany"]))
+            self.ui.txt_calc_eur_vip_comp.setText(str(vipDict["convertedVipCompany"]))
 
         # Total Commission Calculations
-        totalComDict = self.calculateTotalCommissionAmount()
-        self.ui.txt_calc_org_comp.setText(str(totalComDict["originalTotalCommission"]))
-        self.ui.txt_calc_eur_comp.setText(str(totalComDict["convertedTotalCommission"]))
+            totalComDict = self.calculateTotalCommissionAmount()
+            self.ui.txt_calc_org_comp.setText(str(totalComDict["originalTotalCommission"]))
+            self.ui.txt_calc_eur_comp.setText(str(totalComDict["convertedTotalCommission"]))
 
         # Company Income Calculations
-        companyIncomeDict = self.calculateCompanyIncome(chiefCommAmount,GLOBAL_SELECTED_GUIDE)
-        self.ui.txt_calc_org_total.setText(str(companyIncomeDict["originalCompanyIncome"]))
-        self.ui.txt_calc_eur_total.setText(str(companyIncomeDict["convertedCompanyIncome"]))
+            companyIncomeDict = self.calculateCompanyIncome(chiefCommAmount,GLOBAL_SELECTED_GUIDE)
+            self.ui.txt_calc_org_total.setText(str(companyIncomeDict["originalCompanyIncome"]))
+            self.ui.txt_calc_eur_total.setText(str(companyIncomeDict["convertedCompanyIncome"]))
 
         # Company Receive Calculations
-        companyReceiveDict = self.calculateMustReceive(GLOBAL_SELECTED_GUIDE)
-        self.ui.txt_calc_org_comp_receive.setText(str(companyReceiveDict["totalOrginalReceive"]))
-        self.ui.txt_calc_eur_comp_receive.setText(str(companyReceiveDict["totalConvertedReceive"]))
+            companyReceiveDict = self.calculateMustReceive()
+            self.ui.txt_calc_org_comp_receive.setText(str(companyReceiveDict["totalOrginalReceive"]))
+            self.ui.txt_calc_eur_comp_receive.setText(str(companyReceiveDict["totalConvertedReceive"]))
 
-        global GLOBAL_IS_CALCULATED
-        GLOBAL_IS_CALCULATED = True
+            global GLOBAL_IS_CALCULATED
+            GLOBAL_IS_CALCULATED = True
 
-        pyautogui.alert("Hesaplama Tamamlandı!")
+            pyautogui.alert("Hesaplama Tamamlandı!")
 
-    def calculateMustReceive(self,guideSelection):
+            global GLOBAL_INTERNAL_RATE
+            GLOBAL_INTERNAL_RATE = None
+
+    def calculateMustReceive(self):
         totalOrginalReceive = 0
         totalConvertedReceive = 0
         rate = float(self.ui.txt_rate.text())
         if(GLOBAL_SELECTED_SHOP_PAYMENT_TYPE == 0):
-            totalOrginalReceive = (float(self.ui.txt_calc_org_guide.text()) + float(self.ui.txt_calc_org_driver.text())+ float(self.ui.txt_calc_org_operator.text()) + float(self.ui.txt_calc_org_chief.text()) + float(self.ui.txt_calc_org_landing.text())+ float(self.ui.txt_calc_org_vip_rep.text()) + float(self.ui.txt_calc_org_vip_comp.text()) + float(self.ui.txt_calc_org_total.text()))
+            totalOrginalReceive = (float(self.ui.txt_calc_org_guide.text()) + float(self.ui.txt_calc_org_driver.text())+ float(self.ui.txt_calc_org_operator.text()) + float(self.ui.txt_calc_org_chief.text()) + float(self.ui.txt_calc_org_vip_rep.text())  + float(self.ui.txt_calc_org_total.text()))
             totalConvertedReceive = totalOrginalReceive * rate
         else:
-            totalOrginalReceive = (float(self.ui.txt_calc_org_driver.text())+ float(self.ui.txt_calc_org_operator.text()) + float(self.ui.txt_calc_org_chief.text()) + float(self.ui.txt_calc_org_landing.text())+ float(self.ui.txt_calc_org_vip_rep.text()) + float(self.ui.txt_calc_org_vip_comp.text())+float(self.ui.txt_calc_org_total.text()))
-            totalConvertedReceive = totalOrginalReceive * rate
+            if (GLOBAL_SELECTED_GUIDE == 1):
+                totalOrginalReceive = (float(self.ui.txt_calc_org_guide.text()) + float(self.ui.txt_calc_org_driver.text())+ float(self.ui.txt_calc_org_operator.text()) + float(self.ui.txt_calc_org_chief.text()) + float(self.ui.txt_calc_org_landing.text())+float(self.ui.txt_calc_org_total.text()))
+                totalConvertedReceive = totalOrginalReceive * rate
+            else:
+                totalOrginalReceive = (
+                            float(self.ui.txt_calc_org_driver.text()) + float(
+                        self.ui.txt_calc_org_operator.text()) + float(self.ui.txt_calc_org_chief.text())  + float(self.ui.txt_calc_org_vip_rep.text()) + float(self.ui.txt_calc_org_total.text()))
+                totalConvertedReceive = totalOrginalReceive * rate
 
         totalCompanyReceiveDict = {"totalOrginalReceive": "{:.2f}".format(float(totalOrginalReceive)),
                                       "totalConvertedReceive": "{:.2f}".format(
@@ -268,10 +288,12 @@ class ShopSaleDefWindow(QMainWindow):
                 global GLOBAL_INTERNAL_RATE
                 if(GLOBAL_INTERNAL_RATE == None):
                     GLOBAL_INTERNAL_RATE = easygui.enterbox("Lütfen "+str(GLOBAL_SHOP_CURRENCY)+" - "+self.ui.cmb_currency.currentText()+" paritesini giriniz!")
+                    if(GLOBAL_INTERNAL_RATE == None or GLOBAL_INTERNAL_RATE == ""):
+                        GLOBAL_INTERNAL_RATE = float(self.ui.txt_rate.text())
 
-                saleRateConvertedLanding = landingFeeRate * float(GLOBAL_INTERNAL_RATE)
-                originalCalculatedTotalLandingFee = (totalPax * saleRateConvertedLanding)
-                convertedCalculatedTotalLandingFee = originalCalculatedTotalLandingFee * rate
+                    saleRateConvertedLanding = landingFeeRate * float(GLOBAL_INTERNAL_RATE)
+                    originalCalculatedTotalLandingFee = (totalPax * saleRateConvertedLanding)
+                    convertedCalculatedTotalLandingFee = originalCalculatedTotalLandingFee * rate
 
         landingDict = {"originalLandingFeeAmount":"{:.2f}".format(float(originalCalculatedTotalLandingFee)),"convertedLandingFeeAmount":"{:.2f}".format(float(convertedCalculatedTotalLandingFee))}
         return landingDict
@@ -295,16 +317,19 @@ class ShopSaleDefWindow(QMainWindow):
                 global GLOBAL_INTERNAL_RATE
                 if (GLOBAL_INTERNAL_RATE == None):
                     GLOBAL_INTERNAL_RATE = easygui.enterbox("Lütfen " + str(GLOBAL_SHOP_CURRENCY) + " - " + self.ui.cmb_currency.currentText() + " paritesini giriniz!")
-                originalCalculatedTotalVipRep = float(GLOBAL_VIP_REP)
-                originalCalculatedTotalVipCompany = float(GLOBAL_VIP_COMPANY)
-                saleRateConvertedRepVipAmount = originalCalculatedTotalVipRep * float(GLOBAL_INTERNAL_RATE)
-                saleRateConvertedCompanyVipAmount = originalCalculatedTotalVipCompany * float(GLOBAL_INTERNAL_RATE)
+                    if(GLOBAL_INTERNAL_RATE == None or GLOBAL_INTERNAL_RATE ==""):
+                        GLOBAL_INTERNAL_RATE = float(self.ui.txt_rate.text())
 
-                originalCalculatedTotalVipRep = saleRateConvertedRepVipAmount
-                convertedCalculatedTotalVipRep = originalCalculatedTotalVipRep * rate
+                    originalCalculatedTotalVipRep = float(GLOBAL_VIP_REP)
+                    originalCalculatedTotalVipCompany = float(GLOBAL_VIP_COMPANY)
+                    saleRateConvertedRepVipAmount = originalCalculatedTotalVipRep * float(GLOBAL_INTERNAL_RATE)
+                    saleRateConvertedCompanyVipAmount = originalCalculatedTotalVipCompany * float(GLOBAL_INTERNAL_RATE)
 
-                originalCalculatedTotalVipCompany = saleRateConvertedCompanyVipAmount
-                convertedCalculatedTotalVipCompany = originalCalculatedTotalVipCompany * rate
+                    originalCalculatedTotalVipRep = saleRateConvertedRepVipAmount
+                    convertedCalculatedTotalVipRep = originalCalculatedTotalVipRep * rate
+
+                    originalCalculatedTotalVipCompany = saleRateConvertedCompanyVipAmount
+                    convertedCalculatedTotalVipCompany = originalCalculatedTotalVipCompany * rate
 
 
         vipDict = {"originalVipRep":"{:.2f}".format(float(originalCalculatedTotalVipRep)),"convertedVipRep":"{:.2f}".format(float(convertedCalculatedTotalVipRep)),"originalVipCompany":"{:.2f}".format(float(originalCalculatedTotalVipCompany)),"convertedVipCompany":"{:.2f}".format(float(convertedCalculatedTotalVipCompany))}
@@ -319,23 +344,29 @@ class ShopSaleDefWindow(QMainWindow):
             GLOBAL_CHIEF_COMMISSION = float(i)
 
     def checkNessessarySelections(self):
-        if (self.ui.cmb_guide.currentIndex() != -1 and self.ui.cmb_product.currentIndex() != -1 and self.ui.cmb_shop.currentIndex() != -1 and self.ui.cmb_currency.currentText() != -1):
-            return True
-        else:
+        if (self.ui.cmb_guide.currentIndex() == -1 or self.ui.cmb_product.currentIndex() == -1 or self.ui.cmb_shop.currentIndex() == -1 or self.ui.cmb_currency.currentText() == -1
+        or self.ui.txt_tour_name.text() == "" or self.ui.cmb_tour_type.currentIndex() == -1 or self.ui.cmb_operator.currentIndex() == -1 or
+        self.ui.txt_pax.text() == "" or self.ui.txt_total_sale.text() == "" or self.ui.txt_rate.text() == ""):
             return False
+        else:
+            return True
 
     def getShopCommissionRates(self,id):
-        shop_commissions = database.shop_db.getShopCommissionRates(id)
-        global GLOBAL_VIP_REP
-        global GLOBAL_LANDING_FEE
-        global GLOBAL_VIP_COMPANY
-        global GLOBAL_SHOP_CURRENCY
+        if(self.ui.cmb_shop.currentIndex() != -1):
+            shop_commissions = database.shop_db.getShopCommissionRates(id)
+            global GLOBAL_VIP_REP
+            global GLOBAL_LANDING_FEE
+            global GLOBAL_VIP_COMPANY
+            global GLOBAL_SHOP_CURRENCY
 
-        for item in shop_commissions:
-            GLOBAL_VIP_COMPANY = float(item[1])
-            GLOBAL_LANDING_FEE = float(item[2])
-            GLOBAL_VIP_REP = float(item[3])
-            GLOBAL_SHOP_CURRENCY = str(item[4])
+            for item in shop_commissions:
+                GLOBAL_VIP_COMPANY = float(item[1])
+                GLOBAL_LANDING_FEE = float(item[2])
+                GLOBAL_VIP_REP = float(item[3])
+                GLOBAL_SHOP_CURRENCY = str(item[4])
+        else:
+            pyautogui.alert("Lütfen Mağaza Seçimi Yapınız!")
+            return
 
     def backToShopSalePanel(self):
         self.window = shop_sale.main_shop_sale.ShopSaleWindow()
@@ -537,7 +568,8 @@ class ShopSaleDefWindow(QMainWindow):
         if(shop_sale.main_shop_sale.GLOBAL_UPDATE == 1):
             global GLOBAL_CHIEF_COMMISSION
             GLOBAL_CHIEF_COMMISSION = self.setChiefCommission(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.operatorId)
-
+            global GLOBAL_SELECTED_GUIDE
+            GLOBAL_SELECTED_GUIDE = shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.guideSelection
             self.ui.cmb_shop.setEnabled(True)
             self.ui.dtp_sale.setEnabled(True)
             self.fillSelectedShopProductCommissions()

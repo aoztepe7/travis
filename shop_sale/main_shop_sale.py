@@ -3,7 +3,7 @@ import sys
 
 # GUI FILE
 from PyQt5 import QtCore, QtGui
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, QEvent
 from PyQt5.QtGui import QColor
 from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsDropShadowEffect, QSizeGrip, QTableWidgetItem
 
@@ -73,6 +73,7 @@ class ShopSaleWindow(QMainWindow):
         self.window.show()
         self.hide()
 
+
     def fill_table(self):
         shop_sale_list =  database.shop_sale_db.getShopSaleList()
         if(shop_sale_list):
@@ -134,6 +135,8 @@ class ShopSaleWindow(QMainWindow):
         self.ui.dtp_start.setDisplayFormat("dd-MM-yyyy")
         self.ui.dtp_finish.setDate(datetime.date.today())
         self.ui.dtp_finish.setDisplayFormat("dd-MM-yyyy")
+
+
         global GLOBAL_UPDATE
         GLOBAL_UPDATE = 0
         def moveWindow(event):
@@ -147,8 +150,26 @@ class ShopSaleWindow(QMainWindow):
                 self.dragPos = event.globalPos()
                 event.accept()
 
+        def keyPressEvent(event):
+            # IF Q PRESSED GET ID
+            if event.key() == Qt.Key_R:
+                self.ui.tableWidget.setColumnHidden(0, False)
+                item = self.ui.tableWidget.selectedItems()
+                self.ui.tableWidget.setColumnHidden(0, True)
+                pyautogui.alert("Referans ID : "+ item[0].text())
+                event.accept()
+            if event.key() == Qt.Key_Down:
+                current_row = self.ui.tableWidget.currentRow()
+                self.ui.tableWidget.selectRow(current_row+1)
+                event.accept()
+            if event.key() == Qt.Key_Up:
+                current_row = self.ui.tableWidget.currentRow()
+                self.ui.tableWidget.selectRow(current_row-1)
+                event.accept()
+
         # SET TITLE BAR
         self.ui.frame_move.mouseMoveEvent = moveWindow
+        self.ui.tableWidget.keyPressEvent = keyPressEvent
         self.uiDefinitions()
         self.show()
 

@@ -172,24 +172,6 @@ class ShopSalePanel(object):
 "}")
         self.btn_update.setObjectName("btn_update")
         self.horizontalLayout_3.addWidget(self.btn_update)
-        self.btn_detail = QtWidgets.QPushButton(self.frame)
-        self.btn_detail.setMinimumSize(QtCore.QSize(100, 30))
-        self.btn_detail.setMaximumSize(QtCore.QSize(16777215, 30))
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(10)
-        font.setBold(True)
-        font.setWeight(75)
-        self.btn_detail.setFont(font)
-        self.btn_detail.setStyleSheet("QPushButton {    \n"
-"  color: rgb(246, 244, 230);\n"
-"  background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(82, 82, 82, 255), stop:1 rgba(61, 114, 180, 255));\n"
-"}\n"
-"QPushButton:hover{\n"
-"    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(82, 82, 82, 150), stop:1 rgba(61, 114, 180, 150));\n"
-"}")
-        self.btn_detail.setObjectName("btn_detail")
-        self.horizontalLayout_3.addWidget(self.btn_detail)
         self.btn_delete = QtWidgets.QPushButton(self.frame)
         self.btn_delete.setMinimumSize(QtCore.QSize(100, 30))
         self.btn_delete.setMaximumSize(QtCore.QSize(16777215, 30))
@@ -355,7 +337,7 @@ class ShopSalePanel(object):
         self.frame_6.setObjectName("frame_6")
         self.horizontalLayout_9 = QtWidgets.QHBoxLayout(self.frame_6)
         self.horizontalLayout_9.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_9.setSpacing(0)
+        self.horizontalLayout_9.setSpacing(5)
         self.horizontalLayout_9.setObjectName("horizontalLayout_9")
         self.frame_7 = QtWidgets.QFrame(self.frame_6)
         self.frame_7.setFrameShape(QtWidgets.QFrame.NoFrame)
@@ -634,7 +616,6 @@ class ShopSalePanel(object):
         self.label_title.setText(_translate("MainWindow", "<strong>TRAVIS </strong> - Satışlar"))
         self.btn_add.setText(_translate("MainWindow", "Yeni Ekle"))
         self.btn_update.setText(_translate("MainWindow", "Güncelle"))
-        self.btn_detail.setText(_translate("MainWindow", "Detay"))
         self.btn_delete.setText(_translate("MainWindow", "Sil"))
         self.btn_back.setText(_translate("MainWindow", "Geri"))
         self.tableWidget.setSortingEnabled(True)

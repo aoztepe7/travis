@@ -142,7 +142,7 @@ def updateShopSale(ShopSale):
         sale_date= %s,forward_date= %s,shop_currency= %s,convert_currency = %s,rate= %s,converted_total_sale= %s,converted_total_commission_amount= %s,converted_guide_commission_amount= %s,converted_operator_commission_amount= %s,
         converted_driver_commission_amount= %s,converted_chief_commission_amount= %s,converted_total_landing_fee_amount= %s,converted_total_vip_commission_amount= %s,
         total_company_income= %s,converted_company_income= %s,add_vip= %s,add_landing= %s,add_chief= %s,product_name= %s,guide_selection= %s,vip_commission_amount_rep= %s,
-        converted_vip_commission_amount_rep= %s total_comp_receive = %s, converted_total_comp_receive = %s WHERE id=%s"""
+        converted_vip_commission_amount_rep= %s ,total_comp_receive = %s, converted_total_comp_receive = %s WHERE id=%s"""
         query_tuple= (ShopSale.guideId,ShopSale.tourName,ShopSale.tourType,ShopSale.hotel,ShopSale.note,ShopSale.operatorId,ShopSale.shopId,ShopSale.shopProductId,ShopSale.totalPax,
                       ShopSale.totalSale,ShopSale.totalCommissionAmount,ShopSale.guideCommissionAmount,ShopSale.operatorCommissionAmount,ShopSale.driverCommissionAmount,ShopSale.chiefCommissionAmount,
                       ShopSale.totalLandingFeeAmount,ShopSale.totalVipCommissionAmount,ShopSale.moneyOnGuide,ShopSale.moneyReceived,ShopSale.isForwardedSale,ShopSale.saleDate,ShopSale.forwardDate,
