@@ -15,6 +15,7 @@ import shop.main_shop
 import product.main_product
 import shop_product.main_shop_product
 import shop_sale.main_shop_sale
+import reports.shop_report.main_shop_report
 GLOBAL_STATE = 0
 
 class Panel(QMainWindow):
@@ -49,6 +50,11 @@ class Panel(QMainWindow):
 
     def openShopProductPanel(self):
         self.window = shop_product.main_shop_product.ShopProductWindow()
+        self.window.show()
+        self.hide()
+
+    def openShopReport(self):
+        self.window = reports.shop_report.main_shop_report.ShopReportWindow()
         self.window.show()
         self.hide()
 
@@ -144,6 +150,8 @@ class Panel(QMainWindow):
         self.ui.btn_maximize.setEnabled(False)
         # CLOSE
         self.ui.btn_close.clicked.connect(lambda: self.close())
+
+        self.ui.btn_shop_report.clicked.connect(lambda: self.openShopReport())
 
         ## ==> CREATE SIZE GRIP TO RESIZE WINDOW
         self.sizegrip = QSizeGrip(self.ui.frame_grip)
