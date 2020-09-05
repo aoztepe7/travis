@@ -5,7 +5,6 @@ import database.db_connection
 
 
 def getSearchQueryResultForShopReport(query):
-    print(query)
     my_db = None
     try:
         my_db = mysql.connector.connect(host=database.db_connection.getHost(),

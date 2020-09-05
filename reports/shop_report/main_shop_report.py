@@ -7,14 +7,18 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QColor
 from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsDropShadowEffect, QSizeGrip, QTableWidgetItem
 
+
+from openpyxl.chart import DoughnutChart, Reference
 import home.panel
 import reports.shop_report.ui_shop_report
 import database.report_db
 import database.shop_db
 import pyautogui
 import easygui
+import matplotlib
 GLOBAL_COLUMN_COUNT = 1
 GLOBAL_COLUMN_HEADER = []
+GLOBAL_STATE = 0
 
 
 import xlsxwriter
@@ -27,26 +31,46 @@ class ShopReportWindow(QMainWindow):
         self.hide()
 
     def getData(self):
-        if(self.ui.cmb_report.currentIndex() == 0 or self.ui.cmb_report.currentIndex() == -1 or self.ui.cmb_report.currentIndex() == None):
-            pyautogui.alert("Lütfen Bir Rapor Türü Seçiniz!")
-            return
-        else:
-            queryStart = self.queryBuilderForManuelCheckBox()
-            queryMid = self.queryMidBuilder(queryStart)
-            queryFinish = self.queryBuilderForSpecialCombos(queryMid)
-            result = database.report_db.getSearchQueryResultForShopReport(queryFinish)
-            if(result):
-                dialog_result = pyautogui.confirm("Toplam '"+str(len(result))+"' Kayıt Bulundu.Raporlama İşlemine Devam Etmek İstiyor Musunuz?")
-                if (dialog_result == "OK"):
-                    if(self.ui.cmb_report.currentText() == "EXCEL"):
-                        self.exportExcel(result)
-                    if(self.ui.cmb_report.currentText() == "PDF"):
-                        pass
-                    if(self.ui.cmb_report.currentText() == "GRAFİK"):
-                        pass
-            else:
-                pyautogui.alert("Belirtilen Kriterlere Uygun Kayıt Bulunamadı!")
+        if(self.ui.cmb_report.currentText() == "EXCEL"):
+            if(self.ui.cmb_report.currentIndex() == 0 or self.ui.cmb_report.currentIndex() == -1 or self.ui.cmb_report.currentIndex() == None):
+                pyautogui.alert("Lütfen Bir Rapor Türü Seçiniz!")
                 return
+            else:
+                queryStart = self.queryBuilderForManuelCheckBox()
+                queryMid = self.queryMidBuilder(queryStart)
+                queryFinish = self.queryBuilderForSpecialCombos(queryMid)
+                result = database.report_db.getSearchQueryResultForShopReport(queryFinish)
+                if (result):
+                    dialog_result = pyautogui.confirm("Toplam '" + str(
+                        len(result)) + "' Kayıt Bulundu.Raporlama İşlemine Devam Etmek İstiyor Musunuz?")
+                    if (dialog_result == "OK"):
+                        self.exportExcel(result)
+                else:
+                    pyautogui.alert("Belirtilen Kriterlere Uygun Kayıt Bulunamadı!")
+                    return
+        if (self.ui.cmb_report.currentText() == "GRAFİK"):
+            if(self.ui.cmb_shop.currentIndex() == 0 or self.ui.cmb_shop.currentIndex() == -1 or self.ui.cmb_shop.currentIndex() == None):
+                query = "SELECT shop.name,SUM(converted_total_sale) AS 'converted_total_sale' FROM shop_sale INNER JOIN shop ON shop_sale.shop_id = shop.id WHERE shop_sale.status = true GROUP BY shop_id"
+                result = database.report_db.getSearchQueryResultForShopReport(query)
+                if (result):
+                    dialog_result = pyautogui.confirm("Toplam '" + str(
+                        len(result)) + "' Kayıt Bulundu.Raporlama İşlemine Devam Etmek İstiyor Musunuz?")
+                    if (dialog_result == "OK"):
+                        self.exportChartWithoutShop(result)
+                else:
+                    pyautogui.alert("Belirtilen Kriterlere Uygun Kayıt Bulunamadı!")
+                    return
+            if(self.ui.cmb_shop.currentIndex() > 0):
+                query = "SELECT SUM(converted_guide_commission_amount) AS 'guide_comm',SUM(converted_chief_commission_amount) AS 'chief_comm',SUM(converted_operator_commission_amount) AS 'opr_comm',SUM(converted_driver_commission_amount) AS 'driver_comm',SUM(converted_company_income) AS 'comp_comm' FROM shop_sale INNER JOIN shop ON shop_sale.shop_id = shop.id WHERE shop_sale.status = true and shop_id ='"+str(self.ui.cmb_shop.currentIndex())+"'"
+                result = database.report_db.getSearchQueryResultForShopReport(query)
+                if (result):
+                    dialog_result = pyautogui.confirm("Kayıt Bulundu.Raporlama İşlemine Devam Etmek İstiyor Musunuz?")
+                    if (dialog_result == "OK"):
+                        self.exportChartWithShop(result)
+                else:
+                    pyautogui.alert("Belirtilen Kriterlere Uygun Kayıt Bulunamadı!")
+                    return
+
 
     def queryBuilderForManuelCheckBox(self):
         global GLOBAL_COLUMN_COUNT
@@ -185,6 +209,106 @@ class ShopReportWindow(QMainWindow):
         workbook.close()
         pyautogui.alert("Rapor Belirlenen Konuma Kaydedildi!")
 
+    def exportChartWithoutShop(self,list):
+        path = easygui.filesavebox(filetypes = ["Excel Files ","*.xlsx"])
+        if(not path.endswith("xlsx") or not path.endswith("xls")):
+            path = path+".xlsx"
+        workbook = xlsxwriter.Workbook(path)
+        workSheet = workbook.add_worksheet()
+        bold = workbook.add_format({'bold':1})
+        money = workbook.add_format({'num_format': '€ #,##0'})
+
+        headings = ['Mağaza' ,'Satış']
+        data = []
+        dataShopNames = []
+        dataValues = []
+        for i in list:
+            dataShopNames.append(str(i[0]))
+            dataValues.append(float(i[1]))
+
+        data.append(dataShopNames)
+        data.append(dataValues)
+
+        workSheet.write_row('A1',headings,bold)
+        workSheet.write_column('A2',data[0])
+        workSheet.write_column('B2',data[1],money)
+
+        chart = workbook.add_chart({'type':'pie'})
+
+        chart.add_series({
+            'name' : 'Mağaza Satış Grafiği',
+            'categories' : ['Sheet1',1,0,3,0],
+            'values' : ['Sheet1',1,1,3,1],
+            'data_labels' : {'value' : 1},
+            'marker' : {'type': 'automatic'},
+        })
+
+        chart.set_title({'name' : 'Mağaza Satış'})
+
+        workSheet.insert_chart('C2',chart,{'x_offset':25,'y_offset':10})
+
+        workbook.close()
+        pyautogui.alert("Rapor Belirlenen Konuma Kaydedildi!")
+
+    def exportChartWithShop(self, list):
+        path = easygui.filesavebox(filetypes=["Excel Files ", "*.xlsx"])
+        if (not path.endswith("xlsx") or not path.endswith("xls")):
+            path = path + ".xlsx"
+        workbook = xlsxwriter.Workbook(path)
+        workSheet = workbook.add_worksheet()
+        bold = workbook.add_format({'bold': 1})
+        money = workbook.add_format({'num_format': '€ #,##0'})
+
+        headings = ['Rehber', 'Şef' , 'Operatör', 'Şoför', 'Şirket']
+        data = []
+        dataGuide = []
+        dataChief = []
+        dataOperator = []
+        dataDriver = []
+        dataCompany = []
+        for i in list:
+            dataGuide.append(float(i[0]))
+            dataChief.append(float(i[1]))
+            dataOperator.append(float(i[2]))
+            dataDriver.append(float(i[3]))
+            dataCompany.append(float(i[4]))
+
+        data.append(dataGuide)
+        data.append(dataChief)
+        data.append(dataOperator)
+        data.append(dataDriver)
+        data.append(dataCompany)
+
+        workSheet.write_row('A1', headings, bold)
+        workSheet.write_column('A2', data[0],money)
+        workSheet.write_column('B2', data[1], money)
+        workSheet.write_column('C2', data[2], money)
+        workSheet.write_column('D2', data[3], money)
+        workSheet.write_column('E2', data[4], money)
+
+        chart = workbook.add_chart({'type': 'pie'})
+
+        chart.add_series({
+            'name': 'Mağaza Komisyon Dağılım Grafiği',
+            'categories': ['Sheet1', 0, 0, 0, 4],
+            'values': ['Sheet1', 1, 0, 1, 4],
+            'data_labels': {'value': 1},
+            'marker': {'type': 'automatic'},
+        })
+
+        chart.set_title({'name': 'Mağaza Komisyon Dağılım'})
+
+        workSheet.insert_chart('B4', chart, {'x_offset': 25, 'y_offset': 10})
+
+        workbook.close()
+        pyautogui.alert("Rapor Belirlenen Konuma Kaydedildi!")
+
+    def hideColumnBar(self):
+        if(self.ui.cmb_report.currentIndex() != 1):
+            self.ui.frame_15.setVisible(False)
+        else:
+            self.ui.frame_15.setVisible(True)
+
 
     def getShopList(self):
         return database.shop_db.getShopList()
@@ -198,6 +322,8 @@ class ShopReportWindow(QMainWindow):
         self.ui.dtp_finish.setDate(datetime.date.today())
         self.ui.dtp_finish.setDisplayFormat("dd-MM-yyyy")
 
+
+        self.ui.cmb_report.setCurrentIndex(1)
         self.shop_model = self.ui.cmb_shop.model()
 
         shop_list = self.getShopList()
@@ -289,6 +415,8 @@ class ShopReportWindow(QMainWindow):
         self.sizegrip.setStyleSheet(
             "QSizeGrip { width: 10px; height: 10px; margin: 5px } QSizeGrip:hover { background-color: rgb(50, 42, 94) }")
         self.sizegrip.setToolTip("Resize Window")
+
+        self.ui.cmb_report.currentIndexChanged.connect(self.hideColumnBar)
 
 
         # OPEN ADD NEW AREA PANEL
