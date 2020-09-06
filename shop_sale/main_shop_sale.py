@@ -2,10 +2,12 @@ import datetime
 import sys
 
 # GUI FILE
+import threading
+
 from PyQt5 import QtCore, QtGui
-from PyQt5.QtCore import Qt, QEvent
-from PyQt5.QtGui import QColor
-from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsDropShadowEffect, QSizeGrip, QTableWidgetItem
+from PyQt5.QtCore import Qt, QEvent, QThread, QPropertyAnimation, pyqtProperty
+from PyQt5.QtGui import QColor, QPixmap, QPainter
+from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsDropShadowEffect, QSizeGrip, QTableWidgetItem, QWidget
 
 import shop_sale.ui_shop_sale
 import shop_sale.main_shop_sale_def
@@ -15,10 +17,12 @@ import database.shop_db
 import database.guide_db
 import pyautogui
 import shop_sale.obj_shop_sale
+import shop_sale.main_shop_sale_def
 GLOBAL_STATE = 0
 GLOBAL_SELECTED_SHOP_SALE = None
 GLOBAL_OBJECT_SHOP_SALE = None
 GLOBAL_UPDATE = 0
+
 
 class ShopSaleWindow(QMainWindow):
     def openShopSaleDefPanel(self):
@@ -55,6 +59,8 @@ class ShopSaleWindow(QMainWindow):
             self.window = shop_sale.main_shop_sale_def.ShopSaleDefWindow()
             self.window.show()
             self.hide()
+
+
 
     def deleteSelectedShopSale(self):
         self.ui.tableWidget.setColumnHidden(0, False)
@@ -94,7 +100,7 @@ class ShopSaleWindow(QMainWindow):
     def search(self):
         self.ui.tableWidget.setRowCount(0)
         start_date = self.ui.dtp_start.date().toString("dd-MM-yyyy") + " 01:00:00"
-        finish_date = self.ui.dtp_finish.date().toString("dd-MM-yyyy") + " 01:00:00"
+        finish_date = self.ui.dtp_finish.date().toString("dd-MM-yyyy") + " 23:59:00"
         start_date_formatted = datetime.datetime.strptime(start_date, "%d-%m-%Y %H:%M:%S")
         formatted_start_date = start_date_formatted.strftime('%Y-%m-%d %H:%M:%S')
         finish_date_formatted = datetime.datetime.strptime(finish_date, "%d-%m-%Y %H:%M:%S")
@@ -135,7 +141,6 @@ class ShopSaleWindow(QMainWindow):
         self.ui.dtp_start.setDisplayFormat("dd-MM-yyyy")
         self.ui.dtp_finish.setDate(datetime.date.today())
         self.ui.dtp_finish.setDisplayFormat("dd-MM-yyyy")
-
 
         global GLOBAL_UPDATE
         GLOBAL_UPDATE = 0

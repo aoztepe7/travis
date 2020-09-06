@@ -1,9 +1,12 @@
+import math
 import sys
 # GUI FILE
+import PyQt5
 from PyQt5 import QtCore, QtSql, QtGui
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QColor
-from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsDropShadowEffect, QSizeGrip, QTableWidgetItem
+from PyQt5.QtCore import Qt, QObject, pyqtSignal, QThread
+from PyQt5.QtGui import QColor, QMovie, QPalette, QPainter, QBrush, QPen
+from PyQt5.QtWidgets import QMainWindow, QApplication, QGraphicsDropShadowEffect, QSizeGrip, QTableWidgetItem, QWidget, \
+    QLabel
 
 import shop_sale.ui_shop_sale_entry
 import shop_sale.main_shop_sale
@@ -36,6 +39,154 @@ GLOBAL_IS_CALCULATED = False
 GLOBAL_SELECTED_SHOP_PAYMENT_TYPE = 0
 
 class ShopSaleDefWindow(QMainWindow):
+    def doWork(self):
+        self.guide_model = self.ui.cmb_guide.model()
+        self.shop_model = self.ui.cmb_shop.model()
+        self.product_model = self.ui.cmb_product.model()
+        self.operator_model = self.ui.cmb_operator.model()
+        self.ui.cmb_product.setEnabled(False)
+        self.ui.dtp_sale.setDate(datetime.date.today())
+        self.ui.dtp_sale.setDisplayFormat("dd-MM-yyyy")
+        self.ui.cmb_shop.setEnabled(False)
+        self.ui.dtp_sale.setEnabled(False)
+
+        self.ui.txt_pax.setValidator(QtGui.QIntValidator())
+        self.ui.txt_total_sale.setValidator(QtGui.QDoubleValidator())
+        self.ui.txt_rate.setValidator(QtGui.QDoubleValidator())
+        self.ui.frame_10.setEnabled(False)
+
+        operator_list = self.getOperatorList()
+
+        for i in operator_list:
+            it8 = QtGui.QStandardItem(str(i[0]))
+            it9 = QtGui.QStandardItem(str(i[1]))
+            self.operator_model.appendRow((it8, it9))
+
+        self.ui.cmb_operator.setModel(self.operator_model)
+        self.ui.cmb_operator.setModelColumn(1)
+        self.ui.cmb_operator.setCurrentIndex(-1)
+
+        guide_list = self.getGuideList()
+
+        for i in guide_list:
+            it1 = QtGui.QStandardItem(str(i[0]))
+            it2 = QtGui.QStandardItem(str(i[1]))
+            it3 = QtGui.QStandardItem(str(i[4]))
+            self.guide_model.appendRow((it1, it2, it3))
+
+        self.ui.cmb_guide.setModel(self.guide_model)
+        self.ui.cmb_guide.setModelColumn(1)
+        self.ui.cmb_guide.setCurrentIndex(-1)
+
+        shop_list = self.getShopList()
+
+        for i in shop_list:
+            it3 = QtGui.QStandardItem(str(i[0]))
+            it4 = QtGui.QStandardItem(str(i[2]))
+            it11 = QtGui.QStandardItem(str(i[11]))
+            self.shop_model.appendRow((it3, it4, it11))
+
+        self.ui.cmb_shop.setModel(self.shop_model)
+        self.ui.cmb_shop.setModelColumn(1)
+        self.ui.cmb_shop.setCurrentIndex(-1)
+
+        if (shop_sale.main_shop_sale.GLOBAL_UPDATE == 1):
+            global GLOBAL_CHIEF_COMMISSION
+            GLOBAL_CHIEF_COMMISSION = self.setChiefCommission(
+                shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.operatorId)
+            global GLOBAL_SELECTED_GUIDE
+            GLOBAL_SELECTED_GUIDE = shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.guideSelection
+            self.ui.cmb_shop.setEnabled(True)
+            self.ui.dtp_sale.setEnabled(True)
+            self.fillSelectedShopProductCommissions()
+            self.ui.cmb_shop.setCurrentIndex(
+                self.ui.cmb_shop.findText(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.shopName))
+            self.ui.cmb_product.setEnabled(True)
+            self.fillShopProducts(datetime.datetime.strptime(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.saleDate,
+                                                             "%d-%m-%Y %H:%M:%S"))
+
+            self.ui.cmb_product.setCurrentIndex(
+                self.ui.cmb_product.findText(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.productName))
+            self.fillSelectedShopProductCommissions()
+            self.ui.cmb_guide.setCurrentIndex(
+                self.ui.cmb_guide.findText(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.guideName))
+            self.ui.dtp_sale.setDate(
+                datetime.datetime.strptime(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.saleDate,
+                                           "%d-%m-%Y %H:%M:%S"))
+
+            self.ui.txt_tour_name.setText(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.tourName)
+            self.ui.cmb_tour_type.setCurrentIndex(
+                self.ui.cmb_tour_type.findText(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.tourType))
+            self.ui.txt_hotel.setText(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.hotel)
+            self.ui.cmb_operator.setCurrentIndex(
+                self.ui.cmb_operator.findText(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.operatorName))
+            self.ui.txt_pax.setText(str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.totalPax))
+            self.ui.txt_total_sale.setText(str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.totalSale))
+            self.ui.cmb_currency.setCurrentIndex(
+                self.ui.cmb_currency.findText(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.shopCurrency))
+            self.ui.check_forward.setChecked(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.isForwardedSale)
+            self.ui.dtp_forward.setDate(
+                datetime.datetime.strptime(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.forwardDate,
+                                           "%d-%m-%Y %H:%M:%S"))
+            self.ui.check_vip.setChecked(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.addVip)
+            self.ui.check_landing.setChecked(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.addLanding)
+            self.ui.check_chief.setChecked(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.addChief)
+            self.ui.check_received.setChecked(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.moneyReceived)
+            self.ui.check_money_on_guide.setChecked(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.moneyOnGuide)
+            self.ui.txt_rate.setText(str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.rate))
+            self.ui.txt_note.setText(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.note)
+
+            self.ui.txt_calc_org_guide.setText(
+                str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.guideCommissionAmount))
+            self.ui.txt_calc_eur_guide.setText(
+                str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.convertedGuideCommissionAmount))
+
+            self.ui.txt_calc_org_driver.setText(
+                str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.driverCommissionAmount))
+            self.ui.txt_calc_eur_driver.setText(
+                str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.convertedDriverCommissionAmount))
+
+            self.ui.txt_calc_org_operator.setText(
+                str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.operatorCommissionAmount))
+            self.ui.txt_calc_eur_operator.setText(
+                str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.convertedOperatorCommissionAmount))
+
+            self.ui.txt_calc_org_chief.setText(
+                str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.chiefCommissionAmount))
+            self.ui.txt_calc_eur_chief.setText(
+                str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.convertedChiefCommissionAmount))
+
+            self.ui.txt_calc_org_landing.setText(
+                str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.totalLandingFeeAmount))
+            self.ui.txt_calc_eur_landing.setText(
+                str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.convertedTotalLandingFeeAmount))
+
+            self.ui.txt_calc_org_vip_rep.setText(
+                str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.vipCommissionAmountRep))
+            self.ui.txt_calc_eur_vip_rep.setText(
+                str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.convertedVipCommissionAmountRep))
+
+            self.ui.txt_calc_org_vip_comp.setText(
+                str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.totalVipCommissionAmount))
+            self.ui.txt_calc_eur_vip_comp.setText(
+                str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.convertedTotalVipCommissionAmount))
+
+            self.ui.txt_calc_org_comp.setText(
+                str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.totalCommissionAmount))
+            self.ui.txt_calc_eur_comp.setText(
+                str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.convertedTotalCommissionAmount))
+
+            self.ui.txt_calc_org_total.setText(str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.totalCompanyIncome))
+            self.ui.txt_calc_eur_total.setText(
+                str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.convertedCompanyIncome))
+
+            self.ui.txt_calc_org_comp_receive.setText(
+                str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.totalCompReceive))
+            self.ui.txt_calc_eur_comp_receive.setText(
+                str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.convertedTotalCompReceive))
+
+
+
     def changeGuideEvent(self):
         if(self.ui.cmb_guide.currentIndex() != -1):
             self.ui.cmb_shop.setEnabled(True)
@@ -514,144 +665,11 @@ class ShopSaleDefWindow(QMainWindow):
         QMainWindow.__init__(self)
         self.ui = shop_sale.ui_shop_sale_entry.ShopSaleEntryPanel()
         self.ui.setupUi(self)
-        self.guide_model = self.ui.cmb_guide.model()
-        self.shop_model = self.ui.cmb_shop.model()
-        self.product_model = self.ui.cmb_product.model()
-        self.operator_model = self.ui.cmb_operator.model()
-        self.ui.cmb_product.setEnabled(False)
-        self.ui.dtp_sale.setDate(datetime.date.today())
-        self.ui.dtp_sale.setDisplayFormat("dd-MM-yyyy")
-        self.ui.cmb_shop.setEnabled(False)
-        self.ui.dtp_sale.setEnabled(False)
+        self.uiDefinitions()
+        self.doWork()
+        self.showFullScreen()
+        self.show()
 
-        self.ui.txt_pax.setValidator(QtGui.QIntValidator())
-        self.ui.txt_total_sale.setValidator(QtGui.QDoubleValidator())
-        self.ui.txt_rate.setValidator(QtGui.QDoubleValidator())
-        self.ui.frame_10.setEnabled(False)
-
-        operator_list = self.getOperatorList()
-
-        for i in operator_list:
-            it8 = QtGui.QStandardItem(str(i[0]))
-            it9 = QtGui.QStandardItem(str(i[1]))
-            self.operator_model.appendRow((it8, it9))
-
-        self.ui.cmb_operator.setModel(self.operator_model)
-        self.ui.cmb_operator.setModelColumn(1)
-        self.ui.cmb_operator.setCurrentIndex(-1)
-
-
-        guide_list = self.getGuideList()
-
-        for i in guide_list:
-            it1 = QtGui.QStandardItem(str(i[0]))
-            it2 = QtGui.QStandardItem(str(i[1]))
-            it3 = QtGui.QStandardItem(str(i[4]))
-            self.guide_model.appendRow((it1, it2, it3))
-
-        self.ui.cmb_guide.setModel(self.guide_model)
-        self.ui.cmb_guide.setModelColumn(1)
-        self.ui.cmb_guide.setCurrentIndex(-1)
-
-        shop_list = self.getShopList()
-
-        for i in shop_list:
-            it3 = QtGui.QStandardItem(str(i[0]))
-            it4 = QtGui.QStandardItem(str(i[2]))
-            it11 = QtGui.QStandardItem(str(i[11]))
-            self.shop_model.appendRow((it3,it4,it11))
-
-        self.ui.cmb_shop.setModel(self.shop_model)
-        self.ui.cmb_shop.setModelColumn(1)
-        self.ui.cmb_shop.setCurrentIndex(-1)
-
-        if(shop_sale.main_shop_sale.GLOBAL_UPDATE == 1):
-            global GLOBAL_CHIEF_COMMISSION
-            GLOBAL_CHIEF_COMMISSION = self.setChiefCommission(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.operatorId)
-            global GLOBAL_SELECTED_GUIDE
-            GLOBAL_SELECTED_GUIDE = shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.guideSelection
-            self.ui.cmb_shop.setEnabled(True)
-            self.ui.dtp_sale.setEnabled(True)
-            self.fillSelectedShopProductCommissions()
-            self.ui.cmb_shop.setCurrentIndex(self.ui.cmb_shop.findText(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.shopName))
-            self.ui.cmb_product.setEnabled(True)
-            self.fillShopProducts(datetime.datetime.strptime(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.saleDate,"%d-%m-%Y %H:%M:%S"))
-
-            self.ui.cmb_product.setCurrentIndex(self.ui.cmb_product.findText(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.productName))
-            self.fillSelectedShopProductCommissions()
-            self.ui.cmb_guide.setCurrentIndex(self.ui.cmb_guide.findText(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.guideName))
-            self.ui.dtp_sale.setDate(datetime.datetime.strptime(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.saleDate,"%d-%m-%Y %H:%M:%S"))
-
-            self.ui.txt_tour_name.setText(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.tourName)
-            self.ui.cmb_tour_type.setCurrentIndex(self.ui.cmb_tour_type.findText(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.tourType))
-            self.ui.txt_hotel.setText(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.hotel)
-            self.ui.cmb_operator.setCurrentIndex(self.ui.cmb_operator.findText(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.operatorName))
-            self.ui.txt_pax.setText(str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.totalPax))
-            self.ui.txt_total_sale.setText(str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.totalSale))
-            self.ui.cmb_currency.setCurrentIndex(self.ui.cmb_currency.findText(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.shopCurrency))
-            self.ui.check_forward.setChecked(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.isForwardedSale)
-            self.ui.dtp_forward.setDate(datetime.datetime.strptime(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.forwardDate,"%d-%m-%Y %H:%M:%S"))
-            self.ui.check_vip.setChecked(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.addVip)
-            self.ui.check_landing.setChecked(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.addLanding)
-            self.ui.check_chief.setChecked(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.addChief)
-            self.ui.check_received.setChecked(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.moneyReceived)
-            self.ui.check_money_on_guide.setChecked(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.moneyOnGuide)
-            self.ui.txt_rate.setText(str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.rate))
-            self.ui.txt_note.setText(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.note)
-
-            self.ui.txt_calc_org_guide.setText(str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.guideCommissionAmount))
-            self.ui.txt_calc_eur_guide.setText(str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.convertedGuideCommissionAmount))
-
-            self.ui.txt_calc_org_driver.setText(str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.driverCommissionAmount))
-            self.ui.txt_calc_eur_driver.setText(str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.convertedDriverCommissionAmount))
-
-            self.ui.txt_calc_org_operator.setText(str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.operatorCommissionAmount))
-            self.ui.txt_calc_eur_operator.setText(str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.convertedOperatorCommissionAmount))
-
-            self.ui.txt_calc_org_chief.setText(str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.chiefCommissionAmount))
-            self.ui.txt_calc_eur_chief.setText(str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.convertedChiefCommissionAmount))
-
-            self.ui.txt_calc_org_landing.setText(str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.totalLandingFeeAmount))
-            self.ui.txt_calc_eur_landing.setText(str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.convertedTotalLandingFeeAmount))
-
-            self.ui.txt_calc_org_vip_rep.setText(str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.vipCommissionAmountRep))
-            self.ui.txt_calc_eur_vip_rep.setText(str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.convertedVipCommissionAmountRep))
-
-            self.ui.txt_calc_org_vip_comp.setText(str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.totalVipCommissionAmount))
-            self.ui.txt_calc_eur_vip_comp.setText(str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.convertedTotalVipCommissionAmount))
-
-            self.ui.txt_calc_org_comp.setText(str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.totalCommissionAmount))
-            self.ui.txt_calc_eur_comp.setText(str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.convertedTotalCommissionAmount))
-
-            self.ui.txt_calc_org_total.setText(str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.totalCompanyIncome))
-            self.ui.txt_calc_eur_total.setText(str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.convertedCompanyIncome))
-
-            self.ui.txt_calc_org_comp_receive.setText(str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.totalCompReceive))
-            self.ui.txt_calc_eur_comp_receive.setText(str(shop_sale.main_shop_sale.GLOBAL_OBJECT_SHOP_SALE.convertedTotalCompReceive))
-        else:
-            """if (self.ui.cmb_shop.currentIndex() != 0):
-                self.ui.cmb_shop.currentIndexChanged(self.fillShopProducts(self.product_model.data(self.product_model.index(self.ui.cmb_product.currentIndex(), 0)),self.ui.dtp_sale.date().toString("dd-MM-yyyy")))
-                self.ui.txt_def_guide_rate.setText(GLOBAL_SELECTED_SHOP_PRODUCT.guideCommission)
-                self.ui.txt_def_driver_rate.setText(GLOBAL_SELECTED_SHOP_PRODUCT.driverCommission)
-                self.ui.txt_def_opr_rate.setText(GLOBAL_SELECTED_SHOP_PRODUCT.operatorCommission)
-                self.ui.txt_def_guide_rate_2.setText(GLOBAL_SELECTED_SHOP_PRODUCT.totalCommission)
-                self.ui.txt_def_guide_rate_3.setText(GLOBAL_SELECTED_SHOP_PRODUCT.companyCommissionWithGuide)
-                self.ui.txt_def_guide_rate_4.setText(GLOBAL_SELECTED_SHOP_PRODUCT.companyCommissionWithHotel)"""
-
-            """if(self.ui.cmb_operator.currentIndex() != 0):
-                self.ui.cmb_operator.currentIndexChanged(self.setChiefCommission(self.operator_model.data(self.operator_model.index(self.ui.cmb_operator.currentIndex(), 0))))"""
-
-            """if (self.ui.cmb_shop.currentIndex() != 0):
-                self.ui.cmb_shop.currentIndexChanged(self.getShopCommissionRates(
-                    self.shop_model.data(self.shop_model.index(self.ui.cmb_shop.currentIndex(), 0))))"""
-
-
-
-
-
-
-            #self.ui.cmb_shop.currentIndexChanged.connect(self.fillShopProducts(self.shop_model.data(self.shop_model.index(self.ui.cmb_shop.currentIndex(), 0)),self.ui.dtp_sale.date().toString("dd-mm-yyyy")))
-            #self.ui.dtp_sale.dateChanged.connect(self.fillShopProducts(self.shop_model.data(self.shop_model.index(self.ui.cmb_shop.currentIndex(), 0)),self.ui.dtp_sale.date().toString("dd-mm-yyyy")))
 
         def moveWindow(event):
             # RESTORE BEFORE MOVE
@@ -668,8 +686,7 @@ class ShopSaleDefWindow(QMainWindow):
 
         # SET TITLE BAR
         self.ui.frame_move.mouseMoveEvent = moveWindow
-        self.uiDefinitions()
-        self.show()
+
 
     def maximize_restore(self):
         global GLOBAL_STATE
@@ -701,7 +718,7 @@ class ShopSaleDefWindow(QMainWindow):
         # REMOVE TITLE BAR
         self.setWindowFlag(QtCore.Qt.FramelessWindowHint)
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
-        self.showMaximized()
+
         # SET DROPSHADOW WINDOW
         self.shadow = QGraphicsDropShadowEffect(self)
         self.shadow.setBlurRadius(20)
