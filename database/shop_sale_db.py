@@ -24,6 +24,36 @@ def getSearchQueryResult(query):
     finally:
         my_db.close()
 
+def fillBoxesWithValues(id):
+    my_db = None
+    try:
+        my_db = mysql.connector.connect(host=database.db_connection.getHost(),
+                                        username=database.db_connection.getUser(),
+                                        password=database.db_connection.getPassword(),
+                                        database=database.db_connection.getDatabase())
+        cursor = my_db.cursor()
+        query = """select shop_sale.id,shop_sale.guide_id,shop_sale.tour_name,shop_sale.tour_type,shop_sale.hotel,
+        shop_sale.note, shop_sale.operator_id, shop_sale.shop_id, shop_sale.shop_product_id,
+        shop_sale.total_pax, shop_sale.total_sale,shop_sale.money_on_guide, shop_sale.money_received, shop_sale.is_forwarded_sale, DATE_FORMAT(shop_sale.sale_date,'%d-%m-%Y'),
+        DATE_FORMAT(shop_sale.forward_date,'%d-%m-%Y'), shop_sale.shop_currency, shop_sale.rate,
+        shop_sale.add_vip,shop_sale.add_landing,shop_sale.add_chief ,shop_sale.product_name , shop_sale.guide_selection ,
+        guide.full_name,operator.name ,shop.name , shop_sale.guide_comm_rate , shop_sale.driver_comm_rate , shop_sale.operator_comm_rate,
+        shop_sale.hotel_rep_comm_rate,shop_sale.total_comm_rate,shop_sale.comp_rate_guide,shop_sale.comp_rate_hotel
+        from shop_takip.shop_sale inner join shop_takip.shop on shop_sale.shop_id = shop.id
+        inner join shop_takip.operator on shop_sale.operator_id = operator.id
+        inner join shop_takip.guide on shop_sale.guide_id = guide.id where shop_sale.status = true and shop_sale.id = %s"""
+        query_tuple = (int(id),)
+        cursor.execute(query, query_tuple)
+        result = cursor.fetchall()
+        if (result):
+            return result
+        else:
+            return None
+    except Exception as e:
+        print(e)
+    finally:
+        my_db.close()
+
 def getById(id):
     my_db = None
     try:

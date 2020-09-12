@@ -4,7 +4,8 @@ class ShopSale():
                  operatorCommissionAmount,driverCommissionAmount,chiefCommissionAmount,totalLandingFeeAmount,totalVipCommissionAmount,moneyOnGuide,moneyReceived,isForwardedSale
                  ,saleDate,forwardDate,shopCurrency,convertCurrency,rate,convertedTotalSale,convertedTotalCommissionAmount,convertedGuideCommissionAmount,convertedOperatorCommissionAmount,
                  convertedDriverCommissionAmount,convertedChiefCommissionAmount,convertedTotalLandingFeeAmount,convertedTotalVipCommissionAmount,totalCompanyIncome,convertedCompanyIncome,
-                 addVip,addLanding,addChief,productName,guideSelection,vipCommissionAmountRep,convertedVipCommissionAmountRep,guideName,operatorName,shopName,totalCompReceive,convertedTotalCompReceive):
+                 addVip,addLanding,addChief,productName,guideSelection,vipCommissionAmountRep,convertedVipCommissionAmountRep,guideName,operatorName,shopName,totalCompReceive,convertedTotalCompReceive,
+                 guideCommRate,driverCommRate,operatorCommRate,hotelRepCommRate,totalCommRate,compRateGuide,compRateHotel):
         self.id = id
         self.guideId = guideId
         self.tourName = tourName
@@ -53,4 +54,11 @@ class ShopSale():
         self.shopName = shopName
         self.totalCompReceive = totalCompReceive
         self.convertedTotalCompReceive = convertedTotalCompReceive
+        self.guideCommRate = guideCommRate
+        self.driverCommRate = driverCommRate
+        self.operatorCommRate = operatorCommRate
+        self.hotelRepCommRate = hotelRepCommRate
+        self.totalCommRate = totalCommRate
+        self.compRateGuide = compRateGuide
+        self.compRateHotel = compRateHotel
         self.status = 1

@@ -533,9 +533,6 @@ class ShopSaleDefWindow(QMainWindow):
     def getOperatorList(self):
         return database.operator_db.getOperatorList()
 
-
-
-
     def saveToDb(self):
         if(GLOBAL_IS_CALCULATED == False):
             pyautogui.alert("Lütfen Önce Hesaplatma Yapınız!")

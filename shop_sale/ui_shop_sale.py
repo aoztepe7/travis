@@ -24,10 +24,10 @@ class ShopSalePanel(object):
         self.drop_shadow_frame.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.drop_shadow_frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.drop_shadow_frame.setObjectName("drop_shadow_frame")
-        self.verticalLayout_19 = QtWidgets.QVBoxLayout(self.drop_shadow_frame)
-        self.verticalLayout_19.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_19.setSpacing(0)
-        self.verticalLayout_19.setObjectName("verticalLayout_19")
+        self.drop_shadow_layout = QtWidgets.QVBoxLayout(self.drop_shadow_frame)
+        self.drop_shadow_layout.setContentsMargins(0, 0, 0, 0)
+        self.drop_shadow_layout.setSpacing(0)
+        self.drop_shadow_layout.setObjectName("drop_shadow_layout")
         self.title_bar = QtWidgets.QFrame(self.drop_shadow_frame)
         self.title_bar.setMaximumSize(QtCore.QSize(16777215, 40))
         font = QtGui.QFont()
@@ -124,7 +124,7 @@ class ShopSalePanel(object):
         self.btn_close.setObjectName("btn_close")
         self.horizontalLayout_4.addWidget(self.btn_close)
         self.horizontalLayout.addWidget(self.frame_btns)
-        self.verticalLayout_19.addWidget(self.title_bar)
+        self.drop_shadow_layout.addWidget(self.title_bar)
         self.frame = QtWidgets.QFrame(self.drop_shadow_frame)
         self.frame.setMinimumSize(QtCore.QSize(0, 50))
         self.frame.setMaximumSize(QtCore.QSize(16777215, 50))
@@ -210,22 +210,23 @@ class ShopSalePanel(object):
 "}")
         self.btn_back.setObjectName("btn_back")
         self.horizontalLayout_3.addWidget(self.btn_back)
-        self.verticalLayout_19.addWidget(self.frame)
+        self.drop_shadow_layout.addWidget(self.frame)
         self.content_bar = QtWidgets.QFrame(self.drop_shadow_frame)
         self.content_bar.setStyleSheet("background-color:none;")
         self.content_bar.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.content_bar.setFrameShadow(QtWidgets.QFrame.Raised)
         self.content_bar.setObjectName("content_bar")
         self.horizontalLayout_10 = QtWidgets.QHBoxLayout(self.content_bar)
-        self.horizontalLayout_10.setContentsMargins(5, 0, 0, 0)
+        self.horizontalLayout_10.setContentsMargins(0, 0, 0, 0)
+        self.horizontalLayout_10.setSpacing(0)
         self.horizontalLayout_10.setObjectName("horizontalLayout_10")
         self.frame_24 = QtWidgets.QFrame(self.content_bar)
-        self.frame_24.setMaximumSize(QtCore.QSize(800, 16777215))
+        self.frame_24.setMaximumSize(QtCore.QSize(16777215, 16777215))
         self.frame_24.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_24.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_24.setObjectName("frame_24")
         self.verticalLayout_18 = QtWidgets.QVBoxLayout(self.frame_24)
-        self.verticalLayout_18.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_18.setContentsMargins(5, 0, 0, 0)
         self.verticalLayout_18.setSpacing(0)
         self.verticalLayout_18.setObjectName("verticalLayout_18")
         self.frame_3 = QtWidgets.QFrame(self.frame_24)
@@ -267,7 +268,7 @@ class ShopSalePanel(object):
         self.tableWidget.setShowGrid(False)
         self.tableWidget.setGridStyle(QtCore.Qt.NoPen)
         self.tableWidget.setObjectName("tableWidget")
-        self.tableWidget.setColumnCount(4)
+        self.tableWidget.setColumnCount(7)
         self.tableWidget.setRowCount(0)
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignCenter)
@@ -287,6 +288,12 @@ class ShopSalePanel(object):
         self.tableWidget.setHorizontalHeaderItem(2, item)
         item = QtWidgets.QTableWidgetItem()
         self.tableWidget.setHorizontalHeaderItem(3, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(4, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(5, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tableWidget.setHorizontalHeaderItem(6, item)
         self.tableWidget.horizontalHeader().setVisible(True)
         self.tableWidget.horizontalHeader().setCascadingSectionResizes(True)
         self.tableWidget.horizontalHeader().setDefaultSectionSize(150)
@@ -303,7 +310,7 @@ class ShopSalePanel(object):
         self.frame_4.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_4.setObjectName("frame_4")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.frame_4)
-        self.verticalLayout_3.setContentsMargins(0, 0, 0, 5)
+        self.verticalLayout_3.setContentsMargins(0, 0, 0, 4)
         self.verticalLayout_3.setSpacing(0)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
         self.frame_7 = QtWidgets.QFrame(self.frame_4)
@@ -344,7 +351,7 @@ class ShopSalePanel(object):
         self.dtp_start.setStyleSheet("QDateEdit{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    color:white;\n"
+"    color:black;\n"
 "    border-bottom:1px solid #717072\n"
 "}")
         self.dtp_start.setObjectName("dtp_start")
@@ -360,7 +367,7 @@ class ShopSalePanel(object):
         self.dtp_finish.setStyleSheet("QDateEdit{\n"
 "    background:transparent;\n"
 "    border:none;\n"
-"    color:white;\n"
+"    color:black;\n"
 "    border-bottom:1px solid #717072\n"
 "}")
         self.dtp_finish.setObjectName("dtp_finish")
@@ -401,6 +408,7 @@ class ShopSalePanel(object):
         self.frame_23.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_23.setObjectName("frame_23")
         self.verticalLayout_17 = QtWidgets.QVBoxLayout(self.frame_23)
+        self.verticalLayout_17.setContentsMargins(0, -1, -1, -1)
         self.verticalLayout_17.setObjectName("verticalLayout_17")
         self.cmb_tour_type = QtWidgets.QComboBox(self.frame_23)
         self.cmb_tour_type.setStyleSheet("QComboBox{\n"
@@ -409,7 +417,12 @@ class ShopSalePanel(object):
 "    color: black;\n"
 "    border-bottom:1px solid #717072\n"
 "}\n"
-"QAbstractItemView{background:white;border:none;}")
+"QComboBox QAbstractItemView {\n"
+"    border: 2px solid darkgray;\n"
+"    selection-background-color: lightgray;\n"
+"    background:none;\n"
+"    color:black;\n"
+"}")
         self.cmb_tour_type.setObjectName("cmb_tour_type")
         self.cmb_tour_type.addItem("")
         self.cmb_tour_type.setItemText(0, "")
@@ -461,7 +474,12 @@ class ShopSalePanel(object):
 "    color: black;\n"
 "    border-bottom:1px solid #717072\n"
 "}\n"
-"QAbstractItemView{background:white;border:none;}")
+"QComboBox QAbstractItemView {\n"
+"    border: 2px solid darkgray;\n"
+"    selection-background-color: lightgray;\n"
+"    background:none;\n"
+"    color:black;\n"
+"}")
         self.cmb_shop.setObjectName("cmb_shop")
         self.verticalLayout_12.addWidget(self.cmb_shop)
         self.horizontalLayout_6.addWidget(self.frame_16)
@@ -508,7 +526,12 @@ class ShopSalePanel(object):
 "    color: black;\n"
 "    border-bottom:1px solid #717072\n"
 "}\n"
-"QAbstractItemView{background:white;border:none;}")
+"QComboBox QAbstractItemView {\n"
+"    border: 2px solid darkgray;\n"
+"    selection-background-color: lightgray;\n"
+"    background:none;\n"
+"    color:black;\n"
+"}")
         self.cmb_guide.setObjectName("cmb_guide")
         self.verticalLayout_14.addWidget(self.cmb_guide)
         self.horizontalLayout_7.addWidget(self.frame_19)
@@ -520,8 +543,6 @@ class ShopSalePanel(object):
         self.frame_6.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_6.setObjectName("frame_6")
         self.horizontalLayout_9 = QtWidgets.QHBoxLayout(self.frame_6)
-        self.horizontalLayout_9.setContentsMargins(0, 0, 0, 0)
-        self.horizontalLayout_9.setSpacing(5)
         self.horizontalLayout_9.setObjectName("horizontalLayout_9")
         self.btn_search = QtWidgets.QPushButton(self.frame_6)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -539,6 +560,38 @@ class ShopSalePanel(object):
 "}")
         self.btn_search.setObjectName("btn_search")
         self.horizontalLayout_9.addWidget(self.btn_search)
+        self.btn_fill = QtWidgets.QPushButton(self.frame_6)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.btn_fill.sizePolicy().hasHeightForWidth())
+        self.btn_fill.setSizePolicy(sizePolicy)
+        self.btn_fill.setMaximumSize(QtCore.QSize(1312313, 16777215))
+        self.btn_fill.setStyleSheet("QPushButton {    \n"
+"  color: rgb(246, 244, 230);\n"
+"  background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(82, 82, 82, 255), stop:1 rgba(61, 114, 180, 255));\n"
+"}\n"
+"QPushButton:hover{\n"
+"    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(82, 82, 82, 150), stop:1 rgba(61, 114, 180, 150));\n"
+"}")
+        self.btn_fill.setObjectName("btn_fill")
+        self.horizontalLayout_9.addWidget(self.btn_fill)
+        self.btn_edit = QtWidgets.QPushButton(self.frame_6)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.btn_edit.sizePolicy().hasHeightForWidth())
+        self.btn_edit.setSizePolicy(sizePolicy)
+        self.btn_edit.setMaximumSize(QtCore.QSize(1312313, 16777215))
+        self.btn_edit.setStyleSheet("QPushButton {    \n"
+"  color: rgb(246, 244, 230);\n"
+"  background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(82, 82, 82, 255), stop:1 rgba(61, 114, 180, 255));\n"
+"}\n"
+"QPushButton:hover{\n"
+"    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(82, 82, 82, 150), stop:1 rgba(61, 114, 180, 150));\n"
+"}")
+        self.btn_edit.setObjectName("btn_edit")
+        self.horizontalLayout_9.addWidget(self.btn_edit)
         self.verticalLayout_3.addWidget(self.frame_6)
         self.verticalLayout_18.addWidget(self.frame_4)
         self.horizontalLayout_10.addWidget(self.frame_24)
@@ -553,7 +606,7 @@ class ShopSalePanel(object):
         self.verticalLayout_26.setObjectName("verticalLayout_26")
         self.frame_25 = QtWidgets.QFrame(self.frame_5)
         self.frame_25.setMaximumSize(QtCore.QSize(850, 16777215))
-        self.frame_25.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_25.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_25.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_25.setObjectName("frame_25")
         self.verticalLayout_20 = QtWidgets.QVBoxLayout(self.frame_25)
@@ -590,26 +643,25 @@ class ShopSalePanel(object):
         self.frame_97.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_97.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_97.setObjectName("frame_97")
-        self.verticalLayout_48 = QtWidgets.QVBoxLayout(self.frame_97)
-        self.verticalLayout_48.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_48.setSpacing(0)
-        self.verticalLayout_48.setObjectName("verticalLayout_48")
+        self.verticalLayout_28 = QtWidgets.QVBoxLayout(self.frame_97)
+        self.verticalLayout_28.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_28.setSpacing(0)
+        self.verticalLayout_28.setObjectName("verticalLayout_28")
         self.cmb_guide_2 = QtWidgets.QComboBox(self.frame_97)
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(11)
-        self.cmb_guide_2.setFont(font)
         self.cmb_guide_2.setStyleSheet("QComboBox{\n"
 "    background:transparent;\n"
 "    border:none;\n"
 "    color: black;\n"
 "    border-bottom:1px solid #717072\n"
 "}\n"
-"QAbstractItemView{background:white;border:none;}")
-        self.cmb_guide_2.setCurrentText("")
-        self.cmb_guide_2.setInsertPolicy(QtWidgets.QComboBox.InsertAlphabetically)
+"QComboBox QAbstractItemView {\n"
+"    border: 2px solid darkgray;\n"
+"    selection-background-color: lightgray;\n"
+"    background:none;\n"
+"    color:black;\n"
+"}")
         self.cmb_guide_2.setObjectName("cmb_guide_2")
-        self.verticalLayout_48.addWidget(self.cmb_guide_2)
+        self.verticalLayout_28.addWidget(self.cmb_guide_2)
         self.horizontalLayout_11.addWidget(self.frame_97)
         self.verticalLayout_20.addWidget(self.frame_26)
         self.frame_28 = QtWidgets.QFrame(self.frame_25)
@@ -642,26 +694,25 @@ class ShopSalePanel(object):
         self.frame_99.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_99.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_99.setObjectName("frame_99")
-        self.verticalLayout_50 = QtWidgets.QVBoxLayout(self.frame_99)
-        self.verticalLayout_50.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_50.setSpacing(0)
-        self.verticalLayout_50.setObjectName("verticalLayout_50")
+        self.verticalLayout_29 = QtWidgets.QVBoxLayout(self.frame_99)
+        self.verticalLayout_29.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_29.setSpacing(0)
+        self.verticalLayout_29.setObjectName("verticalLayout_29")
         self.cmb_shop_2 = QtWidgets.QComboBox(self.frame_99)
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(11)
-        self.cmb_shop_2.setFont(font)
         self.cmb_shop_2.setStyleSheet("QComboBox{\n"
 "    background:transparent;\n"
 "    border:none;\n"
 "    color: black;\n"
 "    border-bottom:1px solid #717072\n"
 "}\n"
-"QAbstractItemView{background:white;border:none;}")
-        self.cmb_shop_2.setCurrentText("")
-        self.cmb_shop_2.setInsertPolicy(QtWidgets.QComboBox.InsertAlphabetically)
+"QComboBox QAbstractItemView {\n"
+"    border: 2px solid darkgray;\n"
+"    selection-background-color: lightgray;\n"
+"    background:none;\n"
+"    color:black;\n"
+"}")
         self.cmb_shop_2.setObjectName("cmb_shop_2")
-        self.verticalLayout_50.addWidget(self.cmb_shop_2)
+        self.verticalLayout_29.addWidget(self.cmb_shop_2)
         self.horizontalLayout_12.addWidget(self.frame_99)
         self.verticalLayout_20.addWidget(self.frame_28)
         self.frame_29 = QtWidgets.QFrame(self.frame_25)
@@ -721,26 +772,25 @@ class ShopSalePanel(object):
         self.frame_31.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_31.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_31.setObjectName("frame_31")
-        self.verticalLayout_52 = QtWidgets.QVBoxLayout(self.frame_31)
-        self.verticalLayout_52.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_52.setSpacing(0)
-        self.verticalLayout_52.setObjectName("verticalLayout_52")
+        self.verticalLayout_48 = QtWidgets.QVBoxLayout(self.frame_31)
+        self.verticalLayout_48.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_48.setSpacing(0)
+        self.verticalLayout_48.setObjectName("verticalLayout_48")
         self.cmb_product = QtWidgets.QComboBox(self.frame_31)
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(11)
-        self.cmb_product.setFont(font)
         self.cmb_product.setStyleSheet("QComboBox{\n"
 "    background:transparent;\n"
 "    border:none;\n"
 "    color: black;\n"
 "    border-bottom:1px solid #717072\n"
 "}\n"
-"QAbstractItemView{background:white;border:none;}")
-        self.cmb_product.setCurrentText("")
-        self.cmb_product.setInsertPolicy(QtWidgets.QComboBox.InsertAlphabetically)
+"QComboBox QAbstractItemView {\n"
+"    border: 2px solid darkgray;\n"
+"    selection-background-color: lightgray;\n"
+"    background:none;\n"
+"    color:black;\n"
+"}")
         self.cmb_product.setObjectName("cmb_product")
-        self.verticalLayout_52.addWidget(self.cmb_product)
+        self.verticalLayout_48.addWidget(self.cmb_product)
         self.horizontalLayout_15.addWidget(self.frame_31)
         self.verticalLayout_20.addWidget(self.frame_30)
         self.frame_74 = QtWidgets.QFrame(self.frame_25)
@@ -1119,31 +1169,30 @@ class ShopSalePanel(object):
         self.frame_101.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_101.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_101.setObjectName("frame_101")
-        self.verticalLayout_53 = QtWidgets.QVBoxLayout(self.frame_101)
-        self.verticalLayout_53.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_53.setSpacing(0)
-        self.verticalLayout_53.setObjectName("verticalLayout_53")
+        self.verticalLayout_27 = QtWidgets.QVBoxLayout(self.frame_101)
+        self.verticalLayout_27.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_27.setSpacing(0)
+        self.verticalLayout_27.setObjectName("verticalLayout_27")
         self.cmb_tour_type_2 = QtWidgets.QComboBox(self.frame_101)
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(11)
-        self.cmb_tour_type_2.setFont(font)
         self.cmb_tour_type_2.setStyleSheet("QComboBox{\n"
 "    background:transparent;\n"
 "    border:none;\n"
 "    color: black;\n"
 "    border-bottom:1px solid #717072\n"
 "}\n"
-"QAbstractItemView{background:white;border:none;}")
-        self.cmb_tour_type_2.setCurrentText("")
-        self.cmb_tour_type_2.setInsertPolicy(QtWidgets.QComboBox.InsertAlphabetically)
+"QComboBox QAbstractItemView {\n"
+"    border: 2px solid darkgray;\n"
+"    selection-background-color: lightgray;\n"
+"    background:none;\n"
+"    color:black;\n"
+"}")
         self.cmb_tour_type_2.setObjectName("cmb_tour_type_2")
         self.cmb_tour_type_2.addItem("")
         self.cmb_tour_type_2.setItemText(0, "")
         self.cmb_tour_type_2.addItem("")
         self.cmb_tour_type_2.addItem("")
         self.cmb_tour_type_2.addItem("")
-        self.verticalLayout_53.addWidget(self.cmb_tour_type_2)
+        self.verticalLayout_27.addWidget(self.cmb_tour_type_2)
         self.horizontalLayout_16.addWidget(self.frame_101)
         self.verticalLayout_20.addWidget(self.frame_34)
         self.frame_35 = QtWidgets.QFrame(self.frame_25)
@@ -1201,26 +1250,25 @@ class ShopSalePanel(object):
         self.frame_104.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_104.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_104.setObjectName("frame_104")
-        self.verticalLayout_56 = QtWidgets.QVBoxLayout(self.frame_104)
-        self.verticalLayout_56.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_56.setSpacing(0)
-        self.verticalLayout_56.setObjectName("verticalLayout_56")
+        self.verticalLayout_50 = QtWidgets.QVBoxLayout(self.frame_104)
+        self.verticalLayout_50.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_50.setSpacing(0)
+        self.verticalLayout_50.setObjectName("verticalLayout_50")
         self.cmb_operator = QtWidgets.QComboBox(self.frame_104)
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(11)
-        self.cmb_operator.setFont(font)
         self.cmb_operator.setStyleSheet("QComboBox{\n"
 "    background:transparent;\n"
 "    border:none;\n"
 "    color: black;\n"
 "    border-bottom:1px solid #717072\n"
 "}\n"
-"QAbstractItemView{background:white;border:none;}")
-        self.cmb_operator.setCurrentText("")
-        self.cmb_operator.setInsertPolicy(QtWidgets.QComboBox.InsertAlphabetically)
+"QComboBox QAbstractItemView {\n"
+"    border: 2px solid darkgray;\n"
+"    selection-background-color: lightgray;\n"
+"    background:none;\n"
+"    color:black;\n"
+"}")
         self.cmb_operator.setObjectName("cmb_operator")
-        self.verticalLayout_56.addWidget(self.cmb_operator)
+        self.verticalLayout_50.addWidget(self.cmb_operator)
         self.horizontalLayout_18.addWidget(self.frame_104)
         self.verticalLayout_20.addWidget(self.frame_36)
         self.frame_37 = QtWidgets.QFrame(self.frame_25)
@@ -1303,24 +1351,23 @@ class ShopSalePanel(object):
         self.frame_106.setFrameShape(QtWidgets.QFrame.NoFrame)
         self.frame_106.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_106.setObjectName("frame_106")
-        self.verticalLayout_58 = QtWidgets.QVBoxLayout(self.frame_106)
-        self.verticalLayout_58.setContentsMargins(0, 0, 0, 0)
-        self.verticalLayout_58.setSpacing(0)
-        self.verticalLayout_58.setObjectName("verticalLayout_58")
+        self.verticalLayout_52 = QtWidgets.QVBoxLayout(self.frame_106)
+        self.verticalLayout_52.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_52.setSpacing(0)
+        self.verticalLayout_52.setObjectName("verticalLayout_52")
         self.cmb_currency = QtWidgets.QComboBox(self.frame_106)
-        font = QtGui.QFont()
-        font.setFamily("Segoe UI")
-        font.setPointSize(11)
-        self.cmb_currency.setFont(font)
         self.cmb_currency.setStyleSheet("QComboBox{\n"
 "    background:transparent;\n"
 "    border:none;\n"
 "    color: black;\n"
 "    border-bottom:1px solid #717072\n"
 "}\n"
-"QAbstractItemView{background:white;border:none;}")
-        self.cmb_currency.setCurrentText("")
-        self.cmb_currency.setInsertPolicy(QtWidgets.QComboBox.InsertAlphabetically)
+"QComboBox QAbstractItemView {\n"
+"    border: 2px solid darkgray;\n"
+"    selection-background-color: lightgray;\n"
+"    background:none;\n"
+"    color:black;\n"
+"}")
         self.cmb_currency.setObjectName("cmb_currency")
         self.cmb_currency.addItem("")
         self.cmb_currency.setItemText(0, "")
@@ -1328,7 +1375,7 @@ class ShopSalePanel(object):
         self.cmb_currency.addItem("")
         self.cmb_currency.addItem("")
         self.cmb_currency.addItem("")
-        self.verticalLayout_58.addWidget(self.cmb_currency)
+        self.verticalLayout_52.addWidget(self.cmb_currency)
         self.horizontalLayout_21.addWidget(self.frame_106)
         self.verticalLayout_20.addWidget(self.frame_39)
         self.frame_40 = QtWidgets.QFrame(self.frame_25)
@@ -1495,7 +1542,7 @@ class ShopSalePanel(object):
         self.verticalLayout_20.addWidget(self.frame_46)
         self.verticalLayout_26.addWidget(self.frame_25)
         self.frame_grip = QtWidgets.QFrame(self.frame_5)
-        self.frame_grip.setMinimumSize(QtCore.QSize(16777215, 30))
+        self.frame_grip.setMinimumSize(QtCore.QSize(0, 30))
         self.frame_grip.setMaximumSize(QtCore.QSize(13213213, 30))
         self.frame_grip.setStyleSheet("padding:5px;background-color:none;")
         self.frame_grip.setFrameShape(QtWidgets.QFrame.NoFrame)
@@ -1505,26 +1552,29 @@ class ShopSalePanel(object):
         self.horizontalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_2.setSpacing(0)
         self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.frame_2 = QtWidgets.QFrame(self.frame_grip)
-        self.frame_2.setMinimumSize(QtCore.QSize(30, 30))
-        self.frame_2.setMaximumSize(QtCore.QSize(30, 30))
-        self.frame_2.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.frame_2.setObjectName("frame_2")
-        self.horizontalLayout_2.addWidget(self.frame_2)
+        self.btn_new = QtWidgets.QPushButton(self.frame_grip)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.btn_new.sizePolicy().hasHeightForWidth())
+        self.btn_new.setSizePolicy(sizePolicy)
+        self.btn_new.setMaximumSize(QtCore.QSize(1312313, 16777215))
+        self.btn_new.setStyleSheet("QPushButton {    \n"
+"  color: rgb(246, 244, 230);\n"
+"  background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(82, 82, 82, 255), stop:1 rgba(61, 114, 180, 255));\n"
+"}\n"
+"QPushButton:hover{\n"
+"    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(82, 82, 82, 150), stop:1 rgba(61, 114, 180, 150));\n"
+"}")
+        self.btn_new.setObjectName("btn_new")
+        self.horizontalLayout_2.addWidget(self.btn_new)
         self.verticalLayout_26.addWidget(self.frame_grip)
         self.horizontalLayout_10.addWidget(self.frame_5)
-        self.verticalLayout_19.addWidget(self.content_bar)
+        self.drop_shadow_layout.addWidget(self.content_bar)
         self.verticalLayout.addWidget(self.drop_shadow_frame)
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.cmb_guide_2.setCurrentIndex(-1)
-        self.cmb_shop_2.setCurrentIndex(-1)
-        self.cmb_product.setCurrentIndex(-1)
-        self.cmb_tour_type_2.setCurrentIndex(0)
-        self.cmb_operator.setCurrentIndex(-1)
-        self.cmb_currency.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -1544,6 +1594,12 @@ class ShopSalePanel(object):
         item.setText(_translate("MainWindow", "REHBER"))
         item = self.tableWidget.horizontalHeaderItem(3)
         item.setText(_translate("MainWindow", "MAĞAZA"))
+        item = self.tableWidget.horizontalHeaderItem(4)
+        item.setText(_translate("MainWindow", "TUR TÜRÜ"))
+        item = self.tableWidget.horizontalHeaderItem(5)
+        item.setText(_translate("MainWindow", "SATIŞ TUTARI"))
+        item = self.tableWidget.horizontalHeaderItem(6)
+        item.setText(_translate("MainWindow", "PARA BİRİMİ"))
         self.label_2.setText(_translate("MainWindow", "BAŞLANGIÇ - BİTİŞ"))
         self.label_5.setText(_translate("MainWindow", "TUR TÜRÜ"))
         self.cmb_tour_type.setItemText(1, _translate("MainWindow", "VIP"))
@@ -1552,6 +1608,8 @@ class ShopSalePanel(object):
         self.label_3.setText(_translate("MainWindow", "MAĞAZA"))
         self.label_4.setText(_translate("MainWindow", "REHBER"))
         self.btn_search.setText(_translate("MainWindow", "Listele"))
+        self.btn_fill.setText(_translate("MainWindow", "Verileri Doldur"))
+        self.btn_edit.setText(_translate("MainWindow", "Düzenle"))
         self.label_38.setText(_translate("MainWindow", "REHBER"))
         self.label_39.setText(_translate("MainWindow", "MAĞAZA"))
         self.label.setText(_translate("MainWindow", "SATIŞ TARİHİ "))
@@ -1574,9 +1632,9 @@ class ShopSalePanel(object):
         self.txt_total_sale.setPlaceholderText(_translate("MainWindow", "TOPLAM SATIŞ"))
         self.label_43.setText(_translate("MainWindow", "PARA BİRİMİ"))
         self.cmb_currency.setItemText(1, _translate("MainWindow", "EUR"))
-        self.cmb_currency.setItemText(2, _translate("MainWindow", "USD"))
-        self.cmb_currency.setItemText(3, _translate("MainWindow", "TRY"))
-        self.cmb_currency.setItemText(4, _translate("MainWindow", "GBP"))
+        self.cmb_currency.setItemText(2, _translate("MainWindow", "GBP"))
+        self.cmb_currency.setItemText(3, _translate("MainWindow", "USD"))
+        self.cmb_currency.setItemText(4, _translate("MainWindow", "TRY"))
         self.check_forward.setText(_translate("MainWindow", "VADELİ SATIŞ"))
         self.label_6.setText(_translate("MainWindow", "VADE TARİHİ "))
         self.check_vip.setText(_translate("MainWindow", "VİP KOM"))
@@ -1586,6 +1644,7 @@ class ShopSalePanel(object):
         self.check_money_on_guide.setText(_translate("MainWindow", "PARA REHBERDE"))
         self.txt_rate.setPlaceholderText(_translate("MainWindow", "EUR KURU"))
         self.txt_note.setPlaceholderText(_translate("MainWindow", "NOT"))
+        self.btn_new.setText(_translate("MainWindow", "Yeni Giriş"))
 
 
 if __name__ == "__main__":
