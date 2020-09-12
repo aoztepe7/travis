@@ -25,12 +25,12 @@ GLOBAL_UPDATE = 0
 
 
 class ShopSaleWindow(QMainWindow):
-    def openShopSaleDefPanel(self):
+    """def openShopSaleDefPanel(self):
         self.window = shop_sale.main_shop_sale_def.ShopSaleDefWindow()
         self.window.show()
-        self.hide()
+        self.hide()"""
 
-    def updateShopSale(self):
+    """def updateShopSale(self):
         if(len(self.ui.tableWidget.selectedItems())==0):
             pyautogui.alert("Lütfen Güncellemek İstediğiniz Satışı Seçiniz!")
         else:
@@ -58,7 +58,7 @@ class ShopSaleWindow(QMainWindow):
             self.ui.tableWidget.setColumnHidden(8, False)
             self.window = shop_sale.main_shop_sale_def.ShopSaleDefWindow()
             self.window.show()
-            self.hide()
+            self.hide()"""
 
 
 
@@ -80,16 +80,16 @@ class ShopSaleWindow(QMainWindow):
         self.hide()
 
 
-    def fill_table(self):
-        shop_sale_list =  database.shop_sale_db.getShopSaleList()
+    """def fill_table(self):
+        shop_sale_list =  database.shop_sale_db.getShortList()
         if(shop_sale_list):
             self.ui.tableWidget.setRowCount(0)
             for row, item in enumerate(shop_sale_list):
                 self.ui.tableWidget.insertRow(row)
                 for column, item in enumerate(item):
                     self.ui.tableWidget.setItem(row,column, QTableWidgetItem(str(item)))
-                    align = self.ui.tableWidget.item(row, column)
-                    align.setTextAlignment(QtCore.Qt.AlignCenter)
+                   # align = self.ui.tableWidget.item(row, column)
+                   # align.setTextAlignment(QtCore.Qt.AlignCenter)"""
 
     def getShopList(self):
         return database.shop_db.getShopList()
@@ -128,15 +128,14 @@ class ShopSaleWindow(QMainWindow):
                 self.ui.tableWidget.insertRow(row)
                 for column, item in enumerate(item):
                     self.ui.tableWidget.setItem(row, column, QTableWidgetItem(str(item)))
-                    align = self.ui.tableWidget.item(row, column)
-                    align.setTextAlignment(QtCore.Qt.AlignCenter)
-
+                    #align = self.ui.tableWidget.item(row, column)
+                    #align.setTextAlignment(QtCore.Qt.AlignCenter)
 
     def __init__(self):
         QMainWindow.__init__(self)
         self.ui = shop_sale.ui_shop_sale.ShopSalePanel()
         self.ui.setupUi(self)
-        self.fill_table()
+        #self.fill_table()
         self.ui.dtp_start.setDate(datetime.date.today())
         self.ui.dtp_start.setDisplayFormat("dd-MM-yyyy")
         self.ui.dtp_finish.setDate(datetime.date.today())
@@ -177,15 +176,17 @@ class ShopSaleWindow(QMainWindow):
         self.ui.tableWidget.keyPressEvent = keyPressEvent
         self.uiDefinitions()
         self.show()
-
+        """thread = threading.Thread(target=self.fillSearchBars)
+        thread.start()
+        thread.join()"""
         self.shop_model = self.ui.cmb_shop.model()
         self.guide_model = self.ui.cmb_guide.model()
 
         shop_list = self.getShopList()
         it_def_0 = QtGui.QStandardItem(str(0))
         it_def_1 = QtGui.QStandardItem(str(""))
-        self.shop_model.appendRow((it_def_0,it_def_1))
-        self.guide_model.appendRow((it_def_0,it_def_1))
+        self.shop_model.appendRow((it_def_0, it_def_1))
+        self.guide_model.appendRow((it_def_0, it_def_1))
         for i in shop_list:
             it0 = QtGui.QStandardItem(str(i[0]))
             it1 = QtGui.QStandardItem(str(i[2]))
@@ -205,6 +206,8 @@ class ShopSaleWindow(QMainWindow):
         self.ui.cmb_guide.setModel(self.guide_model)
         self.ui.cmb_guide.setModelColumn(1)
         self.ui.cmb_guide.setCurrentIndex(-1)
+
+
 
     def maximize_restore(self):
         global GLOBAL_STATE
@@ -262,11 +265,10 @@ class ShopSaleWindow(QMainWindow):
         # DELETE
         self.ui.btn_delete.clicked.connect(lambda: self.deleteSelectedShopSale())
 
-        self.ui.btn_update.clicked.connect(lambda: self.updateShopSale())
+        #self.ui.btn_update.clicked.connect(lambda: self.updateShopSale())
 
         self.ui.btn_search.clicked.connect(lambda: self.search())
 
-        self.ui.btn_clear.clicked.connect(lambda: self.fill_table())
 
         ## ==> CREATE SIZE GRIP TO RESIZE WINDOW
         self.sizegrip = QSizeGrip(self.ui.frame_grip)
@@ -276,13 +278,10 @@ class ShopSaleWindow(QMainWindow):
 
         #HIDE FIRST COLUMN
         self.ui.tableWidget.setColumnHidden(0,True)
-        self.ui.tableWidget.setColumnHidden(2, True)
-        self.ui.tableWidget.setColumnHidden(5, True)
-        self.ui.tableWidget.setColumnHidden(7, True)
-        self.ui.tableWidget.setColumnHidden(8, True)
+
 
         # OPEN ADD NEW SHOP SALE
-        self.ui.btn_add.clicked.connect(lambda : self.openShopSaleDefPanel())
+        #self.ui.btn_add.clicked.connect(lambda : self.openShopSaleDefPanel())
 
     def mousePressEvent(self, event):
         self.dragPos = event.globalPos()

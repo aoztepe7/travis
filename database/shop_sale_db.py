@@ -81,6 +81,27 @@ def getShopSaleList():
     finally:
         my_db.close()
 
+
+def getShortList():
+    my_db = None
+    try:
+        my_db = mysql.connector.connect(host=database.db_connection.getHost(),username = database.db_connection.getUser(),password = database.db_connection.getPassword(),database=database.db_connection.getDatabase())
+        cursor = my_db.cursor()
+
+        query = """SELECT shop_sale.id,DATE_FORMAT(shop_sale.sale_date,'%d-%m-%Y'),guide.full_name,shop.name
+        from shop_sale inner join guide on shop_sale.guide_id = guide.id 
+        inner join shop on shop_sale.shop_id = shop.id where shop_sale.status = true"""
+        cursor.execute(query)
+        result = cursor.fetchall()
+        if(result):
+            return result
+        else:
+            return None
+    except Exception as e:
+        print(e)
+    finally:
+        my_db.close()
+
 def deleteShopSale(id):
     my_db = None
     try:
