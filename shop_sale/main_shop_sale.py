@@ -15,6 +15,8 @@ import home.panel
 import database.shop_sale_db
 import database.shop_db
 import database.guide_db
+import shop_product.obj_shop_product
+import database.shop_product_db
 import pyautogui
 import shop_sale.object_sale
 import shop_sale.main_shop_sale_def
@@ -23,10 +25,23 @@ import database.operator_db
 GLOBAL_STATE = 0
 GLOBAL_SELECTED_SHOP_SALE = None
 GLOBAL_OBJECT_SHOP_SALE = None
+GLOBAL_SELECTED_SHOP_PRODUCT = None
 GLOBAL_UPDATE = 0
+GLOBAL_EVENTS_ACTIVE = 0
+GLOBAL_PRODUCT_LIST =None
 
 
 class ShopSaleWindow(QMainWindow):
+    def resetProductCombo(self):
+        for i in GLOBAL_PRODUCT_LIST:
+            it0 = QtGui.QStandardItem(str(i[0]))
+            it1 = QtGui.QStandardItem(str(i[1]))
+            self.product_model.appendRow((it0, it1))
+
+        self.ui.cmb_product.setModel(self.product_model)
+        self.ui.cmb_product.setModelColumn(1)
+        self.ui.cmb_product.setCurrentIndex(-1)
+
     """def openShopSaleDefPanel(self):
         self.window = shop_sale.main_shop_sale_def.ShopSaleDefWindow()
         self.window.show()
@@ -34,16 +49,22 @@ class ShopSaleWindow(QMainWindow):
     def fillSearchValues(self):
         self.shop_model = self.ui.cmb_shop.model()
         self.guide_model = self.ui.cmb_guide.model()
-        self.guide_model_2 = self.ui.cmb_guide_2.model()
-        self.shop_model_2 = self.ui.cmb_shop_2.model()
         self.product_model = self.ui.cmb_product.model()
         self.operator_model = self.ui.cmb_operator.model()
+
+
+        it_def_0 = QtGui.QStandardItem(str(0))
+        it_def_1 = QtGui.QStandardItem(str(""))
+        self.shop_model.appendRow((it_def_0, it_def_1))
+        self.guide_model.appendRow((it_def_0, it_def_1))
+        self.product_model.appendRow((it_def_0, it_def_1))
+        self.operator_model.appendRow((it_def_0, it_def_1))
 
         operator_list = self.getOperatorList()
 
         for i in operator_list:
             it0 = QtGui.QStandardItem(str(i[0]))
-            it1 = QtGui.QStandardItem(str(i[2]))
+            it1 = QtGui.QStandardItem(str(i[1]))
             self.operator_model.appendRow((it0, it1))
 
         self.ui.cmb_operator.setModel(self.operator_model)
@@ -51,6 +72,8 @@ class ShopSaleWindow(QMainWindow):
         self.ui.cmb_operator.setCurrentIndex(-1)
 
         product_list = self.getProductList()
+        global  GLOBAL_PRODUCT_LIST
+        GLOBAL_PRODUCT_LIST = product_list
 
         for i in product_list:
             it0 = QtGui.QStandardItem(str(i[0]))
@@ -62,21 +85,13 @@ class ShopSaleWindow(QMainWindow):
         self.ui.cmb_product.setCurrentIndex(-1)
 
         shop_list = self.getShopList()
-        it_def_0 = QtGui.QStandardItem(str(0))
-        it_def_1 = QtGui.QStandardItem(str(""))
-        self.shop_model.appendRow((it_def_0, it_def_1))
-        self.guide_model.appendRow((it_def_0, it_def_1))
-        self.guide_model_2.appendRow((it_def_0, it_def_1))
-        self.shop_model_2.appendRow((it_def_0, it_def_1))
-        self.product_model.appendRow((it_def_0, it_def_1))
         for i in shop_list:
             it0 = QtGui.QStandardItem(str(i[0]))
             it1 = QtGui.QStandardItem(str(i[2]))
             self.shop_model.appendRow((it0, it1))
-            self.shop_model_2.appendRow((it0, it1))
 
         self.ui.cmb_shop.setModel(self.shop_model)
-        self.ui.cmb_shop_2.setModel(self.shop_model_2)
+        self.ui.cmb_shop_2.setModel(self.shop_model)
         self.ui.cmb_shop.setModelColumn(1)
         self.ui.cmb_shop_2.setModelColumn(1)
         self.ui.cmb_shop.setCurrentIndex(-1)
@@ -88,10 +103,9 @@ class ShopSaleWindow(QMainWindow):
             it2 = QtGui.QStandardItem(str(i[0]))
             it3 = QtGui.QStandardItem(str(i[1]))
             self.guide_model.appendRow((it2, it3))
-            self.guide_model_2.appendRow((it2, it3))
 
         self.ui.cmb_guide.setModel(self.guide_model)
-        self.ui.cmb_guide_2.setModel(self.guide_model_2)
+        self.ui.cmb_guide_2.setModel(self.guide_model)
         self.ui.cmb_guide.setModelColumn(1)
         self.ui.cmb_guide_2.setModelColumn(1)
         self.ui.cmb_guide.setCurrentIndex(-1)
@@ -184,38 +198,80 @@ class ShopSaleWindow(QMainWindow):
                 self.ui.txt_rate.setText(str(shopSale.rate))
                 self.ui.txt_note.setText(shopSale.note)
 
+    def fillSelectedShopProductCommissions(self):
+        if(GLOBAL_EVENTS_ACTIVE != 0):
+            if(self.ui.cmb_product.currentIndex() != -1 ):
+                result = database.shop_product_db.getById(self.product_model.data(self.product_model.index(self.ui.cmb_product.currentIndex(), 0)))
+                if(result and len(result)>0):
+                    for i in result:
+                        self.ui.txt_def_guide_rate.setText(str(i[2]))
+                        self.ui.txt_def_driver_rate.setText(str(i[3]))
+                        self.ui.txt_def_opr_rate.setText(str(i[5]))
+                        self.ui.txt_def_reo_rate.setText(str(i[6]))
+                        self.ui.txt_def_guide_rate_2.setText(str(i[1]))
+                        self.ui.txt_def_guide_rate_3.setText(str(i[4]))
+                        self.ui.txt_def_guide_rate_4.setText(str(i[7]))
+            else:
+                self.ui.txt_def_guide_rate.clear()
+                self.ui.txt_def_driver_rate.clear()
+                self.ui.txt_def_opr_rate.clear()
+                self.ui.txt_def_reo_rate.clear()
+                self.ui.txt_def_guide_rate_2.clear()
+                self.ui.txt_def_guide_rate_3.clear()
+                self.ui.txt_def_guide_rate_4.clear()
+
+    def clearAndGetNewShopProducts(self,oldProductText):
+        if(GLOBAL_EVENTS_ACTIVE != 0):
+            if (self.ui.cmb_shop_2.currentIndex() != -1 and self.ui.cmb_shop_2.currentIndex() != 0 ):
+                product_list = database.shop_product_db.getShopProductsByShopIdAndDate(
+                    self.shop_model.data(self.shop_model.index(self.ui.cmb_shop_2.currentIndex(), 0)),
+                    self.ui.dtp_sale.date().toString("dd-MM-yyyy"))
+                if (product_list):
+                    for i in product_list:
+                        it5 = QtGui.QStandardItem(str(i[0]))
+                        it6 = QtGui.QStandardItem(str(i[2]))
+                        self.product_model.appendRow((it5, it6))
 
 
-    """def updateShopSale(self):
-        if(len(self.ui.tableWidget.selectedItems())==0):
-            pyautogui.alert("Lütfen Güncellemek İstediğiniz Satışı Seçiniz!")
-        else:
-            self.ui.tableWidget.setColumnHidden(0, False)
-            self.ui.tableWidget.setColumnHidden(2, False)
-            self.ui.tableWidget.setColumnHidden(5, False)
-            self.ui.tableWidget.setColumnHidden(7, False)
-            self.ui.tableWidget.setColumnHidden(8, False)
-            item = self.ui.tableWidget.selectedItems()
-            global GLOBAL_OBJECT_SHOP_SALE
+                self.ui.cmb_product.setModel(self.product_model)
+                self.ui.cmb_product.setModelColumn(1)
+                self.ui.cmb_product.setCurrentIndex(self.ui.cmb_product.findText(oldProductText))
+                self.fillSelectedShopProductCommissions()
+                self.ui.cmb_product.setEnabled(True)
+
+    def fillShopProducts(self):
+        if(GLOBAL_EVENTS_ACTIVE != 0):
+            self.ui.cmb_product.clear()
+            if(self.ui.cmb_shop_2.currentIndex() != 0 and self.ui.cmb_shop_2.currentIndex() != -1):
+                product_list = database.shop_product_db.getShopProductsByShopIdAndDate(self.shop_model.data(self.shop_model.index(self.ui.cmb_shop_2.currentIndex(), 0)),self.ui.dtp_sale.date().toString("dd-MM-yyyy"))
+                if (product_list):
+                    it_def_0 = QtGui.QStandardItem(str(0))
+                    it_def_1 = QtGui.QStandardItem(str(""))
+                    self.product_model.appendRow((it_def_0, it_def_1))
+                    for i in product_list:
+                        it5 = QtGui.QStandardItem(str(i[0]))
+                        it6 = QtGui.QStandardItem(str(i[2]))
+                        self.product_model.appendRow((it5, it6))
+
+                self.ui.cmb_product.setModel(self.product_model)
+                self.ui.cmb_product.setModelColumn(1)
+                self.ui.cmb_product.setCurrentIndex(0)
+
+
+
+    def updateEnabled(self):
+        if (len(self.ui.tableWidget.selectedItems()) != 0):
             global GLOBAL_UPDATE
             GLOBAL_UPDATE = 1
-            result = database.shop_sale_db.getById(item[0].text())
-            GLOBAL_OBJECT_SHOP_SALE = shop_sale.obj_shop_sale.ShopSale(
-                result[0][0],result[0][1],result[0][2],result[0][3],result[0][4],result[0][5],result[0][6],
-                result[0][7],result[0][8],result[0][9],result[0][10],result[0][11],result[0][12],result[0][13],
-                result[0][14],result[0][15],result[0][16],result[0][17],result[0][18],result[0][19],result[0][20],result[0][21],
-                result[0][22],result[0][23],result[0][24],result[0][25],result[0][26],result[0][27],
-                result[0][28],result[0][29],result[0][30],result[0][31],result[0][32],result[0][33],result[0][34],
-                result[0][35],result[0][36],result[0][37],result[0][38],result[0][39],result[0][40],result[0][41],result[0][42],result[0][43],result[0][44],result[0][45],result[0][46],result[0][47])
-            self.ui.tableWidget.setColumnHidden(0, False)
-            self.ui.tableWidget.setColumnHidden(2, False)
-            self.ui.tableWidget.setColumnHidden(5, False)
-            self.ui.tableWidget.setColumnHidden(7, False)
-            self.ui.tableWidget.setColumnHidden(8, False)
-            self.window = shop_sale.main_shop_sale_def.ShopSaleDefWindow()
-            self.window.show()
-            self.hide()"""
-
+            global GLOBAL_EVENTS_ACTIVE
+            GLOBAL_EVENTS_ACTIVE = 1
+            self.ui.frame_25.setEnabled(True)
+            oldProductText = self.ui.cmb_product.currentText()
+            self.ui.cmb_product.clear()
+            self.clearAndGetNewShopProducts(oldProductText)
+        else:
+            pyautogui.alert("Lütfen Bir Seçim Yapınız!")
+            return
 
 
     def deleteSelectedShopSale(self):
@@ -280,6 +336,52 @@ class ShopSaleWindow(QMainWindow):
                     #align = self.ui.tableWidget.item(row, column)
                     #align.setTextAlignment(QtCore.Qt.AlignCenter)
 
+    def mousePressEv(self):
+        if(len(self.ui.tableWidget.selectedItems()) != 0):
+            global  GLOBAL_UPDATE
+            global GLOBAL_EVENTS_ACTIVE
+            GLOBAL_EVENTS_ACTIVE = 0
+            GLOBAL_UPDATE = 0
+            self.resetProductCombo()
+            self.ui.frame_25.setEnabled(False)
+            self.fillBoxes()
+
+    def clearBoxes(self):
+        self.ui.cmb_guide_2.setCurrentIndex(0)
+        self.ui.cmb_shop_2.setCurrentIndex(0)
+        self.ui.cmb_shop_2.setCurrentIndex(0)
+        self.ui.dtp_sale.setDate(datetime.date.today())
+        self.ui.txt_def_guide_rate.clear()
+        self.ui.txt_def_driver_rate.clear()
+        self.ui.txt_def_opr_rate.clear()
+        self.ui.txt_def_reo_rate.clear()
+        self.ui.txt_def_guide_rate_2.clear()
+        self.ui.txt_def_guide_rate_3.clear()
+        self.ui.txt_def_guide_rate_4.clear()
+        self.ui.txt_tour_name.clear()
+        self.ui.cmb_tour_type.setCurrentIndex(0)
+        self.ui.txt_hotel.clear()
+        self.ui.cmb_operator.setCurrentIndex(0)
+        self.ui.txt_pax.clear()
+        self.ui.txt_total_sale.clear()
+        self.ui.cmb_currency.setCurrentIndex(0)
+        self.ui.check_forward.setChecked(False)
+        self.ui.dtp_forward.setDate(datetime.date.today())
+        self.ui.check_vip.setChecked(False)
+        self.ui.check_landing.setChecked(False)
+        self.ui.check_chief.setChecked(False)
+        self.ui.check_received.setChecked(False)
+        self.ui.check_money_on_guide.setChecked(False)
+        self.ui.txt_rate.clear()
+        self.ui.txt_note.clear()
+        global GLOBAL_UPDATE
+        GLOBAL_UPDATE = 0
+        global GLOBAL_EVENTS_ACTIVE
+        GLOBAL_EVENTS_ACTIVE = 1
+        self.ui.cmb_product.clear()
+        self.ui.cmb_product.setEnabled(False)
+
+
     def __init__(self):
         QMainWindow.__init__(self)
         self.ui = shop_sale.ui_shop_sale.ShopSalePanel()
@@ -289,6 +391,10 @@ class ShopSaleWindow(QMainWindow):
         self.ui.dtp_start.setDisplayFormat("dd-MM-yyyy")
         self.ui.dtp_finish.setDate(datetime.date.today())
         self.ui.dtp_finish.setDisplayFormat("dd-MM-yyyy")
+        self.ui.dtp_sale.setDate(datetime.date.today())
+        self.ui.dtp_sale.setDisplayFormat("dd-MM-yyyy")
+        self.ui.dtp_forward.setDate(datetime.date.today())
+        self.ui.dtp_forward.setDisplayFormat("dd-MM-yyyy")
         self.ui.frame_25.setEnabled(False)
 
         global GLOBAL_UPDATE
@@ -315,15 +421,25 @@ class ShopSaleWindow(QMainWindow):
             if event.key() == Qt.Key_Down:
                 current_row = self.ui.tableWidget.currentRow()
                 self.ui.tableWidget.selectRow(current_row+1)
+                self.fillBoxes()
                 event.accept()
             if event.key() == Qt.Key_Up:
                 current_row = self.ui.tableWidget.currentRow()
                 self.ui.tableWidget.selectRow(current_row-1)
+                self.fillBoxes()
                 event.accept()
+            if event.key() == Qt.LeftButton:
+                current_row = self.ui.tableWidget.currentRow()
+                self.ui.tableWidget.selectRow(current_row-1)
+                self.fillBoxes()
+                event.accept()
+
+
 
         # SET TITLE BAR
         self.ui.frame_move.mouseMoveEvent = moveWindow
         self.ui.tableWidget.keyPressEvent = keyPressEvent
+        self.ui.tableWidget.clicked.connect(lambda : self.mousePressEv())
         self.uiDefinitions()
         self.show()
         self.fillSearchValues()
@@ -384,7 +500,7 @@ class ShopSaleWindow(QMainWindow):
         # DELETE
         self.ui.btn_delete.clicked.connect(lambda: self.deleteSelectedShopSale())
 
-        #self.ui.btn_update.clicked.connect(lambda: self.updateShopSale())
+        self.ui.btn_edit.clicked.connect(lambda: self.updateEnabled())
 
         self.ui.btn_search.clicked.connect(lambda: self.search())
 
@@ -398,11 +514,13 @@ class ShopSaleWindow(QMainWindow):
         #HIDE FIRST COLUMN
         self.ui.tableWidget.setColumnHidden(0,True)
 
-        self.ui.btn_fill.clicked.connect(lambda : self.fillBoxes())
+        # NEW ENTRY
+        self.ui.btn_new.clicked.connect(lambda : self.clearBoxes())
 
+        # SHOP COMBO INDEX CHANGE EVENT
+        self.ui.cmb_shop_2.currentIndexChanged.connect(lambda : self.fillShopProducts())
 
-        # OPEN ADD NEW SHOP SALE
-        #self.ui.btn_add.clicked.connect(lambda : self.openShopSaleDefPanel())
+        self.ui.cmb_product.currentIndexChanged.connect(lambda: self.fillSelectedShopProductCommissions())
 
     def mousePressEvent(self, event):
         self.dragPos = event.globalPos()
